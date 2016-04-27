@@ -1,5 +1,6 @@
 package view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,4 +50,21 @@ public class MainController {
     @FXML
     private Label tourLabel;
 
+    private Main main;
+    
+    public void setMainApp(Main main) {
+        this.main = main;
+        System.out.println("dsfldsflfldksf");
+    }
+    
+    @FXML
+    void testMethode(ActionEvent event) {
+		System.out.println("JE PASSE ICI");
+		//TODO check si c'est bien un int
+		int largeur = Integer.parseInt(largeurTextField.getText());
+		int hauteur = Integer.parseInt(hauteurTextField.getText());
+		main.initGame(largeur, hauteur);
+		main.initialiserPlateauGrid(largeur, hauteur);
+    }
+    
 }

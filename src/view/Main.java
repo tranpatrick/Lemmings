@@ -123,13 +123,17 @@ public class Main extends Application {
 	 */
 	public void initRootLayout(Stage primaryStage) {
 		try {
-			game = (BorderPane) FXMLLoader.load(getClass().getResource(GAME_UI));
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource(GAME_UI));
+			game = (BorderPane) loader.load();
 			root.getChildren().add(game);
 			plateauGridPane = (GridPane) game.lookup("#plateauGridPane");
 			loadImages();
 			initInternalNodes();
 			initEventHandler();
 
+			MainController controller = loader.getController();
+	        controller.setMainApp(this);
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(root);			
 			primaryStage.setTitle("Lemmings");
@@ -143,18 +147,18 @@ public class Main extends Application {
 	}
 
 	private void initEventHandler() {
-		dimensionButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-
-				System.out.println("JE PASSE ICI");
-				//TODO check si c'est bien un int
-				int largeur = Integer.parseInt(largeurTextField.getText());
-				int hauteur = Integer.parseInt(hauteurTextField.getText());
-				initGame(largeur, hauteur);
-				initialiserPlateauGrid(largeur, hauteur);
-			}
-		});
+//		dimensionButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//
+//				System.out.println("JE PASSE ICI");
+//				//TODO check si c'est bien un int
+//				int largeur = Integer.parseInt(largeurTextField.getText());
+//				int hauteur = Integer.parseInt(hauteurTextField.getText());
+//				initGame(largeur, hauteur);
+//				initialiserPlateauGrid(largeur, hauteur);
+//			}
+//		});
 
 		setEntranceButton.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 			@Override
@@ -333,6 +337,10 @@ public class Main extends Application {
 
 	}
 
+	public GameEng getGameEng() {
+		return gameEng;
+	}
+	
 	/**
 	 * Returns the main stage.
 	 * @return

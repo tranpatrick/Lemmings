@@ -152,7 +152,7 @@
 						</HBox>
 						<HBox alignment="CENTER">
 							<children>
-								<Button fx:id="dimensionButton" alignment="CENTER" mnemonicParsing="false" text="Valider" textAlignment="CENTER">
+								<Button fx:id="dimensionButton" alignment="CENTER" mnemonicParsing="false" onAction="#testMethode" text="Valider" textAlignment="CENTER">
 									<font>
 										<Font size="15.0" />
 									</font>
