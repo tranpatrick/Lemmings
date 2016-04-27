@@ -125,7 +125,7 @@ public class MainController {
 		int x = pointNode.x, y = pointNode.y;
 
 		if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-			/* si on est en train de set une entrance */
+			/* si on est en train de modifier une case normale */
 			if (!main.getGameEng().getLevel().isEntrance(x, y) && !main.isSetEntranceClicked()
 					&& !main.getGameEng().getLevel().isExit(x, y) && !main.isSetExitClicked() 
 					&& main.isEditing()) {
@@ -151,7 +151,8 @@ public class MainController {
 					((Pane) pointNode.getNode()).setBackground(main.getEntreeBg());
 					entrancePane = (Pane) pointNode.getNode();
 				} catch (Error error) {
-					Outils.showAlert(AlertType.ERROR, "Set Entrance", "Error", "Emplacement non valide");
+					Outils.showAlert(AlertType.ERROR, "Set Entrance", "Emplacement case d'entree non valide, "
+							, "La case d'entree doit etre situee sur une case vide et sous une case vide");
 				} finally {
 					main.setSetEntranceClicked(false);
 				}
@@ -165,12 +166,14 @@ public class MainController {
 					((Pane) pointNode.getNode()).setBackground(main.getEntreeBg());
 					exitPane = (Pane) pointNode.getNode();
 				} catch( Error error) {
-					Outils.showAlert(AlertType.ERROR, "Set Exit", "Error", "Emplacement non valide");
+					Outils.showAlert(AlertType.ERROR, "Set Exit", "Emplacement case de sortie non valide, "
+							, "La case de sortie doit etre situee sur une case Metal et sous une case vide");
 				} finally {
 					main.setSetExitClicked(false);
 				}
 			}
 			else {
+				/* si on est en train de modifier une case normale */
 				if (!main.getGameEng().getLevel().isEntrance(x, y) && !main.isSetEntranceClicked()
 						&& !main.getGameEng().getLevel().isExit(x, y) && !main.isSetExitClicked()) {
 					if (event.getButton() == MouseButton.PRIMARY){
