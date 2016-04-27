@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Point;
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -12,11 +12,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -42,6 +46,23 @@ public class Main extends Application {
 	private GridPane plateauGridPane;
 	private GameEng gameEng;
 
+	private static final String DIRT = "images/dirt.png";
+	private static final String METAL = "images/metal.png";
+	private static final String EMPTY = "images/empty.png";
+	private static final String ENTREE = "images/entree.png";
+	private static final String SORTIE = "images/sortie.png";
+	
+	private Image dirtImage;
+	private Image metalImage;
+	private Image emptyImage;
+	private Image entreeImage;
+	private Image sortieImage;
+	private Background dirtBg;
+	private Background metalBg;
+	private Background emptyBg;
+	private Background entreeBg;
+	private Background sortieBg;
+	
 	/* Variables */
 	boolean settingEntrance;
 	boolean settingExit;
@@ -73,9 +94,21 @@ public class Main extends Application {
 			setEntranceButton = (Button) root.lookup("#setEntranceButton");
 		}
 	}
+	
+	private void loadImages() {
+		dirtImage = new Image(new File(DIRT).toURI().toString());
+		metalImage = new Image(new File(METAL).toURI().toString());
+		emptyImage = new Image(new File(EMPTY).toURI().toString());
+		entreeImage = new Image(new File(ENTREE).toURI().toString());
+		sortieImage = new Image(new File(SORTIE).toURI().toString());
+		dirtBg = new Background(new BackgroundImage(dirtImage, null, null, null, null));
+		metalBg = new Background(new BackgroundImage(metalImage, null, null, null, null));
+		emptyBg = new Background(new BackgroundImage(emptyImage, null, null, null, null));
+		entreeBg = new Background(new BackgroundImage(entreeImage, null, null, null, null));
+		sortieBg = new Background(new BackgroundImage(sortieImage, null, null, null, null));
+	}
 
 	public void initGame(int width, int height){
-		Point entrance = new Point(5,2);
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
@@ -93,6 +126,7 @@ public class Main extends Application {
 			game = (BorderPane) FXMLLoader.load(getClass().getResource(GAME_UI));
 			root.getChildren().add(game);
 			plateauGridPane = (GridPane) game.lookup("#plateauGridPane");
+			loadImages();
 			initInternalNodes();
 			initEventHandler();
 
@@ -149,7 +183,7 @@ public class Main extends Application {
 		settingExit = false;
 
 		if (plateauGridPane != null) {
-			plateauGridPane.setGridLinesVisible(false);
+//			plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 			plateauGridPane.getColumnConstraints().clear();
 			plateauGridPane.getRowConstraints().clear();
@@ -171,14 +205,14 @@ public class Main extends Application {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				Pane pane = new Pane();
-//				pane.setStyle("-fx-background-color: #000000;");
+				pane.setBackground(emptyBg);
 				gameEng.getLevel().setNature(i, j, Nature.EMPTY);
 				GridPane.setRowIndex(pane, j);
 				GridPane.setColumnIndex(pane, i);
 				plateauGridPane.getChildren().add(pane);
 			}
 		}
-		plateauGridPane.setGridLinesVisible(true);
+//		plateauGridPane.setGridLinesVisible(true);
 		initEditingEventHandler();
 	}
 
@@ -195,13 +229,13 @@ public class Main extends Application {
 							if (!gameEng.getLevel().isEntrance(x, y) && !settingEntrance
 									&& !gameEng.getLevel().isExit(x, y) && !settingExit && isEditing) {
 								if (e.getButton() == MouseButton.PRIMARY){
-									((Pane) node).setStyle("-fx-background-color: #61210B;"); //TODO chercher image
+									((Pane) node).setBackground(dirtBg);
 									gameEng.getLevel().setNature(x, y, Nature.DIRT);
 								}else if(e.getButton() == MouseButton.SECONDARY){
-									((Pane) node).setStyle("-fx-background-color: #6E6E6E;");
+									((Pane) node).setBackground(metalBg);
 									gameEng.getLevel().setNature(x, y, Nature.METAL);
 								}else if(e.getButton() == MouseButton.MIDDLE){
-									((Pane) node).setStyle("-fx-background-color: #000000;");
+									((Pane) node).setBackground(emptyBg);
 									gameEng.getLevel().setNature(x, y, Nature.EMPTY);
 								}
 							}
@@ -224,13 +258,13 @@ public class Main extends Application {
 							if (!gameEng.getLevel().isEntrance(x, y) && !settingEntrance
 									&& !gameEng.getLevel().isExit(x, y) && !settingExit) {
 								if (e.getButton() == MouseButton.PRIMARY){
-									((Pane) node).setStyle("-fx-background-color: #61210B;"); //TODO chercher image
+									((Pane) node).setBackground(dirtBg);
 									gameEng.getLevel().setNature(x, y, Nature.DIRT);
 								}else if(e.getButton() == MouseButton.SECONDARY){
-									((Pane) node).setStyle("-fx-background-color: #6E6E6E;");
+									((Pane) node).setBackground(metalBg);
 									gameEng.getLevel().setNature(x, y, Nature.METAL);
 								}else if(e.getButton() == MouseButton.MIDDLE){
-									((Pane) node).setStyle("-fx-background-color: #000000;");
+									((Pane) node).setBackground(emptyBg);
 									gameEng.getLevel().setNature(x, y, Nature.EMPTY);
 								}
 							}
@@ -256,7 +290,7 @@ public class Main extends Application {
 									gameEng.getLevel().setEntrance(x, y);
 									if (entrancePane != null) 
 										entrancePane.setStyle("-fx-background-color: #000000;");
-									((Pane) node).setStyle("-fx-background-color: #00FF00;");
+									((Pane) node).setBackground(entreeBg);
 									entrancePane = (Pane) node;
 									settingEntrance = false;
 									System.out.println("Je passe dans settingEntrance");
@@ -277,7 +311,7 @@ public class Main extends Application {
 									gameEng.getLevel().setExit(x, y);
 									if (exitPane != null) 
 										exitPane.setStyle("-fx-background-color: #000000;");
-									((Pane) node).setStyle("-fx-background-color: #FF00FF;");
+									((Pane) node).setBackground(sortieBg);
 									exitPane = (Pane) node;
 									System.out.println("Je sort dans settingExit");
 								} catch( Error error) {
@@ -311,3 +345,4 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+

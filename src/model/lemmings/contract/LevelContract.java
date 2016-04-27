@@ -320,10 +320,10 @@ public class LevelContract extends LevelDecorator {
 		if(super.getNature(x, y) != Nature.EMPTY)
 			throw new PreConditionError("setEntrance : getNature(x,y) = EMPTY not satisfied");
 		// \pre getNature(x,y-1) = EMPTY
-		if(super.getNature(x, y-1) != Nature.EMPTY)
+		if(y-1<0 || (y-1>0 && super.getNature(x, y-1) != Nature.EMPTY))
 			throw new PreConditionError("setEntrance : getNature(x,y-1) = EMPTY not satisfied");
 		// \pre getNature(x,y+1) = EMPTY
-		if(super.getNature(x, y+1) != Nature.EMPTY)
+		if(y+1>super.getHeight()-1 || (y+1<super.getHeight() && super.getNature(x, y+1) != Nature.EMPTY))
 			throw new PreConditionError("setEntrance : getNature(x,y+1) = EMPTY not satisfied");
 		checkInvariant();
 		super.setEntrance(x, y);
@@ -339,10 +339,10 @@ public class LevelContract extends LevelDecorator {
 		if(super.getNature(x, y) != Nature.EMPTY)
 			throw new PreConditionError("setExit : getNature(x,y) = EMPTY not satisfied");
 		// \pre getNature(x,y-1) = EMPTY
-		if(super.getNature(x, y-1) != Nature.EMPTY)
+		if(y-1<0 || (y-1>0 && super.getNature(x, y-1) != Nature.EMPTY))
 			throw new PreConditionError("setExit: getNature(x,y-1) = EMPTY not satisfied");
 		// \pre getNature(x,y+1) = METAL
-		if(super.getNature(x, y+1) != Nature.METAL)
+		if(y+1>super.getHeight()-1 || (y+1<super.getHeight() && super.getNature(x, y+1) != Nature.METAL))
 			throw new PreConditionError("setExit : getNature(x,y+1) = METAL not satisfied");
 		checkInvariant();
 		super.setExit(x, y);
