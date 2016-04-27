@@ -79,7 +79,7 @@ public class Main extends Application {
 		sortieBg = new Background(new BackgroundImage(sortieImage, null, null, null, null));
 	}
 
-	public void initGame(int width, int height){
+	public void initGameEng(int width, int height){
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
@@ -114,7 +114,7 @@ public class Main extends Application {
 		}
 	}
 
-	public void initialiserPlateauGrid(int width, int height) {
+	public void initialiserLevel(int width, int height) {
 
 		/* Remise à false des booléens setEntrance et setExit */
 		isSetEntranceClicked = false;

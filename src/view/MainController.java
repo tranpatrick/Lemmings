@@ -74,8 +74,8 @@ public class MainController {
 		if (Outils.isNumber(largeur) && Outils.isNumber(hauteur)) {
 			int width = Integer.parseInt(largeurTextField.getText());
 			int height = Integer.parseInt(hauteurTextField.getText());
-			main.initGame(width, height);
-			main.initialiserPlateauGrid(width, height);
+			main.initGameEng(width, height);
+			main.initialiserLevel(width, height);
 		}
 		else {
 			System.err.println("sfsdf");
