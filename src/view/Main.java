@@ -40,11 +40,11 @@ public class Main extends Application {
 	private static final String EMPTY = "images/empty.png";
 	private static final String ENTREE = "images/entree.png";
 	private static final String SORTIE = "images/sortie.png";
-	
+
 	/* Images */
 	private Image dirtImage, metalImage, emptyImage, entreeImage, sortieImage;
 	private Background dirtBg, metalBg, emptyBg, entreeBg, sortieBg;
-	
+
 	/* Variables */
 	private boolean isSetEntranceClicked;
 	private boolean isSetExitClicked;
@@ -52,20 +52,20 @@ public class Main extends Application {
 
 	/* FX Nodes */
 	// empty at the moment car plus besoin de charger les truc ici, tout est fait dans le controller
-	
+
 
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		root = new AnchorPane();
 		isEditing = true;
 		initRootLayout(primaryStage);
 	}
-	
+
 	private void loadImages() {
 		dirtImage = new Image(new File(DIRT).toURI().toString());
 		metalImage = new Image(new File(METAL).toURI().toString());
@@ -102,7 +102,7 @@ public class Main extends Application {
 			plateauGridPane = (GridPane) game.lookup("#plateauGridPane");
 			loadImages();
 			MainController controller = loader.getController();
-	        controller.setMainApp(this);
+			controller.setMainApp(this);
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(root);			
 			primaryStage.setTitle("Lemmings");
@@ -121,7 +121,7 @@ public class Main extends Application {
 		isSetExitClicked = false;
 
 		if (plateauGridPane != null) {
-//			plateauGridPane.setGridLinesVisible(false);
+			//			plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 			plateauGridPane.getColumnConstraints().clear();
 			plateauGridPane.getRowConstraints().clear();
@@ -142,14 +142,24 @@ public class Main extends Application {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				Pane pane = new Pane();
-				pane.setBackground(emptyBg);
-				gameEng.getLevel().setNature(i, j, Nature.EMPTY);
+				if (i == 0 || i == width - 1 || j == 0 || j == height - 1) {
+					pane.setBackground(metalBg);
+					gameEng.getLevel().setNature(i, j, Nature.METAL);
+				}
+				if (i > 5 && j > 5 && j < height - 10) {
+					pane.setBackground(dirtBg);
+					gameEng.getLevel().setNature(i, j, Nature.DIRT);
+				}
+				else {
+					pane.setBackground(emptyBg);
+					gameEng.getLevel().setNature(i, j, Nature.EMPTY);
+				}
 				GridPane.setRowIndex(pane, j);
 				GridPane.setColumnIndex(pane, i);
 				plateauGridPane.getChildren().add(pane);
 			}
 		}
-//		plateauGridPane.setGridLinesVisible(true);
+		//		plateauGridPane.setGridLinesVisible(true);
 	}
 
 	public boolean isSetExitClicked() {
@@ -199,7 +209,7 @@ public class Main extends Application {
 	public GameEng getGameEng() {
 		return gameEng;
 	}
-	
+
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
