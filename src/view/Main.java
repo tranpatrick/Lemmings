@@ -146,7 +146,7 @@ public class Main extends Application {
 					pane.setBackground(metalBg);
 					gameEng.getLevel().setNature(i, j, Nature.METAL);
 				}
-				if (i > 5 && j > 5 && j < height - 10) {
+				else if (i > 5 && j > 5 && j < height - 10) {
 					pane.setBackground(dirtBg);
 					gameEng.getLevel().setNature(i, j, Nature.DIRT);
 				}
