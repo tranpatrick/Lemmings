@@ -7,188 +7,198 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane prefHeight="1000.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
-   <right>
-      <VBox prefHeight="800.0" prefWidth="300.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
-               <children>
-                  <Label text="Tour">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="100.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="tourLabel" text="10">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
-               <children>
-                  <Label text="Crées">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="creesLabel" text="100">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="120.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
-               <children>
-                  <Label text="Morts">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="mortsLabel" text="10">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="122.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
-               <children>
-                  <Label text="Sauvés">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="sauvesLabel" text="10">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="104.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox fx:id="scoreHBox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
-               <children>
-                  <Label text="SCORE">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="80.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="scoreLabel" text="10">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <VBox fx:id="dimensionVBox">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="300.0" spacing="20.0">
-                     <children>
-                        <Label text="Hauteur">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="40.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="hauteurTextField" prefHeight="25.0" prefWidth="80.0">
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="300.0" spacing="20.0">
-                     <children>
-                        <Label text="Largeur">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="40.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="largeurTextField" prefHeight="25.0" prefWidth="80.0">
-                           <HBox.margin>
-                              <Insets left="35.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Button fx:id="dimensionButton" alignment="CENTER" mnemonicParsing="false" text="Valider" textAlignment="CENTER">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <BorderPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" />
-                           </BorderPane.margin>
-                        </Button>
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-   </right>
-   <center>
-      <GridPane fx:id="plateauGridPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-        </columnConstraints>
-        
-              <rowConstraints>
-        </rowConstraints>
-      </GridPane>
-   </center>
-   <top>
-      <HBox prefHeight="15.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-   </top>
-   <left>
-      <VBox prefHeight="719.0" prefWidth="14.0" BorderPane.alignment="CENTER" />
-   </left>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </bottom>
+<BorderPane prefHeight="1000.0" prefWidth="1200.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="view.MainController">
+	<right>
+		<VBox prefHeight="800.0" prefWidth="300.0" spacing="20.0"
+			BorderPane.alignment="CENTER">
+			<children>
+				<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0"
+					spacing="5.0">
+					<children>
+						<Label text="Tour">
+							<font>
+								<Font size="25.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="100.0" />
+							</HBox.margin>
+						</Label>
+						<Label fx:id="tourLabel" text="10">
+							<font>
+								<Font size="25.0" />
+							</font>
+						</Label>
+					</children>
+				</HBox>
+				<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0"
+					spacing="5.0">
+					<children>
+						<Label text="Crées">
+							<font>
+								<Font size="20.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="40.0" />
+							</HBox.margin>
+						</Label>
+						<Label fx:id="creesLabel" text="100">
+							<font>
+								<Font size="20.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="120.0" />
+							</HBox.margin>
+						</Label>
+					</children>
+					<VBox.margin>
+						<Insets top="20.0" />
+					</VBox.margin>
+				</HBox>
+				<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0"
+					spacing="5.0">
+					<children>
+						<Label text="Morts">
+							<font>
+								<Font size="20.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="40.0" />
+							</HBox.margin>
+						</Label>
+						<Label fx:id="mortsLabel" text="10">
+							<font>
+								<Font size="20.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="122.0" />
+							</HBox.margin>
+						</Label>
+					</children>
+				</HBox>
+				<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0"
+					spacing="5.0">
+					<children>
+						<Label text="Sauvés">
+							<font>
+								<Font size="20.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="40.0" />
+							</HBox.margin>
+						</Label>
+						<Label fx:id="sauvesLabel" text="10">
+							<font>
+								<Font size="20.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="104.0" />
+							</HBox.margin>
+						</Label>
+					</children>
+				</HBox>
+				<HBox fx:id="scoreHBox" alignment="CENTER_LEFT" prefHeight="25.0"
+					prefWidth="100.0" spacing="5.0">
+					<children>
+						<Label text="SCORE">
+							<font>
+								<Font size="25.0" />
+							</font>
+							<HBox.margin>
+								<Insets left="80.0" />
+							</HBox.margin>
+						</Label>
+						<Label fx:id="scoreLabel" text="10">
+							<font>
+								<Font size="25.0" />
+							</font>
+						</Label>
+					</children>
+					<VBox.margin>
+						<Insets top="20.0" />
+					</VBox.margin>
+				</HBox>
+				<VBox fx:id="dimensionVBox">
+					<children>
+						<HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="300.0"
+							spacing="20.0">
+							<children>
+								<Label text="Hauteur">
+									<font>
+										<Font size="20.0" />
+									</font>
+									<HBox.margin>
+										<Insets left="40.0" />
+									</HBox.margin>
+								</Label>
+								<TextField fx:id="hauteurTextField" prefHeight="25.0"
+									prefWidth="80.0">
+									<HBox.margin>
+										<Insets left="30.0" />
+									</HBox.margin>
+								</TextField>
+							</children>
+							<VBox.margin>
+								<Insets />
+							</VBox.margin>
+						</HBox>
+						<HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="300.0"
+							spacing="20.0">
+							<children>
+								<Label text="Largeur">
+									<font>
+										<Font size="20.0" />
+									</font>
+									<HBox.margin>
+										<Insets left="40.0" />
+									</HBox.margin>
+								</Label>
+								<TextField fx:id="largeurTextField" prefHeight="25.0"
+									prefWidth="80.0">
+									<HBox.margin>
+										<Insets left="35.0" />
+									</HBox.margin>
+								</TextField>
+							</children>
+						</HBox>
+						<HBox alignment="CENTER">
+							<children>
+								<Button fx:id="dimensionButton" alignment="CENTER"
+									mnemonicParsing="false" text="Valider" textAlignment="CENTER">
+									<font>
+										<Font size="15.0" />
+									</font>
+									<BorderPane.margin>
+										<Insets bottom="10.0" left="10.0" right="10.0" />
+									</BorderPane.margin>
+								</Button>
+							</children>
+							<opaqueInsets>
+								<Insets />
+							</opaqueInsets>
+							<BorderPane.margin>
+								<Insets />
+							</BorderPane.margin>
+						</HBox>
+					</children>
+				</VBox>
+			</children>
+		</VBox>
+	</right>
+	<center>
+		<GridPane fx:id="plateauGridPane" minHeight="800.0" minWidth="800.0"
+			prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+
+		</GridPane>
+	</center>
+	<top>
+		<HBox prefHeight="15.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+	</top>
+	<left>
+		<VBox prefHeight="719.0" prefWidth="14.0" BorderPane.alignment="CENTER" />
+	</left>
+	<bottom>
+		<HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+	</bottom>
 </BorderPane>
