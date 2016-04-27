@@ -4,23 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -52,47 +41,28 @@ public class Main extends Application {
 	private static final String ENTREE = "images/entree.png";
 	private static final String SORTIE = "images/sortie.png";
 	
-	private Image dirtImage;
-	private Image metalImage;
-	private Image emptyImage;
-	private Image entreeImage;
-	private Image sortieImage;
-	private Background dirtBg;
-	private Background metalBg;
-	private Background emptyBg;
-	private Background entreeBg;
-	private Background sortieBg;
+	/* Images */
+	private Image dirtImage, metalImage, emptyImage, entreeImage, sortieImage;
+	private Background dirtBg, metalBg, emptyBg, entreeBg, sortieBg;
 	
 	/* Variables */
-	boolean settingEntrance;
-	boolean settingExit;
-	private Pane entrancePane;
-	private Pane exitPane;
+	private boolean isSetEntranceClicked;
+	private boolean isSetExitClicked;
 	private boolean isEditing;
 
 	/* FX Nodes */
-	private Button dimensionButton;
-	private Button setExitButton;
-	private Button setEntranceButton;
-	private TextField largeurTextField;
-	private TextField hauteurTextField;
+	// empty at the moment
 
 
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		root = new AnchorPane();
 		isEditing = true;
 		initRootLayout(primaryStage);
-	}
-
-	public void initInternalNodes() {
-		if (root != null) {
-			largeurTextField = (TextField) root.lookup("#largeurTextField");
-			hauteurTextField = (TextField) root.lookup("#hauteurTextField");
-			dimensionButton = (Button) root.lookup("#dimensionButton");
-			setExitButton = (Button) root.lookup("#setExitButton");
-			setEntranceButton = (Button) root.lookup("#setEntranceButton");
-		}
 	}
 	
 	private void loadImages() {
@@ -115,6 +85,7 @@ public class Main extends Application {
 		gameEng = new GameEngContract(gameEngImpl);
 		levelContract.init(width, height);
 		gameEngImpl.bindLevelService(levelContract);
+		//TODO recup les valeur d'init de gameEng sur l'UI
 		gameEng.init(10, 5);
 	}
 
@@ -129,16 +100,12 @@ public class Main extends Application {
 			root.getChildren().add(game);
 			plateauGridPane = (GridPane) game.lookup("#plateauGridPane");
 			loadImages();
-			initInternalNodes();
-			initEventHandler();
-
 			MainController controller = loader.getController();
 	        controller.setMainApp(this);
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(root);			
 			primaryStage.setTitle("Lemmings");
 			primaryStage.setScene(scene);
-			initEditingEventHandler();
 
 			primaryStage.show();
 		} catch (IOException e) {
@@ -146,45 +113,11 @@ public class Main extends Application {
 		}
 	}
 
-	private void initEventHandler() {
-//		dimensionButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//
-//				System.out.println("JE PASSE ICI");
-//				//TODO check si c'est bien un int
-//				int largeur = Integer.parseInt(largeurTextField.getText());
-//				int hauteur = Integer.parseInt(hauteurTextField.getText());
-//				initGame(largeur, hauteur);
-//				initialiserPlateauGrid(largeur, hauteur);
-//			}
-//		});
-
-		setEntranceButton.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				settingEntrance = true;
-				settingExit = false;
-				System.out.println("Setting Entrance"+settingEntrance);
-			}
-		});
-
-		setExitButton.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				settingExit = true;
-				settingEntrance = false;
-				System.out.println("Setting Exit ="+settingExit);
-			}
-		});
-
-	}
-
 	public void initialiserPlateauGrid(int width, int height) {
 
 		/* Remise à false des booléens setEntrance et setExit */
-		settingEntrance = false;
-		settingExit = false;
+		isSetEntranceClicked = false;
+		isSetExitClicked = false;
 
 		if (plateauGridPane != null) {
 //			plateauGridPane.setGridLinesVisible(false);
@@ -205,7 +138,6 @@ public class Main extends Application {
 			rowConstraints.setVgrow(Priority.SOMETIMES);
 			plateauGridPane.getRowConstraints().add(rowConstraints);
 		}
-
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				Pane pane = new Pane();
@@ -217,140 +149,59 @@ public class Main extends Application {
 			}
 		}
 //		plateauGridPane.setGridLinesVisible(true);
-		initEditingEventHandler();
 	}
 
-	private void initEditingEventHandler() {
-		plateauGridPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				for(Node node: plateauGridPane.getChildren()) {
-					if(node instanceof Pane) {
-						if( node.getBoundsInParent().contains(e.getX(), e.getY())) {
-							int y = GridPane.getRowIndex(node);
-							int x = GridPane.getColumnIndex(node);
-							/* si on est en train de set une entrance */
-							if (!gameEng.getLevel().isEntrance(x, y) && !settingEntrance
-									&& !gameEng.getLevel().isExit(x, y) && !settingExit && isEditing) {
-								if (e.getButton() == MouseButton.PRIMARY){
-									((Pane) node).setBackground(dirtBg);
-									gameEng.getLevel().setNature(x, y, Nature.DIRT);
-								}else if(e.getButton() == MouseButton.SECONDARY){
-									((Pane) node).setBackground(metalBg);
-									gameEng.getLevel().setNature(x, y, Nature.METAL);
-								}else if(e.getButton() == MouseButton.MIDDLE){
-									((Pane) node).setBackground(emptyBg);
-									gameEng.getLevel().setNature(x, y, Nature.EMPTY);
-								}
-							}
-							break;
-						}
-					}
-				}
-			}
-		});
+	public boolean isSetExitClicked() {
+		return isSetExitClicked;
+	}
 
-		plateauGridPane.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				for(Node node: plateauGridPane.getChildren()) {
-					if(node instanceof Pane) {
-						if( node.getBoundsInParent().contains(e.getX(), e.getY())) {
-							int y = GridPane.getRowIndex(node);
-							int x = GridPane.getColumnIndex(node);
-							/* si on est en train de set une entrance */
-							if (!gameEng.getLevel().isEntrance(x, y) && !settingEntrance
-									&& !gameEng.getLevel().isExit(x, y) && !settingExit) {
-								if (e.getButton() == MouseButton.PRIMARY){
-									((Pane) node).setBackground(dirtBg);
-									gameEng.getLevel().setNature(x, y, Nature.DIRT);
-								}else if(e.getButton() == MouseButton.SECONDARY){
-									((Pane) node).setBackground(metalBg);
-									gameEng.getLevel().setNature(x, y, Nature.METAL);
-								}else if(e.getButton() == MouseButton.MIDDLE){
-									((Pane) node).setBackground(emptyBg);
-									gameEng.getLevel().setNature(x, y, Nature.EMPTY);
-								}
-							}
-							break;
-						}
-					}
-				}
-			}
-		});
+	public void setSetExitClicked(boolean isSetExitClicked) {
+		this.isSetExitClicked = isSetExitClicked;
+	}
 
-		plateauGridPane.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
+	public boolean isSetEntranceClicked() {
+		return isSetEntranceClicked;
+	}
 
-				for(Node node: plateauGridPane.getChildren()) {
-					if(node instanceof Pane) {
-						if( node.getBoundsInParent().contains(e.getX(), e.getY())) {
-							int y = GridPane.getRowIndex(node);
-							int x = GridPane.getColumnIndex(node);
-							/* si on est en train de set une entrance */
-							if(settingEntrance && !gameEng.getLevel().isExit(x, y)){
-								try {
-									gameEng.getLevel().setEntrance(x, y);
-									if (entrancePane != null) 
-										entrancePane.setStyle("-fx-background-color: #000000;");
-									((Pane) node).setBackground(entreeBg);
-									entrancePane = (Pane) node;
-									settingEntrance = false;
-									System.out.println("Je passe dans settingEntrance");
-								} catch (Error error) {
-									Alert alert = new Alert(AlertType.ERROR);
-									alert.setTitle("Set Entrance");
-									alert.setHeaderText("Error");
-									alert.setContentText("Emplacement non valide");
+	public void setSetEntranceClicked(boolean isSetEntranceClicked) {
+		this.isSetEntranceClicked = isSetEntranceClicked;
+	}
 
-									alert.showAndWait();
-								} finally {
-									settingEntrance = false;
-								}
-							}
-							/* si on est en train de set une exit */
-							else if(settingExit && !gameEng.getLevel().isEntrance(x, y)){
-								try {
-									gameEng.getLevel().setExit(x, y);
-									if (exitPane != null) 
-										exitPane.setStyle("-fx-background-color: #000000;");
-									((Pane) node).setBackground(sortieBg);
-									exitPane = (Pane) node;
-									System.out.println("Je sort dans settingExit");
-								} catch( Error error) {
-									Alert alert = new Alert(AlertType.ERROR);
-									alert.setTitle("Set Exit");
-									alert.setHeaderText("Error");
-									alert.setContentText("Emplacement non valide");
-									alert.show();
-								}finally {
-									settingExit = false;
-								}
-							}
-							break;
-						}
-					}
-				}
-			}
-		});
+	public boolean isEditing() {
+		return isEditing;
+	}
 
+	public void setEditing(boolean isEditing) {
+		this.isEditing = isEditing;
+	}
+
+	public Background getDirtBg() {
+		return dirtBg;
+	}
+
+	public Background getMetalBg() {
+		return metalBg;
+	}
+
+	public Background getEmptyBg() {
+		return emptyBg;
+	}
+
+	public Background getEntreeBg() {
+		return entreeBg;
+	}
+
+	public Background getSortieBg() {
+		return sortieBg;
 	}
 
 	public GameEng getGameEng() {
 		return gameEng;
 	}
 	
-	/**
-	 * Returns the main stage.
-	 * @return
-	 */
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
 }
 
