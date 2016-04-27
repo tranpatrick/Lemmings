@@ -25,7 +25,7 @@ import model.lemmings.services.GameEng;
 import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
 
-
+//TODO rename Main et Main Controller
 public class Main extends Application {
 
 	public static final String GAME_UI = "Game.fxml";
@@ -51,7 +51,8 @@ public class Main extends Application {
 	private boolean isEditing;
 
 	/* FX Nodes */
-	// empty at the moment
+	// empty at the moment car plus besoin de charger les truc ici, tout est fait dans le controller
+	
 
 
 	public static void main(String[] args) {
