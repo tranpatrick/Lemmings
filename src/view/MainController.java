@@ -205,7 +205,7 @@ public class MainController {
 				}
 			}
 		}
-		System.err.println("getCoordonneesClic : Je ne dois jamais passer ici");
+		System.err.println("getCoordonneesClic : Je ne dois jamais passer ici !");
 		return null;
 	}
 }
