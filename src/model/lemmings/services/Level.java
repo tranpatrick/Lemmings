@@ -18,8 +18,9 @@ public interface Level {
 	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
 	public Nature getNature(int x, int y);
 	
-	// \pre !isEditing()
 	public Point getEntrance();
+
+	public Point getExit();
 	
 	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
 	public boolean isEntrance(int x, int y);
@@ -44,9 +45,16 @@ public interface Level {
 	//TODO attention setNature sur empty
 	public void setNature(int x, int y, Nature n);
 	
-	
+	// \pre getNature(x,y) = EMPTY
+	// \pre getNature(x,y-1) = EMPTY
+	// \pre getNature(x,y+1) = EMPTY
+	// \post isEntrance(x,y) = true 
 	public void setEntrance(int x, int y);
-	//TODO rajouter post pre
+
+	// \pre getNature(x,y) = EMPTY
+	// \pre getNature(x,y-1) = EMPTY
+	// \pre getNature(x,y+1) = METAL
+	// \post isExit(x,y) = true 
 	public void setExit(int x, int y);
 	
 	// \pre isEditing()

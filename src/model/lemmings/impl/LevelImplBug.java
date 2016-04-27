@@ -103,4 +103,10 @@ public class LevelImplBug implements Level{
 		sortie = new Point(x, y);		
 	}
 
+	@Override
+	public Point getExit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

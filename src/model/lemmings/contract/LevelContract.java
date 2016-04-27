@@ -46,14 +46,19 @@ public class LevelContract extends LevelDecorator {
 
 		return res;
 	}
-	
-	// \pre !isEditing()
+
 	public Point getEntrance(){
 		Point res;
-		if(super.isEditing())
-			throw new PreConditionError("getEntrance : isEditing() = false not satisfied");
 		checkInvariant();
 		res = super.getEntrance();
+		checkInvariant();
+		return res;
+	}
+
+	public Point getExit(){
+		Point res;
+		checkInvariant();
+		res = super.getExit();
 		checkInvariant();
 		return res;
 	}
@@ -256,9 +261,9 @@ public class LevelContract extends LevelDecorator {
 		// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y)
 		for(int i=0; i<super.getHeight(); i++){
 			for(int j=0; j<super.getWidth(); j++){
-//				if(i != x && j != y)
-//					if(super.getNature(j, i) != naturePre[i][j])
-//						throw new PostConditionError("remove : getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) not satisifed");
+				//				if(i != x && j != y)
+				//					if(super.getNature(j, i) != naturePre[i][j])
+				//						throw new PostConditionError("remove : getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) not satisifed");
 			}
 		}
 
@@ -299,25 +304,52 @@ public class LevelContract extends LevelDecorator {
 
 		//TODO a retirer, pose pb pour BUILDER
 		// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y)
-//		for(int i=0; i<super.getHeight(); i++){
-//			for(int j=0; j<super.getWidth(); j++){
-//				if(i != x && j != y)
-//					if(super.getNature(j, i) != naturePre[i][j])
-//						throw new PostConditionError("build : getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) not satisifed");
-//			}
-//		}
+		//		for(int i=0; i<super.getHeight(); i++){
+		//			for(int j=0; j<super.getWidth(); j++){
+		//				if(i != x && j != y)
+		//					if(super.getNature(j, i) != naturePre[i][j])
+		//						throw new PostConditionError("build : getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) not satisifed");
+		//			}
+		//		}
 
 	}
-	
-	//TODO Post condition preconditions etc
+
 	@Override
 	public void setEntrance(int x, int y) {
+		// \pre getNature(x,y) = EMPTY
+		if(super.getNature(x, y) != Nature.EMPTY)
+			throw new PreConditionError("setEntrance : getNature(x,y) = EMPTY not satisfied");
+		// \pre getNature(x,y-1) = EMPTY
+		if(super.getNature(x, y-1) != Nature.EMPTY)
+			throw new PreConditionError("setEntrance : getNature(x,y-1) = EMPTY not satisfied");
+		// \pre getNature(x,y+1) = EMPTY
+		if(super.getNature(x, y+1) != Nature.EMPTY)
+			throw new PreConditionError("setEntrance : getNature(x,y+1) = EMPTY not satisfied");
+		checkInvariant();
 		super.setEntrance(x, y);
+		checkInvariant();
+		// \post isEntrance(x,y) = true
+		if(super.isEntrance(x, y) != true)
+			throw new PostConditionError("setEntrance : isEntrance(x,y) not satisfied");
 	}
-	
+
 	@Override
 	public void setExit(int x, int y) {
+		// \pre getNature(x,y) = EMPTY
+		if(super.getNature(x, y) != Nature.EMPTY)
+			throw new PreConditionError("setExit : getNature(x,y) = EMPTY not satisfied");
+		// \pre getNature(x,y-1) = EMPTY
+		if(super.getNature(x, y-1) != Nature.EMPTY)
+			throw new PreConditionError("setExit: getNature(x,y-1) = EMPTY not satisfied");
+		// \pre getNature(x,y+1) = METAL
+		if(super.getNature(x, y+1) != Nature.METAL)
+			throw new PreConditionError("setExit : getNature(x,y+1) = METAL not satisfied");
+		checkInvariant();
 		super.setExit(x, y);
+		checkInvariant();
+		// \post isExit(x,y) = true
+		if(super.isExit(x, y) != true)
+			throw new PostConditionError("setExit : isExit(x,y) not satisfied");
 	}
 
 	private void checkInvariant(){

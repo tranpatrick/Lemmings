@@ -61,6 +61,10 @@ public class LevelDecorator implements Level{
 	public Point getEntrance() {
 		return level.getEntrance();
 	}
+	
+	public Point getExit() {
+		return level.getExit();
+	}
 
 	/**
 	 * @param x

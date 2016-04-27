@@ -11,13 +11,10 @@ import javafx.scene.layout.VBox;
 public class MainController {
 
     @FXML
-    private Label scoreLabel;
+    private Button dimensionButton;
 
     @FXML
     private TextField hauteurTextField;
-
-    @FXML
-    private Label creesLabel;
 
     @FXML
     private Label mortsLabel;
@@ -26,21 +23,30 @@ public class MainController {
     private Label sauvesLabel;
 
     @FXML
-    private TextField largeurTextField;
-
-    @FXML
-    private VBox dimensionVBox;
-
-    @FXML
     private HBox scoreHBox;
 
     @FXML
     private GridPane plateauGridPane;
 
     @FXML
-    private Label tourLabel;
+    private Label scoreLabel;
 
     @FXML
-    private Button dimensionButton;
+    private Button setEntranceButton;
+
+    @FXML
+    private Label creesLabel;
+
+    @FXML
+    private TextField largeurTextField;
+
+    @FXML
+    private VBox dimensionVBox;
+
+    @FXML
+    private Button setExitButton;
+
+    @FXML
+    private Label tourLabel;
 
 }

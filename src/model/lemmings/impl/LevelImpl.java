@@ -47,6 +47,11 @@ public class LevelImpl implements Level{
 	public Point getEntrance() {
 		return entree;
 	}
+	
+	@Override
+	public Point getExit() {
+		return sortie;
+	}
 
 	/** Constructors **/
 	@Override
@@ -101,11 +106,15 @@ public class LevelImpl implements Level{
 
 	@Override
 	public boolean isEntrance(int x, int y) {
+		if (entree == null) 
+			return false;
 		return x == entree.x && y == entree.y;
 	}
 
 	@Override
 	public boolean isExit(int x, int y) {
+		if (sortie == null)
+			return false;
 		return x == sortie.x && y == sortie.y;
 	}
 
