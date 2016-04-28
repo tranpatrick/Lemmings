@@ -26,7 +26,9 @@ import view.Main.Images;
 
 public class MainController {
 
+
 	private static final long REFRESH_TIME = 1500;
+
 	private Pane exitPane;
 	private Pane entrancePane;
 

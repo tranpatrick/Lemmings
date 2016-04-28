@@ -39,6 +39,8 @@ public interface Lemming {
 
 	// \pre isBuilder()
 	public boolean isCurrentlyBuilding();
+	// \pre isGrimpeur() //TODO mettre a jour contrat
+	public boolean isCurrentlyClimbing();
 
 	// \pre isBuilder()
 	public int getNombreToursBuilder();

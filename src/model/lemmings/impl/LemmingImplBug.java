@@ -363,4 +363,10 @@ public class LemmingImplBug implements Lemming, RequireGameEngService{
 		
 	}
 
+	@Override
+	public boolean isCurrentlyClimbing() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

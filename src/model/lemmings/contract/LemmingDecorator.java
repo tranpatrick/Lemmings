@@ -97,6 +97,11 @@ public class LemmingDecorator implements Lemming{
 	}
 	
 	@Override
+	public boolean isCurrentlyClimbing() {
+		return lemming.isCurrentlyClimbing();
+	}
+	
+	@Override
 	public int getNombreToursBuilder() {
 		return lemming.getNombreToursBuilder();
 	}
