@@ -32,7 +32,7 @@ public class MainController {
 
 	private Pane exitPane;
 	private Pane entrancePane;
-	
+
 	/* Booleens pour les types de lemmings */
 	private SelectedType setLemming;
 
@@ -57,6 +57,14 @@ public class MainController {
 	@FXML private Label sauvesLabel;
 	@FXML private Label scoreLabel;
 	@FXML private Label tourLabel;
+	@FXML private Label labelDigger;
+	@FXML private Label labelClimber;
+	@FXML private Label labelBuilder;
+	@FXML private Label labelFloater;
+	@FXML private Label labelStopper;
+	@FXML private Label labelBomber;
+	@FXML private Label labelBasher;
+	@FXML private Label labelMiner;
 	@FXML private TextField hauteurTextField;
 	@FXML private TextField largeurTextField;
 	@FXML private TextField sizeColonyTextField;
@@ -64,7 +72,7 @@ public class MainController {
 	@FXML private VBox dimensionVBox;
 
 	private Main main;
-	
+
 
 	public void setMainApp(Main main) {
 		this.main = main;
@@ -204,7 +212,6 @@ public class MainController {
 		}
 		/* Mode play */
 		else {
-			System.err.println("Clic sur "+pointNode.toString());
 			try{
 				/* Si changement de type */
 				Lemming l = main.getJoueur().select(x, y);
@@ -237,6 +244,7 @@ public class MainController {
 						main.getJoueur().changeClasse(l, "MINER");
 						break;
 					}
+					updateJetons(setLemming);
 				}
 			}catch(Error e){
 				System.out.println(e.getMessage());
@@ -248,7 +256,7 @@ public class MainController {
 	void goPlay(ActionEvent event) {
 		try {
 			main.getGameEng().getLevel().goPlay();
-			
+
 			/* Activer/Désactiver/Visible les boutons */
 			goPlayButton.setDisable(true);
 			diggerButton.setVisible(true);
@@ -262,6 +270,16 @@ public class MainController {
 
 			/* setLemming à NONE (aucune case de type n'est sélectionné) */
 			setLemming = SelectedType.NONE;
+			
+			/* Affichage du nombre de jetons pour chaque type */
+			labelDigger.setText(""+main.getJoueur().getNbJetons("DIGGER"));
+			labelClimber.setText(""+main.getJoueur().getNbJetons("CLIMBER"));
+			labelBuilder.setText(""+main.getJoueur().getNbJetons("BUILDER"));
+			labelFloater.setText(""+main.getJoueur().getNbJetons("FLOATER"));
+			labelBomber.setText(""+main.getJoueur().getNbJetons("BOMBER"));
+			labelStopper.setText(""+main.getJoueur().getNbJetons("STOPPER"));
+			labelBasher.setText(""+main.getJoueur().getNbJetons("BASHER"));
+			labelMiner.setText(""+main.getJoueur().getNbJetons("MINER"));
 
 			//TODO masquer des zones de saisies ( colony, largeur hauteur) mais laisser qqch pour changer spawnspeed
 			Thread t = new Thread(new Runnable() {
@@ -313,7 +331,6 @@ public class MainController {
 	void relancerNiveau(ActionEvent event) {
 
 	}
-
 
 	public void updateScore() {
 		Platform.runLater(new Runnable() {
@@ -369,6 +386,35 @@ public class MainController {
 		updateTour();
 	}
 
+	public void updateJetons(SelectedType sl){
+		switch(sl){
+		case DIGGER:
+			labelDigger.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case CLIMBER:
+			labelClimber.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case BUILDER:
+			labelBuilder.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case FLOATER:
+			labelFloater.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case STOPPER:
+			labelStopper.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case BOMBER:
+			labelBomber.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case BASHER:
+			labelBasher.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		case MINER:
+			labelMiner.setText(""+main.getJoueur().getNbJetons(sl.toString()));
+			break;
+		}
+	}
+
 	public PointNode getCoordonneesClic(MouseEvent event) {
 		if (plateauGridPane.getChildren().size() == 0) {
 			return null;
@@ -385,17 +431,6 @@ public class MainController {
 		System.err.println("getCoordonneesClic : Je ne dois jamais passer ici !");
 		return null;
 	}
-
-	/* Permet d'obtenir le premier lemming actif que l'on rencontre sur une certaine case */
-//	public Lemming getLemming(int x, int y){
-//		GameEng g = main.getGameEng();
-//		Set<Integer> set = g.getLemmingsActifs();
-//		for(int i : set){
-//			if(g.getLemming(i).getX() == x && g.getLemming(i).getY() == y)
-//				return g.getLemming(i);
-//		}
-//		return null;
-//	}
 
 	@FXML
 	void setDigger(ActionEvent event) {

@@ -114,7 +114,7 @@ public class Main extends Application implements IObserver{
 			else { 
 				filename = "images/"+v.toString().toLowerCase()+cpt+".png";
 			}
-			System.out.println(filename);
+			//System.out.println(filename);
 			Image tmpImage = new Image(new File(filename).toURI().toString());
 			Background tmpBackground = null;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
