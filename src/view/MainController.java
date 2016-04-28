@@ -27,7 +27,7 @@ import view.Main.Images;
 public class MainController {
 
 
-	private static final long REFRESH_TIME = 1500;
+	private static final long REFRESH_TIME = 400;
 
 	private Pane exitPane;
 	private Pane entrancePane;
@@ -123,7 +123,7 @@ public class MainController {
 	}
 
 	@FXML
-	void buildLevel(MouseEvent event) {
+	void handleMouseEventOnGrid(MouseEvent event) {
 		/* Si je deborde du plateau, je ne fais rien */
 		if (event.getX() >= plateauGridPane.getWidth() || event.getX() < 0
 				|| event.getY() >= plateauGridPane.getHeight() || event.getY() < 0){
@@ -216,40 +216,24 @@ public class MainController {
 				Lemming l = getLemming(x, y);
 
 				/* Si la case était vide alors on annule */ 
-				if(l == null){
-					settingDigger = false;
-					settingClimber = false;
-					settingBuilder = false;
-					settingFloater = false;
-					settingBomber = false;
-					settingStopper = false;
-					settingBasher = false;
-					settingMiner= false;
-				}else{
+				if (l != null){
 					if(settingDigger){
 						l.devientCreuseur();
-						settingDigger = false;
 					}else if(settingClimber){
 						l.devientGrimpeur();
-						settingClimber = false;
+						System.err.println(">>>>>>>>>>>>>> devient grimpeur <<<<<<<<<<<<<<<<<");
 					}else if(settingBuilder){
 						l.devientBuilder();
-						settingBuilder = false;
 					}else if(settingFloater){
 						l.devientFlotteur();
-						settingFloater = false;
 					}else if(settingBomber){
 						l.devientExploseur();
-						settingBomber = false;
 					}else if(settingStopper){
 						l.devientStoppeur();
-						settingStopper = false;
 					}else if(settingBasher){
 						l.devientBasher();
-						settingBasher = false;
 					}else if(settingMiner){
 						l.devientMiner();
-						settingMiner = false;
 					}
 				}
 			}catch(Error e){

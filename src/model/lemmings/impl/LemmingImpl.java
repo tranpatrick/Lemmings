@@ -133,7 +133,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		x = entrance.x;
 		y = entrance.y;
 		isGrimpeur = true;
-		isFlotteur = true;
+		isFlotteur = false;
 		isBuilder = false;
 		isCurrentlyBuilding = false;
 		isCurrentlyClimbing = false;

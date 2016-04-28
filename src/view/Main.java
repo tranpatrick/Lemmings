@@ -182,7 +182,7 @@ public class Main extends Application implements IObserver{
 		isSetExitClicked = false;
 
 		if (plateauGridPane != null) {
-			//			plateauGridPane.setGridLinesVisible(false);
+						plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 			plateauGridPane.getColumnConstraints().clear();
 			plateauGridPane.getRowConstraints().clear();
@@ -220,7 +220,7 @@ public class Main extends Application implements IObserver{
 				plateauGridPane.getChildren().add(pane);
 			}
 		}
-		//		plateauGridPane.setGridLinesVisible(true);
+				plateauGridPane.setGridLinesVisible(true);
 	}
 
 	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
@@ -232,7 +232,7 @@ public class Main extends Application implements IObserver{
 		System.err.println("Mise a jour interface");
 		loadImages();
 		if (plateauGridPane != null) {
-			//	plateauGridPane.setGridLinesVisible(false);
+				plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 		}
 		int width = gameEng.getLevel().getWidth();
@@ -263,7 +263,7 @@ public class Main extends Application implements IObserver{
 				plateauGridPane.getChildren().add(pane);
 			}
 		}
-		//		plateauGridPane.setGridLinesVisible(true);
+				plateauGridPane.setGridLinesVisible(true);
 
 	}
 
@@ -326,7 +326,7 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.MARCHEUR_D);
 				break;
 			default:
-				System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
+				System.err.println("Main::getLemmingBackground 1 : je ne dois jamais passer ici");
 				break;
 			}
 		else if (lem.getDirection() == Direction.GAUCHER) {
@@ -344,12 +344,12 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.MARCHEUR_G);
 				break;
 			default:
-				System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
+				System.err.println("Main::getLemmingBackground 2 : je ne dois jamais passer ici");
 				break;
 			}
 		}
 		else {
-			System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
+			System.err.println("Main::getLemmingBackground 3 : je ne dois jamais passer ici");
 		}
 
 		return bg;

@@ -221,7 +221,7 @@
 		</VBox>
 	</right>
 	<center>
-		<GridPane fx:id="plateauGridPane" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#buildLevel" onMouseDragged="#buildLevel" prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+		<GridPane fx:id="plateauGridPane" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleMouseEventOnGrid" onMouseDragged="#handleMouseEventOnGrid" prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER">
 
 		</GridPane>
 	</center>
