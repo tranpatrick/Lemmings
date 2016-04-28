@@ -184,4 +184,9 @@ public class GameEngDecorator implements GameEng{
 		gameEng.notifierObservateurs();
 	}
 
+	@Override
+	public void setSpawnSpeed(int s) {
+		gameEng.setSpawnSpeed(s);
+	}
+
 }

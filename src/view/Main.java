@@ -22,10 +22,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import model.lemmings.contract.GameEngContract;
+import model.lemmings.contract.JoueurContract;
 import model.lemmings.contract.LevelContract;
 import model.lemmings.impl.GameEngImpl;
+import model.lemmings.impl.JoueurImpl;
 import model.lemmings.impl.LevelImpl;
 import model.lemmings.services.GameEng;
+import model.lemmings.services.Joueur;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Lemming.Direction;
 import model.lemmings.services.Level;
@@ -40,6 +43,7 @@ public class Main extends Application implements IObserver{
 	private AnchorPane root;
 	private GridPane plateauGridPane;
 	private GameEng gameEng = null;
+	private Joueur joueur;
 
 	/* Enumeration pour charger automatiquement les images/Background dans une
 	 * HashMap, utiliser le getter getBackground(Images image) pour avoir
@@ -148,6 +152,12 @@ public class Main extends Application implements IObserver{
 		//TODO recup les valeur d'init de gameEng sur l'UI
 		gameEng.init(sizeColony, spawnSpeed);
 		gameEng.addObserver(this);
+		
+		/* Initialisation du service joueur */
+		JoueurImpl joueurImpl = new JoueurImpl();
+		joueurImpl.init();
+		joueurImpl.bindGameEngService(gameEng);
+		joueur = new JoueurContract(joueurImpl);
 	}
 
 	/**
@@ -483,6 +493,10 @@ public class Main extends Application implements IObserver{
 		return gameEng;
 	}
 
+	public Joueur getJoueur(){
+		return joueur;
+	}
+	
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}

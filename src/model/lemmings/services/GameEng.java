@@ -19,6 +19,10 @@ public interface GameEng extends IObservable{
 	
 	public int getSpawnSpeed();
 	
+	// \pre !gameOver()
+	// \post setSpawnSpeed(s) \implies getSpawnSpeed() = s
+	public void setSpawnSpeed(int s);
+	
 	public boolean gameOver();
 	
 	// \pre gameOver()
