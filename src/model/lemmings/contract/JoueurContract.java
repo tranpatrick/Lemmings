@@ -130,8 +130,13 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 	 * || type = "MINER"
 	 */
 	// \pre getNbJetons(type) > 0
-	// \post l.getType() = type
 	// \post getNbJetons(type) = getNbJetons(type)@pre-1
+	/* \post type = "CLIMBER" \implies l.isGrimpeur() = true
+	 * || type = "FLOATER" \implies l.isFlotteur() = true
+	 * || type = "BUILDER" \implies l.isBuilder() = true
+	 * || type = "BOMBER" \implies l.isExploseur() = true
+	 * || l.getType() = type
+	 */
 	public void changeClasse(Lemming l, String type){
 		if(!type.equals("DIGGER") && !type.equals("CLIMBER") 
 				&& !type.equals("BUILDER") && !type.equals("MINER")
@@ -143,24 +148,32 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 					"|| type = \"BASHER\" || type = \"MINER\"");
 		if(super.getNbJetons(type) <= 0)
 			throw new PreConditionError("changeClasse : getNbJetons(type) > 0 not satisfied");
-		
+
 		int nbJetonsPre = super.getNbJetons(type);
-		
+
 		checkInvariant();
 		super.changeClasse(l, type);
 		checkInvariant();
-		
+
 		if(super.getNbJetons(type) != nbJetonsPre-1)
 			throw new PostConditionError("changeClasse : getNbJetons(type) = getNbJetons(type)@pre-1 not satisfied");
-		
-		if(!l.getType().toString().equals(type))
-			throw new PostConditionError("changeClasse : l.getType() = type not satisfied");
+
+		if(!((type.equals("CLIMBER") && !l.isGrimpeur())
+				|| (type.equals("FLOATER") && !l.isFlotteur())
+				|| (type.equals("BUILDER") && !l.isBuilder())
+				|| (type.equals("BOMBER") && !l.isExploseur())
+				|| !l.getType().toString().equals(type)))
+			throw new PostConditionError("changeClasse : type = \"CLIMBER\" implies l.isGrimpeur() = true "+
+					"|| type = \"FLOATER\" implies l.isFlotteur() = true "+
+					"|| type = \"BUILDER\" implies l.isBuilder() = true "+
+					"|| type = \"BOMBER\" implies l.isExploseur() = true "+
+					"|| l.getType() = type not satisfied");
 	}
 
 	// \pre s > 0 AND getGameEng.gameOver() == false
 	// \post getSpawnSpeed() = s;
 	public void changeSpawnSpeed(GameEng g, int s){
-		
+
 	}
 
 	// \pre getGameEng.gameOver() == false

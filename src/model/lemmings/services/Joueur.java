@@ -45,8 +45,13 @@ public interface Joueur {
 	 * || type = "MINER"
 	 */
 	// \pre getNbJetons(type) > 0
-	// \post l.getType() = t
 	// \post getNbJetons(t) = getNbJetons(t)@pre - 1
+	/* \post type = "CLIMBER" \implies l.isGrimpeur() = true
+	 * || type = "FLOATER" \implies l.isFlotteur() = true
+	 * || type = "BUILDER" \implies l.isBuilder() = true
+	 * || type = "BOMBER" \implies l.isExploseur() = true
+	 * || l.getType() = type
+	 */
 	public void changeClasse(Lemming l, String type);
 	
 	// \pre s > 0 AND getGameEng.gameOver() == false
