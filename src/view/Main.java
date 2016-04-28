@@ -54,6 +54,9 @@ public class Main extends Application implements IObserver{
 		MARCHEUR_D,
 		TOMBEUR,
 		BUILDER_TOMBEUR,
+		MORT_CHUTE,
+		CREUSEUR,
+		STOPPEUR,
 		//		CREUSEUR_D,
 		GRIMPEUR_D,
 		BUILDER_D,
@@ -61,9 +64,10 @@ public class Main extends Application implements IObserver{
 		BUILDER_STEP1_D,
 		BUILDER_STEP2_D,
 		BUILDER_STEP3_D,
+		
 		//		EXPLOSEUR_D,
-		//		STOPPEUR_D,
-		//		BASHER_D,
+				
+				BASHER_D,
 		//		MINER_D,
 		//		/* Lemmings gauchers */
 		MARCHEUR_G, 
@@ -76,7 +80,7 @@ public class Main extends Application implements IObserver{
 		BUILDER_STEP3_G,
 		//		EXPLOSEUR_G,
 		//		STOPPEUR_G,
-		//		BASHER_G,
+				BASHER_G,
 		//		MINER_G,
 	}
 
@@ -116,7 +120,8 @@ public class Main extends Application implements IObserver{
 					|| v == Images.ENTREE|| v == Images.SORTIE 
 					|| v == Images.BUILDER_STEP1_D || v == Images.BUILDER_STEP2_D
 					|| v == Images.BUILDER_STEP3_D || v == Images.BUILDER_STEP1_G
-					|| v == Images.BUILDER_STEP2_G || v == Images.BUILDER_STEP3_G) {
+					|| v == Images.BUILDER_STEP2_G || v == Images.BUILDER_STEP3_G
+					|| v == Images.MORT_CHUTE) {
 				filename = "images/"+v.toString().toLowerCase()+".png";
 			}
 			else { 
@@ -329,6 +334,8 @@ public class Main extends Application implements IObserver{
 				else if (lem.isBuilder()) {
 					bg = getBackground(Images.BUILDER_TOMBEUR);
 				}
+				else if (lem.tombeDepuis() >= 8 && gameEng.isObstacle(lem.getX(), lem.getY()+1))
+					bg = getBackground(Images.MORT_CHUTE);
 				else
 					bg =  getBackground(Images.TOMBEUR);
 				break;
@@ -346,6 +353,15 @@ public class Main extends Application implements IObserver{
 				else
 					bg = getBackground(Images.MARCHEUR_D);
 				break;
+			case CREUSEUR:
+				bg = getBackground(Images.CREUSEUR);
+				break;
+			case BASHER:
+				bg = getBackground(Images.BASHER_D);
+				break;
+			case STOPPEUR:
+				bg = getBackground(Images.STOPPEUR);
+				break;
 			default:
 				System.err.println("Main::getLemmingBackground 1 : je ne dois jamais passer ici");
 				break;
@@ -355,6 +371,10 @@ public class Main extends Application implements IObserver{
 			case TOMBEUR:
 				if (lem.isFlotteur())
 					bg = getBackground(Images.FLOTTEUR_G);
+				else if (lem.isBuilder()) 
+					bg = getBackground(Images.BUILDER_TOMBEUR);
+				else if (lem.tombeDepuis() >= 8 && gameEng.isObstacle(lem.getX(), lem.getY()+1))
+					bg = getBackground(Images.MORT_CHUTE);
 				else
 					bg = getBackground(Images.TOMBEUR);
 				break;
@@ -371,6 +391,15 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.BUILDER_STEP3_G);
 				else
 					bg = getBackground(Images.MARCHEUR_G);
+				break;
+			case CREUSEUR:
+				bg = getBackground(Images.CREUSEUR);
+				break;
+			case BASHER:
+				bg = getBackground(Images.BASHER_G);
+				break;
+			case STOPPEUR:
+				bg = getBackground(Images.STOPPEUR);
 				break;
 			default:
 				System.err.println("Main::getLemmingBackground 2 : je ne dois jamais passer ici");
