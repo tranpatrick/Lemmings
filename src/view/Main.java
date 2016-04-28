@@ -54,9 +54,9 @@ public class Main extends Application implements IObserver{
 		MARCHEUR_D,
 		TOMBEUR,
 		//		CREUSEUR_D,
-		//		GRIMPEUR_D,
+		GRIMPEUR_D,
 		//		BUILDER_D,
-		//		FLOTTEUR_D,
+		FLOTTEUR_D,
 		//		EXPLOSEUR_D,
 		//		STOPPEUR_D,
 		//		BASHER_D,
@@ -64,9 +64,9 @@ public class Main extends Application implements IObserver{
 		//		/* Lemmings gauchers */
 		MARCHEUR_G, 
 		//		CREUSEUR_G,
-		//		GRIMPEUR_G,
+		GRIMPEUR_G,
 		//		BUILDER_G,
-		//		FLOTTEUR_G,
+		FLOTTEUR_G,
 		//		EXPLOSEUR_G,
 		//		STOPPEUR_G,
 		//		BASHER_G,
@@ -251,29 +251,7 @@ public class Main extends Application implements IObserver{
 					pane.setBackground(getBackground(Images.SORTIE));
 				}
 				else if (lem != null) {
-					if (lem.getDirection() == Direction.DROITIER)
-						switch (lem.getType()) {
-						case TOMBEUR:
-							pane.setBackground(getBackground(Images.TOMBEUR));
-							break;
-						case MARCHEUR:
-							pane.setBackground(getBackground(Images.MARCHEUR_D));
-							break;
-						default:
-							break;
-						}
-					else {
-						switch (lem.getType()) {
-						case TOMBEUR:
-							pane.setBackground(getBackground(Images.TOMBEUR));
-							break;
-						case MARCHEUR:
-							pane.setBackground(getBackground(Images.MARCHEUR_G));
-							break;
-						default:
-							break;
-						}
-					}
+					pane.setBackground(getLemmingBackground(lem));
 				}	
 				else {
 					Nature nature = gameEng.getLevel().getNature(i, j); 
@@ -329,6 +307,52 @@ public class Main extends Application implements IObserver{
 			System.err.println("Main::getBackground, je ne dois jamais passer ici");
 		}
 		return bg;	
+	}
+
+	public Background getLemmingBackground(Lemming lem) {
+		Background bg = null;
+		if (lem.getDirection() == Direction.DROITIER)
+			switch (lem.getType()) {
+			case TOMBEUR:
+				if (lem.isFlotteur()) 
+					bg = getBackground(Images.FLOTTEUR_D);
+				else
+					bg =  getBackground(Images.TOMBEUR);
+				break;
+			case MARCHEUR:
+				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
+					bg = getBackground(Images.GRIMPEUR_D);
+				else
+					bg = getBackground(Images.MARCHEUR_D);
+				break;
+			default:
+				System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
+				break;
+			}
+		else if (lem.getDirection() == Direction.GAUCHER) {
+			switch (lem.getType()) {
+			case TOMBEUR:
+				if (lem.isFlotteur())
+					bg = getBackground(Images.FLOTTEUR_G);
+				else
+					bg = getBackground(Images.TOMBEUR);
+				break;
+			case MARCHEUR:
+				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
+					bg = getBackground(Images.GRIMPEUR_G);
+				else
+					bg = getBackground(Images.MARCHEUR_G);
+				break;
+			default:
+				System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
+				break;
+			}
+		}
+		else {
+			System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
+		}
+
+		return bg;
 	}
 
 	public GameEng getGameEng() {

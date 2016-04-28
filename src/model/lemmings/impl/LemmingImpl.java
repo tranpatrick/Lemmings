@@ -23,7 +23,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	private boolean isFlotteur;
 	private boolean isBuilder;
 	private boolean isCurrentlyBuilding;
+	private boolean isCurrentlyClimbing;
 	private boolean isExploseur;
+	
 	private GameEng gameEng;
 
 	public LemmingImpl(){
@@ -44,7 +46,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	public Type getType() {
 		return type;
 	}
-
+	
 	@Override
 	public boolean isGrimpeur() {
 		return isGrimpeur;
@@ -89,6 +91,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	public boolean isCurrentlyBuilding() {
 		return isCurrentlyBuilding;
 	}
+	
+	@Override
+	public boolean isCurrentlyClimbing() {
+		return isCurrentlyClimbing;
+	}
+	 
 
 	@Override
 	public int getNombreToursBuilder() {
@@ -115,6 +123,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		return gameEng;
 	}
 
+	//TODO ne pas oublier de bien remettre init apres les test
 	@Override
 	public void init(int id) {
 		this.id = id;
@@ -123,10 +132,11 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		Point entrance = gameEng.getLevel().getEntrance();
 		x = entrance.x;
 		y = entrance.y;
-		isGrimpeur = false;
-		isFlotteur = false;
+		isGrimpeur = true;
+		isFlotteur = true;
 		isBuilder = false;
 		isCurrentlyBuilding = false;
+		isCurrentlyClimbing = false;
 		nombreToursBuilder = 0;
 		isExploseur = false;
 		tombeDepuis = 0;
@@ -202,7 +212,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 
 		final Type typePre = getType();
 		final Direction directionPre = getDirection();
-
+		isCurrentlyClimbing = false;
 		if(isExploseur){
 			exploseurDepuis++; 
 			if(exploseurDepuis == 5){
@@ -375,6 +385,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 						&& gameEng.isObstacle(x+1, y) 
 						&& !gameEng.isObstacle(x, y-2)){
 					y=y-1;
+					isCurrentlyClimbing = true;
 				}
 				//Grimpeur passe au dessus de l'obstacle
 				else if(isGrimpeur() 
@@ -471,12 +482,14 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 						&& gameEng.isObstacle(x-1, y-1) 
 						&& gameEng.isObstacle(x-1, y)
 						&& !gameEng.isObstacle(x, y-2)){
+					isCurrentlyClimbing = true;
 					y=y-1;
 				}
 				else if(isGrimpeur()
 						&& !gameEng.isObstacle(x-1, y-1)
 						&& gameEng.isObstacle(x-1, y)
 						&& !gameEng.isObstacle(x-1, y-2)){
+					isCurrentlyClimbing = true;
 					y=y-1;
 					x=x-1;
 				}
