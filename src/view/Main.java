@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -39,19 +40,26 @@ public class Main extends Application implements IObserver{
 	private GridPane plateauGridPane;
 	private GameEng gameEng = null;
 
-	private static final String DIRT = "images/dirt.png";
-	private static final String METAL = "images/metal.png";
-	private static final String EMPTY = "images/empty.png";
-	private static final String ENTREE = "images/entree.png";
-	private static final String SORTIE = "images/sortie.png";
-	
-	
+	/* Enumeration pour charger automatiquement les images/Background dans une
+	 * HashMap, utiliser le getter getBackground(Images image) pour avoir
+	 * le background
+	 * 
+	 * Noms de fichers : pour enum DIRT, placer dirt.png dans le dossier Images
+	 */
+	enum Images {
+		/* Cases */
+		DIRT,METAL,EMPTY,ENTREE,SORTIE,
+		//		/* Lemmings droitiers */
+		//		MARCHEUR_D, TOMBEUR_D, CREUSEUR_D, GRIMPEUR_D, BUILDER_D, FLOTTEUR_D,
+		//		EXPLOSEUR_D, STOPPEUR_D, BASHER_D, MINER_D,
+		//		/* Lemmings gauchers */
+		//		MARCHEUR_G, TOMBEUR_G, CREUSEUR_G, GRIMPEUR_G, BUILDER_G, FLOTTEUR_G,
+		//		EXPLOSEUR_G, STOPPEUR_G, BASHER_G, MINER_G,
+	}
+
 
 	/* Images */
-	private HashMap<String, Background> images;
-	private Image dirtImage, metalImage, emptyImage, entreeImage, sortieImage;
-	private Background dirtBg, metalBg, emptyBg, entreeBg, sortieBg;
-	
+	private HashMap<Images, Background> backgrounds;
 
 	/* Variables */
 	private boolean isSetEntranceClicked;
@@ -61,8 +69,6 @@ public class Main extends Application implements IObserver{
 	/* FX Nodes */
 	// empty at the moment car plus besoin de charger les truc ici, tout est fait dans le controller
 
-
-
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -71,31 +77,45 @@ public class Main extends Application implements IObserver{
 	public void start(Stage primaryStage) {
 		root = new AnchorPane();
 		isEditing = true;
+		backgrounds = new HashMap<>();
 		initRootLayout(primaryStage);
 	}
 
+	/* Charge les images et cree les background avec la bonne taille */
 	private void loadImages() {
-		dirtImage = new Image(new File(DIRT).toURI().toString());
-		metalImage = new Image(new File(METAL).toURI().toString());
-		emptyImage = new Image(new File(EMPTY).toURI().toString());
-		entreeImage = new Image(new File(ENTREE).toURI().toString());
-		sortieImage = new Image(new File(SORTIE).toURI().toString());
 		BackgroundSize backgroundSize = new BackgroundSize(
 				plateauGridPane.getWidth()/gameEng.getLevel().getWidth(), 
 				plateauGridPane.getHeight()/(gameEng.getLevel().getHeight()-1), 
 				false, false, false, false);
-		dirtBg = new Background(new BackgroundImage(dirtImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize));
-		metalBg = new Background(new BackgroundImage(metalImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize));
-		emptyBg = new Background(new BackgroundImage(emptyImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize));
-		entreeBg = new Background(new BackgroundImage(entreeImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
-		sortieBg = new Background(new BackgroundImage(sortieImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
+		for (Images v : Images.values()) {
+			String filename = "images/"+v.toString().toLowerCase()+".png";
+			Image tmpImage = new Image(new File(filename).toURI().toString());
+			Background tmpBackground = null;
+			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
+				tmpBackground = new Background(
+						new BackgroundImage(tmpImage, 
+											BackgroundRepeat.REPEAT, 
+											BackgroundRepeat.REPEAT, 
+											BackgroundPosition.CENTER, 
+											backgroundSize));
+			}
+			else { 
+				tmpBackground = new Background(
+						new BackgroundImage(tmpImage, 
+											BackgroundRepeat.NO_REPEAT, 
+											BackgroundRepeat.NO_REPEAT, 
+											BackgroundPosition.CENTER, 
+											backgroundSize));
+			}
+			backgrounds.put(v, tmpBackground);
+		}
 	}
 
 	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed){
 		if (gameEng != null) {
 			gameEng.deleteObserver(this);
 		}
-		
+
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
@@ -133,7 +153,7 @@ public class Main extends Application implements IObserver{
 
 	public void initialiserLevel(int width, int height) {
 
-		/* Remise à false des booléens setEntrance et setExit */
+		/* Remise a�false des booleens isSetEntranceClicked et isSetExitClicked */
 		isSetEntranceClicked = false;
 		isSetExitClicked = false;
 
@@ -160,16 +180,16 @@ public class Main extends Application implements IObserver{
 			for (int j = 0; j < height; j++) {
 				Pane pane = new Pane();
 				if (i == 0 || i == width - 1 || j == 0 || j == height - 1) {
-					pane.setBackground(metalBg);
 					gameEng.getLevel().setNature(i, j, Nature.METAL);
+					pane.setBackground(getBackground(Images.METAL));
 				}
 				else if (i > 5 && j > 5 && j < height - 10) {
-					pane.setBackground(dirtBg);
 					gameEng.getLevel().setNature(i, j, Nature.DIRT);
+					pane.setBackground(getBackground(Images.DIRT));
 				}
 				else {
-					pane.setBackground(emptyBg);
 					gameEng.getLevel().setNature(i, j, Nature.EMPTY);
+					pane.setBackground(getBackground(Images.EMPTY));
 				}
 				GridPane.setRowIndex(pane, j);
 				GridPane.setColumnIndex(pane, i);
@@ -215,26 +235,13 @@ public class Main extends Application implements IObserver{
 		this.isEditing = isEditing;
 	}
 
-	public Background getDirtBg() {
-		return dirtBg;
+	public Background getBackground(Images image) {
+		Background bg = backgrounds.get(image);
+		if (bg == null) {
+			System.err.println("Main::getBackground, je ne dois jamais passer ici");
+		}
+		return bg;	
 	}
-
-	public Background getMetalBg() {
-		return metalBg;
-	}
-
-	public Background getEmptyBg() {
-		return emptyBg;
-	}
-
-	public Background getEntreeBg() {
-		return entreeBg;
-	}
-
-	public Background getSortieBg() {
-		return sortieBg;
-	}
-
 	public GameEng getGameEng() {
 		return gameEng;
 	}

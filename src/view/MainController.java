@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.lemmings.services.Level.Nature;
+import view.Main.Images;
 
 public class MainController {
 
@@ -112,13 +113,13 @@ public class MainController {
 					&& !main.getGameEng().getLevel().isExit(x, y) && !main.isSetExitClicked() 
 					&& main.isEditing()) {
 				if (event.getButton() == MouseButton.PRIMARY){
-					((Pane) pointNode.getNode()).setBackground(main.getDirtBg());
+					((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.DIRT));
 					main.getGameEng().getLevel().setNature(x, y, Nature.DIRT);
 				}else if(event.getButton() == MouseButton.SECONDARY){
-					((Pane) pointNode.getNode()).setBackground(main.getMetalBg());
+					((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.METAL));
 					main.getGameEng().getLevel().setNature(x, y, Nature.METAL);
 				}else if(event.getButton() == MouseButton.MIDDLE){
-					((Pane) pointNode.getNode()).setBackground(main.getEmptyBg());
+					((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.EMPTY));
 					main.getGameEng().getLevel().setNature(x, y, Nature.EMPTY);
 				}
 			}
@@ -129,8 +130,8 @@ public class MainController {
 				try {
 					main.getGameEng().getLevel().setEntrance(x, y);
 					if (entrancePane != null) 
-						entrancePane.setBackground(main.getEmptyBg());
-					((Pane) pointNode.getNode()).setBackground(main.getEntreeBg());
+						entrancePane.setBackground(main.getBackground(Images.EMPTY));
+					((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.ENTREE));
 					entrancePane = (Pane) pointNode.getNode();
 				} catch (Error error) {
 					Outils.showAlert(AlertType.ERROR, "Set Entrance", "Emplacement case d'entree non valide, "
@@ -144,8 +145,8 @@ public class MainController {
 				try {
 					main.getGameEng().getLevel().setExit(x, y);
 					if (exitPane != null) 
-						exitPane.setBackground(main.getEmptyBg());
-					((Pane) pointNode.getNode()).setBackground(main.getSortieBg());
+						exitPane.setBackground(main.getBackground(Images.EMPTY));
+					((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.SORTIE));
 					exitPane = (Pane) pointNode.getNode();
 				} catch( Error error) {
 					Outils.showAlert(AlertType.ERROR, "Set Exit", "Emplacement case de sortie non valide, "
@@ -159,13 +160,13 @@ public class MainController {
 				if (!main.getGameEng().getLevel().isEntrance(x, y) && !main.isSetEntranceClicked()
 						&& !main.getGameEng().getLevel().isExit(x, y) && !main.isSetExitClicked()) {
 					if (event.getButton() == MouseButton.PRIMARY){
-						((Pane) pointNode.getNode()).setBackground(main.getDirtBg());
+						((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.DIRT));
 						main.getGameEng().getLevel().setNature(x, y, Nature.DIRT);
 					}else if(event.getButton() == MouseButton.SECONDARY){
-						((Pane) pointNode.getNode()).setBackground(main.getMetalBg());
+						((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.METAL));
 						main.getGameEng().getLevel().setNature(x, y, Nature.METAL);
 					}else if(event.getButton() == MouseButton.MIDDLE){
-						((Pane) pointNode.getNode()).setBackground(main.getEmptyBg());
+						((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.EMPTY));
 						main.getGameEng().getLevel().setNature(x, y, Nature.EMPTY);
 					}
 				}
