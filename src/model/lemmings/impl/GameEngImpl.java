@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import javafx.application.Platform;
 import model.lemmings.contract.LemmingContract;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
@@ -216,7 +217,15 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		Iterator<IObserver> iterator = observers.iterator();
 		while (iterator.hasNext()) {
 			IObserver obs = iterator.next();
-			obs.update();
+			Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					obs.update();		
+				}
+			});
+			
 		}
 	}
 

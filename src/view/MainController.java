@@ -22,6 +22,7 @@ import view.Main.Images;
 
 public class MainController {
 
+	private static final long REFRESH_TIME = 200;
 	private Pane exitPane;
 	private Pane entrancePane;
 
@@ -109,7 +110,7 @@ public class MainController {
 			return;
 		}
 		int x = pointNode.x, y = pointNode.y;
-		
+
 		/* mode editing */
 		if (main.getGameEng().getLevel().isEditing()) {
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
@@ -190,25 +191,29 @@ public class MainController {
 		try {
 			main.getGameEng().getLevel().goPlay();
 			goPlayButton.setDisable(true);
-			Platform.runLater(new Runnable() {
-				
+			//TODO masquer des zones de saisies ( colony, largeur hauteur) mais laisser qqch pour changer spawnspeed
+			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					while (!main.getGameEng().gameOver()) {
 						main.getGameEng().step();
 						try {
-							Thread.sleep(100);
+							Thread.sleep(REFRESH_TIME);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}		
 					}
-					scoreLabel.setText(""+main.getGameEng().score()*100+"/100");
+					Platform.runLater(new Runnable() {
+
+						@Override
+						public void run() {
+							scoreLabel.setText(""+main.getGameEng().score()*100+"/100");							
+						}
+					});
+
 				}
 			});
-			
-			
-
+			t.start();
 		} catch (Error e) {
 			//TODO attention is editing est a true 
 			Outils.showAlert(AlertType.ERROR, 
@@ -221,8 +226,21 @@ public class MainController {
 	}
 
 	@FXML
-	void goEditing(ActionEvent event) {
+	void changeSpawnSpeed(ActionEvent event) {
+		if (!main.getGameEng().gameOver()) {
+			String vitesse = spawnSpeedTextField.getText();
+			if (Outils.isNumber(vitesse)) {
+				int spawnSpeed = Integer.parseInt(vitesse);
+				//TODO rajouter setSpawnSpeed dans GameEng
+				//main.getGameEng().setSpawnSpeed(spawnSpeed);
+			}
+		}
+	}
 
+
+	@FXML
+	void goEditing(ActionEvent event) {
+		// TODO reset proprement
 	}
 
 

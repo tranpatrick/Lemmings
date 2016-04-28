@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -27,6 +26,8 @@ import model.lemmings.contract.LevelContract;
 import model.lemmings.impl.GameEngImpl;
 import model.lemmings.impl.LevelImpl;
 import model.lemmings.services.GameEng;
+import model.lemmings.services.Lemming;
+import model.lemmings.services.Lemming.Direction;
 import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
 
@@ -50,11 +51,27 @@ public class Main extends Application implements IObserver{
 		/* Cases */
 		DIRT,METAL,EMPTY,ENTREE,SORTIE,
 		//		/* Lemmings droitiers */
-		//		MARCHEUR_D, TOMBEUR_D, CREUSEUR_D, GRIMPEUR_D, BUILDER_D, FLOTTEUR_D,
-		//		EXPLOSEUR_D, STOPPEUR_D, BASHER_D, MINER_D,
+		MARCHEUR_D,
+		TOMBEUR_D,
+		//		CREUSEUR_D,
+		//		GRIMPEUR_D,
+		//		BUILDER_D,
+		//		FLOTTEUR_D,
+		//		EXPLOSEUR_D,
+		//		STOPPEUR_D,
+		//		BASHER_D,
+		//		MINER_D,
 		//		/* Lemmings gauchers */
-		//		MARCHEUR_G, TOMBEUR_G, CREUSEUR_G, GRIMPEUR_G, BUILDER_G, FLOTTEUR_G,
-		//		EXPLOSEUR_G, STOPPEUR_G, BASHER_G, MINER_G,
+		MARCHEUR_G, 
+		TOMBEUR_G,
+		//		CREUSEUR_G,
+		//		GRIMPEUR_G,
+		//		BUILDER_G,
+		//		FLOTTEUR_G,
+		//		EXPLOSEUR_G,
+		//		STOPPEUR_G,
+		//		BASHER_G,
+		//		MINER_G,
 	}
 
 
@@ -202,17 +219,48 @@ public class Main extends Application implements IObserver{
 	@Override
 	public void update() {
 		//TODO resoudre probleme freeze interface
-//		Platform.runLater(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//							
-//			}
-//		});
-		System.err.println("Mise a jour interface");	
-		
 
+		System.err.println("Mise a jour interface");	
+		if (plateauGridPane != null) {
+			//	plateauGridPane.setGridLinesVisible(false);
+			plateauGridPane.getChildren().clear();
+		}
+		int width = gameEng.getLevel().getWidth();
+		int height = gameEng.getLevel().getHeight();
+		plateauGridPane.setMinWidth(800);
+		plateauGridPane.setMinHeight(800);
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				Pane pane = new Pane();
+				Lemming lem = null;
+				lem = getLemmingWithPosition(i, j);
+
+				if (gameEng.getLevel().isEntrance(i, j)) {
+					pane.setBackground(getBackground(Images.ENTREE));
+				}
+				else if (gameEng.getLevel().isExit(i, j)) {
+					pane.setBackground(getBackground(Images.SORTIE));
+				}
+				else if (lem != null) {
+					if (lem.getDirection() == Direction.DROITIER)
+						pane.setBackground(getBackground(Images.MARCHEUR_D));
+					else 
+						pane.setBackground(getBackground(Images.MARCHEUR_G));
+				}	
+				else {
+					Nature nature = gameEng.getLevel().getNature(i, j); 
+					pane.setBackground(getBackground(Images.valueOf(nature.toString())));
+				}
+
+				GridPane.setRowIndex(pane, j);
+				GridPane.setColumnIndex(pane, i);
+				plateauGridPane.getChildren().add(pane);
+			}
+		}
+		//		plateauGridPane.setGridLinesVisible(true);
 	}
+
+
 
 	public boolean isSetExitClicked() {
 		return isSetExitClicked;
@@ -234,6 +282,18 @@ public class Main extends Application implements IObserver{
 		return gameEng.getLevel().isEditing();
 	}
 
+	public Lemming getLemmingWithPosition(int x, int y) {
+		if (gameEng.gameOver())
+			return null;
+		for (int id : gameEng.getLemmingsActifs()) {
+			Lemming lem = gameEng.getLemming(id);
+			if (lem.getX() == x && lem.getY() == y) {
+				return lem;
+			}
+		}
+		return null;
+	}
+	
 	public Background getBackground(Images image) {
 		Background bg = backgrounds.get(image);
 		if (bg == null) {

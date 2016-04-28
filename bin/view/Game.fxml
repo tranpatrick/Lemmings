@@ -177,7 +177,7 @@
                               <Insets left="40.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="spawnSpeedTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="3">
+                        <TextField fx:id="spawnSpeedTextField" onInputMethodTextChanged="#changeSpawnSpeed" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="5">
                            <HBox.margin>
                               <Insets left="-16.0" />
                            </HBox.margin>
