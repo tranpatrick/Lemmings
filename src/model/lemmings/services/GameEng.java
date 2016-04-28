@@ -2,7 +2,9 @@ package model.lemmings.services;
 
 import java.util.Set;
 
-public interface GameEng {
+import view.IObservable;
+
+public interface GameEng extends IObservable{
 	
 	/** Observators **/
 	public Level getLevel();

@@ -4,9 +4,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class Outils {
+	
 	public static boolean isNumber(String string) {
 		return string.matches("\\d+");
 	}
+	
 	public static void showAlert(AlertType alertType, String title, 
 			String headerText, String content) {
 		Alert alert = new Alert(alertType);

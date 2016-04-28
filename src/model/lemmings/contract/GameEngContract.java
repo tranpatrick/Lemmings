@@ -6,6 +6,7 @@ import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
+import view.IObserver;
 
 public class GameEngContract extends GameEngDecorator{
 
@@ -435,6 +436,23 @@ public class GameEngContract extends GameEngDecorator{
 					+ "getLemmingsActifs()@pre - {i} not satisfied");		
 		}		
 
+	}
+	
+	//TODO voir si il faut contrat pour l'ihm et observer
+	/* perso flemme je fais juste checkinvariant au pire */
+	@Override
+	public void addObserver(IObserver obs) {
+		super.addObserver(obs);
+	}
+
+	@Override
+	public void deleteObserver(IObserver obs) {
+		super.deleteObserver(obs);
+	}
+
+	@Override
+	public void notifierObservateurs() {
+		super.notifierObservateurs();
 	}
 
 }

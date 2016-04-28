@@ -168,7 +168,7 @@ public class LevelContract extends LevelDecorator {
 
 	public void goPlay(){
 		// \pre isEditing()
-		if(!(super.isEditing()))
+		if(super.isEditing() == false)
 			throw new PreConditionError("goPlay : isEditing() not satisfied");
 
 		// \pre \forall j getNature(0,j) = METAL
@@ -196,7 +196,7 @@ public class LevelContract extends LevelDecorator {
 		checkInvariant();
 
 		// \post isEditing() == false
-		if(super.isEditing())
+		if(super.isEditing() == true)
 			throw new PostConditionError("goPlay : isEditing() = false not satisfied");
 
 		int nbEntrance=0, nbExit=0;

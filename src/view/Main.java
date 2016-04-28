@@ -2,6 +2,7 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -22,38 +26,66 @@ import model.lemmings.contract.LevelContract;
 import model.lemmings.impl.GameEngImpl;
 import model.lemmings.impl.LevelImpl;
 import model.lemmings.services.GameEng;
+import model.lemmings.services.Lemming;
+import model.lemmings.services.Lemming.Direction;
 import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
 
 //TODO rename Main et Main Controller
-public class Main extends Application {
+public class Main extends Application implements IObserver{
 
 	public static final String GAME_UI = "Game.fxml";
 	private Stage primaryStage;
 	private BorderPane game;
 	private AnchorPane root;
 	private GridPane plateauGridPane;
-	private GameEng gameEng;
+	private GameEng gameEng = null;
 
-	private static final String DIRT = "images/dirt.png";
-	private static final String METAL = "images/metal.png";
-	private static final String EMPTY = "images/empty.png";
-	private static final String ENTREE = "images/entree.png";
-	private static final String SORTIE = "images/sortie.png";
+	/* Enumeration pour charger automatiquement les images/Background dans une
+	 * HashMap, utiliser le getter getBackground(Images image) pour avoir
+	 * le background
+	 * 
+	 * Noms de fichers : pour enum DIRT, placer dirt.png dans le dossier Images
+	 */
+	enum Images {
+		/* Cases */
+		DIRT,METAL,EMPTY,ENTREE,SORTIE,
+		//		/* Lemmings droitiers */
+		MARCHEUR_D,
+		TOMBEUR_D,
+		//		CREUSEUR_D,
+		//		GRIMPEUR_D,
+		//		BUILDER_D,
+		//		FLOTTEUR_D,
+		//		EXPLOSEUR_D,
+		//		STOPPEUR_D,
+		//		BASHER_D,
+		//		MINER_D,
+		//		/* Lemmings gauchers */
+		MARCHEUR_G, 
+		TOMBEUR_G,
+		//		CREUSEUR_G,
+		//		GRIMPEUR_G,
+		//		BUILDER_G,
+		//		FLOTTEUR_G,
+		//		EXPLOSEUR_G,
+		//		STOPPEUR_G,
+		//		BASHER_G,
+		//		MINER_G,
+	}
+
 
 	/* Images */
-	private Image dirtImage, metalImage, emptyImage, entreeImage, sortieImage;
-	private Background dirtBg, metalBg, emptyBg, entreeBg, sortieBg;
+	private HashMap<Images, Background> backgrounds;
+	private HashMap<Images, Background> backgrounds2;
+	private static int cptImage = 0;
 
 	/* Variables */
 	private boolean isSetEntranceClicked;
 	private boolean isSetExitClicked;
-	private boolean isEditing;
 
 	/* FX Nodes */
 	// empty at the moment car plus besoin de charger les truc ici, tout est fait dans le controller
-
-
 
 	public static void main(String[] args) {
 		launch(args);
@@ -62,32 +94,63 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		root = new AnchorPane();
-		isEditing = true;
+		backgrounds = new HashMap<>();
 		initRootLayout(primaryStage);
 	}
 
+	/* Charge les images et cree les background avec la bonne taille */
 	private void loadImages() {
-		dirtImage = new Image(new File(DIRT).toURI().toString());
-		metalImage = new Image(new File(METAL).toURI().toString());
-		emptyImage = new Image(new File(EMPTY).toURI().toString());
-		entreeImage = new Image(new File(ENTREE).toURI().toString());
-		sortieImage = new Image(new File(SORTIE).toURI().toString());
-		dirtBg = new Background(new BackgroundImage(dirtImage, null, null, null, null));
-		metalBg = new Background(new BackgroundImage(metalImage, null, null, null, null));
-		emptyBg = new Background(new BackgroundImage(emptyImage, null, null, null, null));
-		entreeBg = new Background(new BackgroundImage(entreeImage, null, null, null, null));
-		sortieBg = new Background(new BackgroundImage(sortieImage, null, null, null, null));
+		BackgroundSize backgroundSize = new BackgroundSize(
+				plateauGridPane.getWidth()/gameEng.getLevel().getWidth(), 
+				plateauGridPane.getHeight()/(gameEng.getLevel().getHeight()-1), 
+				false, false, false, false);
+		for (Images v : Images.values()) {
+			String filename = "";
+			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY 
+					|| v == Images.ENTREE|| v == Images.SORTIE) {
+				filename = "images/"+v.toString().toLowerCase()+".png";
+			}
+			else { 
+				filename = "images/"+v.toString().toLowerCase()+(cptImage%4+1)+".png";
+			}
+			cptImage++;
+			Image tmpImage = new Image(new File(filename).toURI().toString());
+			Background tmpBackground = null;
+			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
+				tmpBackground = new Background(
+						new BackgroundImage(tmpImage, 
+								BackgroundRepeat.REPEAT, 
+								BackgroundRepeat.REPEAT, 
+								BackgroundPosition.CENTER, 
+								backgroundSize));
+			}
+			else { 
+				tmpBackground = new Background(
+						new BackgroundImage(tmpImage, 
+								BackgroundRepeat.NO_REPEAT, 
+								BackgroundRepeat.NO_REPEAT, 
+								BackgroundPosition.CENTER, 
+								backgroundSize));
+			}
+			backgrounds.put(v, tmpBackground);
+		}
 	}
 
-	public void initGameEng(int width, int height){
+	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed){
+		if (gameEng != null) {
+			gameEng.deleteObserver(this);
+			
+		}
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
 		gameEng = new GameEngContract(gameEngImpl);
 		levelContract.init(width, height);
 		gameEngImpl.bindLevelService(levelContract);
+		loadImages();
 		//TODO recup les valeur d'init de gameEng sur l'UI
-		gameEng.init(10, 5);
+		gameEng.init(sizeColony, spawnSpeed);
+		gameEng.addObserver(this);
 	}
 
 	/**
@@ -100,7 +163,6 @@ public class Main extends Application {
 			game = (BorderPane) loader.load();
 			root.getChildren().add(game);
 			plateauGridPane = (GridPane) game.lookup("#plateauGridPane");
-			loadImages();
 			MainController controller = loader.getController();
 			controller.setMainApp(this);
 			// Show the scene containing the root layout.
@@ -116,7 +178,7 @@ public class Main extends Application {
 
 	public void initialiserLevel(int width, int height) {
 
-		/* Remise à false des booléens setEntrance et setExit */
+		/* Remise a�false des booleens isSetEntranceClicked et isSetExitClicked */
 		isSetEntranceClicked = false;
 		isSetExitClicked = false;
 
@@ -143,16 +205,16 @@ public class Main extends Application {
 			for (int j = 0; j < height; j++) {
 				Pane pane = new Pane();
 				if (i == 0 || i == width - 1 || j == 0 || j == height - 1) {
-					pane.setBackground(metalBg);
 					gameEng.getLevel().setNature(i, j, Nature.METAL);
+					pane.setBackground(getBackground(Images.METAL));
 				}
 				else if (i > 5 && j > 5 && j < height - 10) {
-					pane.setBackground(dirtBg);
 					gameEng.getLevel().setNature(i, j, Nature.DIRT);
+					pane.setBackground(getBackground(Images.DIRT));
 				}
 				else {
-					pane.setBackground(emptyBg);
 					gameEng.getLevel().setNature(i, j, Nature.EMPTY);
+					pane.setBackground(getBackground(Images.EMPTY));
 				}
 				GridPane.setRowIndex(pane, j);
 				GridPane.setColumnIndex(pane, i);
@@ -161,6 +223,55 @@ public class Main extends Application {
 		}
 		//		plateauGridPane.setGridLinesVisible(true);
 	}
+
+	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
+	//TODO implementer Observer
+	@Override
+	public void update() {
+		//TODO resoudre probleme freeze interface
+
+		System.err.println("Mise a jour interface");
+		loadImages();
+		if (plateauGridPane != null) {
+			//	plateauGridPane.setGridLinesVisible(false);
+			plateauGridPane.getChildren().clear();
+		}
+		int width = gameEng.getLevel().getWidth();
+		int height = gameEng.getLevel().getHeight();
+
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				Pane pane = new Pane();
+				Lemming lem = null;
+				lem = getLemmingWithPosition(i, j);
+
+				if (gameEng.getLevel().isEntrance(i, j)) {
+					pane.setBackground(getBackground(Images.ENTREE));
+				}
+				else if (gameEng.getLevel().isExit(i, j)) {
+					pane.setBackground(getBackground(Images.SORTIE));
+				}
+				else if (lem != null) {
+					if (lem.getDirection() == Direction.DROITIER)
+						pane.setBackground(getBackground(Images.MARCHEUR_D));
+					else 
+						pane.setBackground(getBackground(Images.MARCHEUR_G));
+				}	
+				else {
+					Nature nature = gameEng.getLevel().getNature(i, j); 
+					pane.setBackground(getBackground(Images.valueOf(nature.toString())));
+				}
+
+				GridPane.setRowIndex(pane, j);
+				GridPane.setColumnIndex(pane, i);
+				plateauGridPane.getChildren().add(pane);
+			}
+		}
+		//		plateauGridPane.setGridLinesVisible(true);
+
+	}
+
+
 
 	public boolean isSetExitClicked() {
 		return isSetExitClicked;
@@ -179,31 +290,27 @@ public class Main extends Application {
 	}
 
 	public boolean isEditing() {
-		return isEditing;
+		return gameEng.getLevel().isEditing();
 	}
 
-	public void setEditing(boolean isEditing) {
-		this.isEditing = isEditing;
+	public Lemming getLemmingWithPosition(int x, int y) {
+		if (gameEng.gameOver())
+			return null;
+		for (int id : gameEng.getLemmingsActifs()) {
+			Lemming lem = gameEng.getLemming(id);
+			if (lem.getX() == x && lem.getY() == y) {
+				return lem;
+			}
+		}
+		return null;
 	}
 
-	public Background getDirtBg() {
-		return dirtBg;
-	}
-
-	public Background getMetalBg() {
-		return metalBg;
-	}
-
-	public Background getEmptyBg() {
-		return emptyBg;
-	}
-
-	public Background getEntreeBg() {
-		return entreeBg;
-	}
-
-	public Background getSortieBg() {
-		return sortieBg;
+	public Background getBackground(Images image) {
+		Background bg = backgrounds.get(image);
+		if (bg == null) {
+			System.err.println("Main::getBackground, je ne dois jamais passer ici");
+		}
+		return bg;	
 	}
 
 	public GameEng getGameEng() {

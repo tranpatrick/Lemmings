@@ -78,6 +78,7 @@ public class LevelImpl implements Level{
 	@Override
 	public void goPlay() {
 		editing = false;
+		//TODO a retirer
 		/*Random rand = new Random();
 		int xe, ye;
 		do{

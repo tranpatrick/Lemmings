@@ -1740,9 +1740,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 		// TODO ZONE DE TEST, A ENLEVER PLUS TARD
 		if (super.getId() == 1 && super.getGameEng().getNombreTours() == 12) {
-			System.err.println(">>>>>>>>>>>>>> BASHEUR <<<<<<<<<<<<<<<<<<<<<");
+//			System.err.println(">>>>>>>>>>>>>> BASHEUR <<<<<<<<<<<<<<<<<<<<<");
 			//			super.getGameEng().getLemming(super.getGameEng().getNombreCrees()-1).devientBuilder();
-			super.getGameEng().getLemming(1).devientBasher();
+//			super.getGameEng().getLemming(1).devientBasher();
 		}
 
 	}
