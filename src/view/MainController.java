@@ -196,6 +196,7 @@ public class MainController {
 				@Override
 				public void run() {
 					while (!main.getGameEng().gameOver()) {
+						updateGameInfo();
 						main.getGameEng().step();
 						try {
 							Thread.sleep(REFRESH_TIME);
@@ -203,14 +204,8 @@ public class MainController {
 							e.printStackTrace();
 						}		
 					}
-					Platform.runLater(new Runnable() {
-
-						@Override
-						public void run() {
-							scoreLabel.setText(""+main.getGameEng().score()*100+"/100");							
-						}
-					});
-
+					updateScore();
+					goPlayButton.setVisible(true);
 				}
 			});
 			t.start();
@@ -243,6 +238,63 @@ public class MainController {
 		// TODO reset proprement
 	}
 
+
+	public void updateScore() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				scoreLabel.setText(""+main.getGameEng().score()*100+"%");
+				scoreHBox.setVisible(true);
+			}
+		});
+	}
+
+	public void updateNbCrees() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (!main.getGameEng().gameOver())
+				creesLabel.setText(""+main.getGameEng().getNombreCrees());
+			}
+		});
+	}
+
+	public void updateNbMorts() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (!main.getGameEng().gameOver())
+				mortsLabel.setText(""+main.getGameEng().getNombreMorts());
+			}
+		});
+	}
+
+	public void updateNbSauves() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (!main.getGameEng().gameOver())
+				sauvesLabel.setText(""+main.getGameEng().getNombreSauves());
+			}
+		});
+	}
+
+	public void updateTour() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (!main.getGameEng().gameOver())
+					tourLabel.setText(""+main.getGameEng().getNombreTours());
+			}
+		});
+	}
+
+	public void updateGameInfo() {
+		updateNbCrees();
+		updateNbMorts();
+		updateNbSauves();
+		updateTour();
+	}
 
 	public PointNode getCoordonneesClic(MouseEvent event) {
 		if (plateauGridPane.getChildren().size() == 0) {

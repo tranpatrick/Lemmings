@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -129,8 +130,8 @@ public class Main extends Application implements IObserver{
 	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed){
 		if (gameEng != null) {
 			gameEng.deleteObserver(this);
+			
 		}
-
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
@@ -220,15 +221,15 @@ public class Main extends Application implements IObserver{
 	public void update() {
 		//TODO resoudre probleme freeze interface
 
-		System.err.println("Mise a jour interface");	
+		System.err.println("Mise a jour interface");
+
 		if (plateauGridPane != null) {
 			//	plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 		}
 		int width = gameEng.getLevel().getWidth();
 		int height = gameEng.getLevel().getHeight();
-		plateauGridPane.setMinWidth(800);
-		plateauGridPane.setMinHeight(800);
+
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				Pane pane = new Pane();
@@ -258,6 +259,7 @@ public class Main extends Application implements IObserver{
 			}
 		}
 		//		plateauGridPane.setGridLinesVisible(true);
+
 	}
 
 
@@ -293,7 +295,7 @@ public class Main extends Application implements IObserver{
 		}
 		return null;
 	}
-	
+
 	public Background getBackground(Images image) {
 		Background bg = backgrounds.get(image);
 		if (bg == null) {
@@ -301,6 +303,7 @@ public class Main extends Application implements IObserver{
 		}
 		return bg;	
 	}
+
 	public GameEng getGameEng() {
 		return gameEng;
 	}
