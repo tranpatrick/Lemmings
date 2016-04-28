@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -78,6 +77,8 @@ public class Main extends Application implements IObserver{
 
 	/* Images */
 	private HashMap<Images, Background> backgrounds;
+	private HashMap<Images, Background> backgrounds2;
+	private static int cptImage = 0;
 
 	/* Variables */
 	private boolean isSetEntranceClicked;
@@ -104,7 +105,15 @@ public class Main extends Application implements IObserver{
 				plateauGridPane.getHeight()/(gameEng.getLevel().getHeight()-1), 
 				false, false, false, false);
 		for (Images v : Images.values()) {
-			String filename = "images/"+v.toString().toLowerCase()+".png";
+			String filename = "";
+			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY 
+					|| v == Images.ENTREE|| v == Images.SORTIE) {
+				filename = "images/"+v.toString().toLowerCase()+".png";
+			}
+			else { 
+				filename = "images/"+v.toString().toLowerCase()+(cptImage%4+1)+".png";
+			}
+			cptImage++;
 			Image tmpImage = new Image(new File(filename).toURI().toString());
 			Background tmpBackground = null;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
@@ -222,7 +231,7 @@ public class Main extends Application implements IObserver{
 		//TODO resoudre probleme freeze interface
 
 		System.err.println("Mise a jour interface");
-
+		loadImages();
 		if (plateauGridPane != null) {
 			//	plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();

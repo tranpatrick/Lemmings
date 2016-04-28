@@ -212,9 +212,9 @@
             </HBox>
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Button fx:id="goPlayButton" mnemonicParsing="false" onAction="#goPlay" text="Go Play" />
+                  <Button fx:id="goPlayButton" disable="true" mnemonicParsing="false" onAction="#goPlay" text="Go Play" />
                   <Button fx:id="editingButton" mnemonicParsing="false" onAction="#goEditing" text="Editing" />
-                  <Button fx:id="rejouerButton" mnemonicParsing="false" text="Rejouer" />
+                  <Button fx:id="rejouerButton" mnemonicParsing="false" onAction="#relancerNiveau" text="Rejouer" />
                </children>
             </HBox>
 			</children>

@@ -162,7 +162,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		ArrayList<Lemming> copy = new ArrayList<Lemming>(lemmingsActifs.values());
 		for(Lemming l : copy)
 			l.step();
-		System.out.println("nbTours = "+nombreTours+" spawnSpeed== " + spawnSpeed);
+//		System.out.println("nbTours = "+nombreTours+" spawnSpeed== " + spawnSpeed);
 		if (nombreTours % spawnSpeed == 0 && nombreCrees < sizeColony ) {
 			nombreCrees = nombreCrees + 1;
 			LemmingImpl lemmingImpl = new LemmingImpl();
@@ -176,15 +176,15 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		notifierObservateurs();
 
 		//TODO penser a tej les sysout du coup
-		System.out.print("liste ");
-		for (int i : lemmingsActifs.keySet()){
-			System.out.print(i+" ");
-		}
+//		System.out.print("liste ");
+//		for (int i : lemmingsActifs.keySet()){
+//			System.out.print(i+" ");
+//		}
 		System.out.println();
-		System.out.println("nombre cree "+nombreCrees);
-		System.out.println("nombre actifs "+getNombreActifs());
-		System.out.println("nombre morts "+getNombreMorts());
-		System.out.println("nombre sauves "+getNombreSauves());
+//		System.out.println("nombre cree "+nombreCrees);
+//		System.out.println("nombre actifs "+getNombreActifs());
+//		System.out.println("nombre morts "+getNombreMorts());
+//		System.out.println("nombre sauves "+getNombreSauves());
 	}
 
 	@Override

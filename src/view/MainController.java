@@ -29,6 +29,7 @@ public class MainController {
 	@FXML private Button dimensionButton;
 	@FXML private Button editingButton;
 	@FXML private Button goPlayButton;
+	@FXML private Button rejouerButton;
 	@FXML private Button setEntranceButton;
 	@FXML private Button setExitButton;
 	@FXML private GridPane plateauGridPane;
@@ -66,6 +67,7 @@ public class MainController {
 		}
 		else {
 			System.err.println("sfsdf");
+			//TODO alert
 		}
 	}
 
@@ -80,6 +82,8 @@ public class MainController {
 				initLevel();
 			}
 		}
+		goPlayButton.setDisable(false);
+		//TODO attendtion platform runLater
 	}
 
 	@FXML
@@ -191,13 +195,15 @@ public class MainController {
 		try {
 			main.getGameEng().getLevel().goPlay();
 			goPlayButton.setDisable(true);
+			
 			//TODO masquer des zones de saisies ( colony, largeur hauteur) mais laisser qqch pour changer spawnspeed
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					while (!main.getGameEng().gameOver()) {
-						updateGameInfo();
 						main.getGameEng().step();
+						updateGameInfo();
+						//TODO ptet revoir contrat gameEng
 						try {
 							Thread.sleep(REFRESH_TIME);
 						} catch (InterruptedException e) {
@@ -205,7 +211,7 @@ public class MainController {
 						}		
 					}
 					updateScore();
-					goPlayButton.setVisible(true);
+					goPlayButton.setDisable(false);
 				}
 			});
 			t.start();
@@ -237,6 +243,11 @@ public class MainController {
 	void goEditing(ActionEvent event) {
 		// TODO reset proprement
 	}
+	
+    @FXML
+    void relancerNiveau(ActionEvent event) {
+    	
+    }
 
 
 	public void updateScore() {
@@ -290,6 +301,7 @@ public class MainController {
 	}
 
 	public void updateGameInfo() {
+		// TODO attention des fois valeurs incoherente a cause du runLater
 		updateNbCrees();
 		updateNbMorts();
 		updateNbSauves();
