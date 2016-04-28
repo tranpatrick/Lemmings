@@ -150,16 +150,50 @@
 								</TextField>
 							</children>
 						</HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="300.0" spacing="20.0">
+                     <children>
+                        <Label text="Size Colony">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="sizeColonyTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="10">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="300.0" spacing="20.0">
+                     <children>
+                        <Label text="Spawn Speed">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="spawnSpeedTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="10">
+                           <HBox.margin>
+                              <Insets left="-16.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
 						<HBox alignment="CENTER">
 							<children>
-								<Button fx:id="dimensionButton" alignment="CENTER" mnemonicParsing="false" onAction="#initLevelEvent" text="Valider" textAlignment="CENTER">
-									<font>
-										<Font size="15.0" />
-									</font>
+            								<Button fx:id="dimensionButton" alignment="CENTER" mnemonicParsing="false" onAction="#initLevelEvent" text="Valider" textAlignment="CENTER">
+            									<font>
+            										<Font size="15.0" />
+            									</font>
 									<BorderPane.margin>
 										<Insets bottom="10.0" left="10.0" right="10.0" />
 									</BorderPane.margin>
-								</Button>
+            								</Button>
 							</children>
 							<opaqueInsets>
 								<Insets />

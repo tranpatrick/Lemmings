@@ -23,46 +23,23 @@ public class MainController {
 	private Pane exitPane;
 	private Pane entrancePane;
 
-	@FXML
-	private Button dimensionButton;
-
-	@FXML
-	private TextField hauteurTextField;
-
-	@FXML
-	private Label mortsLabel;
-
-	@FXML
-	private Label sauvesLabel;
-
-	@FXML
-	private HBox scoreHBox;
-
-	@FXML
-	private GridPane plateauGridPane;
-
-	@FXML
-	private Label scoreLabel;
-
-	@FXML
-	private Button setEntranceButton;
-
-	@FXML
-	private Label creesLabel;
-
-	@FXML
-	private TextField largeurTextField;
-
-	@FXML
-	private VBox dimensionVBox;
-
-	@FXML
-	private Button setExitButton;
-
-	@FXML
-	private Label tourLabel;
-
-	private Main main;
+	@FXML private Button dimensionButton;
+	@FXML private Button setEntranceButton;
+	@FXML private Button setExitButton;
+	@FXML private GridPane plateauGridPane;
+	@FXML private HBox scoreHBox;
+	@FXML private Label creesLabel;
+	@FXML private Label mortsLabel;
+	@FXML private Label sauvesLabel;
+	@FXML private Label scoreLabel;
+	@FXML private Label tourLabel;
+	@FXML private TextField hauteurTextField;
+	@FXML private TextField largeurTextField;
+	@FXML private TextField sizeColonyTextField;
+	@FXML private TextField spawnSpeedTextField;
+    @FXML private VBox dimensionVBox;
+	
+    private Main main;
 
 	public void setMainApp(Main main) {
 		this.main = main;
@@ -71,10 +48,15 @@ public class MainController {
 	private void initLevel() {
 		String largeur = largeurTextField.getText();
 		String hauteur = hauteurTextField.getText();
-		if (Outils.isNumber(largeur) && Outils.isNumber(hauteur)) {
-			int width = Integer.parseInt(largeurTextField.getText());
-			int height = Integer.parseInt(hauteurTextField.getText());
-			main.initGameEng(width, height);
+		String taille = sizeColonyTextField.getText();
+		String vitesse = spawnSpeedTextField.getText();
+		if (Outils.isNumber(largeur) && Outils.isNumber(hauteur)
+			&& Outils.isNumber(taille) && Outils.isNumber(vitesse)) {
+			int width = Integer.parseInt(largeur);
+			int height = Integer.parseInt(hauteur);
+			int sizeColony = Integer.parseInt(taille);
+			int spawnSpeed = Integer.parseInt(vitesse);
+			main.initGameEng(width, height, sizeColony, spawnSpeed);
 			main.initialiserLevel(width, height);
 		}
 		else {
@@ -163,7 +145,7 @@ public class MainController {
 					main.getGameEng().getLevel().setExit(x, y);
 					if (exitPane != null) 
 						exitPane.setBackground(main.getEmptyBg());
-					((Pane) pointNode.getNode()).setBackground(main.getEntreeBg());
+					((Pane) pointNode.getNode()).setBackground(main.getSortieBg());
 					exitPane = (Pane) pointNode.getNode();
 				} catch( Error error) {
 					Outils.showAlert(AlertType.ERROR, "Set Exit", "Emplacement case de sortie non valide, "

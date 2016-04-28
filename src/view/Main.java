@@ -2,6 +2,7 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -40,10 +44,14 @@ public class Main extends Application implements IObserver{
 	private static final String EMPTY = "images/empty.png";
 	private static final String ENTREE = "images/entree.png";
 	private static final String SORTIE = "images/sortie.png";
+	
+	
 
 	/* Images */
+	private HashMap<String, Background> images;
 	private Image dirtImage, metalImage, emptyImage, entreeImage, sortieImage;
 	private Background dirtBg, metalBg, emptyBg, entreeBg, sortieBg;
+	
 
 	/* Variables */
 	private boolean isSetEntranceClicked;
@@ -72,25 +80,31 @@ public class Main extends Application implements IObserver{
 		emptyImage = new Image(new File(EMPTY).toURI().toString());
 		entreeImage = new Image(new File(ENTREE).toURI().toString());
 		sortieImage = new Image(new File(SORTIE).toURI().toString());
-		dirtBg = new Background(new BackgroundImage(dirtImage, null, null, null, null));
-		metalBg = new Background(new BackgroundImage(metalImage, null, null, null, null));
-		emptyBg = new Background(new BackgroundImage(emptyImage, null, null, null, null));
-		entreeBg = new Background(new BackgroundImage(entreeImage, null, null, null, null));
-		sortieBg = new Background(new BackgroundImage(sortieImage, null, null, null, null));
+		BackgroundSize backgroundSize = new BackgroundSize(
+				plateauGridPane.getWidth()/gameEng.getLevel().getWidth(), 
+				plateauGridPane.getHeight()/(gameEng.getLevel().getHeight()-1), 
+				false, false, false, false);
+		dirtBg = new Background(new BackgroundImage(dirtImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize));
+		metalBg = new Background(new BackgroundImage(metalImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize));
+		emptyBg = new Background(new BackgroundImage(emptyImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize));
+		entreeBg = new Background(new BackgroundImage(entreeImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
+		sortieBg = new Background(new BackgroundImage(sortieImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
 	}
 
-	public void initGameEng(int width, int height){
+	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed){
 		if (gameEng != null) {
 			gameEng.deleteObserver(this);
 		}
+		
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
 		gameEng = new GameEngContract(gameEngImpl);
 		levelContract.init(width, height);
 		gameEngImpl.bindLevelService(levelContract);
+		loadImages();
 		//TODO recup les valeur d'init de gameEng sur l'UI
-		gameEng.init(10, 5);
+		gameEng.init(sizeColony, spawnSpeed);
 		gameEng.addObserver(this);
 	}
 
@@ -104,7 +118,6 @@ public class Main extends Application implements IObserver{
 			game = (BorderPane) loader.load();
 			root.getChildren().add(game);
 			plateauGridPane = (GridPane) game.lookup("#plateauGridPane");
-			loadImages();
 			MainController controller = loader.getController();
 			controller.setMainApp(this);
 			// Show the scene containing the root layout.
