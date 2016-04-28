@@ -64,7 +64,6 @@ public class Main extends Application implements IObserver{
 	/* Variables */
 	private boolean isSetEntranceClicked;
 	private boolean isSetExitClicked;
-	private boolean isEditing;
 
 	/* FX Nodes */
 	// empty at the moment car plus besoin de charger les truc ici, tout est fait dans le controller
@@ -76,7 +75,6 @@ public class Main extends Application implements IObserver{
 	@Override
 	public void start(Stage primaryStage) {
 		root = new AnchorPane();
-		isEditing = true;
 		backgrounds = new HashMap<>();
 		initRootLayout(primaryStage);
 	}
@@ -94,18 +92,18 @@ public class Main extends Application implements IObserver{
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
 				tmpBackground = new Background(
 						new BackgroundImage(tmpImage, 
-											BackgroundRepeat.REPEAT, 
-											BackgroundRepeat.REPEAT, 
-											BackgroundPosition.CENTER, 
-											backgroundSize));
+								BackgroundRepeat.REPEAT, 
+								BackgroundRepeat.REPEAT, 
+								BackgroundPosition.CENTER, 
+								backgroundSize));
 			}
 			else { 
 				tmpBackground = new Background(
 						new BackgroundImage(tmpImage, 
-											BackgroundRepeat.NO_REPEAT, 
-											BackgroundRepeat.NO_REPEAT, 
-											BackgroundPosition.CENTER, 
-											backgroundSize));
+								BackgroundRepeat.NO_REPEAT, 
+								BackgroundRepeat.NO_REPEAT, 
+								BackgroundPosition.CENTER, 
+								backgroundSize));
 			}
 			backgrounds.put(v, tmpBackground);
 		}
@@ -203,12 +201,17 @@ public class Main extends Application implements IObserver{
 	//TODO implementer Observer
 	@Override
 	public void update() {
-		System.out.println("Mise a jour interface");
-		try {
-			Thread.sleep(300);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		//TODO resoudre probleme freeze interface
+//		Platform.runLater(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//							
+//			}
+//		});
+		System.err.println("Mise a jour interface");	
+		
+
 	}
 
 	public boolean isSetExitClicked() {
@@ -228,11 +231,7 @@ public class Main extends Application implements IObserver{
 	}
 
 	public boolean isEditing() {
-		return isEditing;
-	}
-
-	public void setEditing(boolean isEditing) {
-		this.isEditing = isEditing;
+		return gameEng.getLevel().isEditing();
 	}
 
 	public Background getBackground(Images image) {
