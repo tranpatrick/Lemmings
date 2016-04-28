@@ -39,7 +39,8 @@ public interface Lemming {
 
 	// \pre isBuilder()
 	public boolean isCurrentlyBuilding();
-	// \pre isGrimpeur() //TODO mettre a jour contrat
+	
+	// \pre isGrimpeur() 
 	public boolean isCurrentlyClimbing();
 
 	// \pre isBuilder()
@@ -86,7 +87,7 @@ public interface Lemming {
 	public void devientCreuseur();
 
 	// \pre isGrimpeur()=false
-	// \pre getType()=MARCHEUR OR getType()=TOMBEUR OR getType()=CREUSEUR OR getType() = BUILDER
+	// \pre getType()=MARCHEUR OR getType()=TOMBEUR OR getType()=CREUSEUR 
 	// \post isGrimpeur()=true
 	public void devientGrimpeur();
 
@@ -111,7 +112,7 @@ public interface Lemming {
 	// \post isExploseur = false;
 	public void devientExploseur();
 	
-	// \pre getType() = MARCHEUR;
+	// \pre getType() != TOMBEUR && getType() != STOPPEUR;
 	// \post getType() = STOPPEUR;
 	public void devientStoppeur();
 
@@ -315,14 +316,16 @@ public interface Lemming {
 	 * 					AND getY() = getY()@pre	
 	 * 					AND getDirection() = getDirection()@pre
 	 *  
-	 *  
+	 *  //TODO Builder
 	 *  ****** BUILDER DROITIER OK ********
 	 * \post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true 
 	 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
-	 * 			AND !getGameEng().isLibre(getX()@pre+1, getY()@pre)
-	 * 			AND !getGameEng().isLibre(getX()@pre+2 getY()@pre)
-	 * 			AND !getGameEng().isLibre(getX()@pre+3, getY()@pre)
+	 * 			AND getGameEng().isLibre(getX()@pre+1, getY()@pre)
+	 * 			AND getGameEng().isLibre(getX()@pre+2 getY()@pre)
+	 * 			AND getGameEng().isLibre(getX()@pre+3, getY()@pre)
 	 * 			AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)
 	 * 			AND getNombreDallesPosees()@pre < 12
 	 * 		 \implies getGameEng().getLevel().getNature(getX()+1, getY()) = DIRT
 	 * 				  	AND getGameEng().getLevel().getNature(getX()+2, getY()) = DIRT
@@ -336,10 +339,13 @@ public interface Lemming {
 	 * ******* BUILDER DROITIER S'ARRETE ********
 	 *  \post isBuilder() = true AND getDirection() == DROITIER AND isCurrentlyBuilding() = true 
 	 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
-	 * 	 		OR getGameEng().isLibre(getX()@pre+1, getY()@pre)
-	 * 			OR getGameEng().isLibre(getX()@pre+2 getY()@pre)
-	 * 			OR getGameEng().isLibre(getX()@pre+3, getY()@pre)
-	 * 			OR getNombreDallesPosees()@pre >= 12
+	 * 	 		AND (getGameEng().isLibre(getX()@pre+1, getY()@pre)
+	 * 				OR getGameEng().isLibre(getX()@pre+2 getY()@pre)
+	 * 				OR getGameEng().isLibre(getX()@pre+3, getY()@pre)
+	 * 				OR getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)
+	 * 				OR getNombreDallesPosees()@pre >= 12)
 	 * 		 \implies	AND getNombreDallesPosees() = getNombreDallesPosees()@pre
 	 * 					AND getX() = getX()@pre
 	 * 					AND getY() = getY()@pre	
@@ -417,6 +423,7 @@ public interface Lemming {
 	 * 
 	 * *********** FIN GRIMPEUR ***********
 	 * *********** DEBUT BUILDER *************
+	 *    //TODO builder
 	 *  ******** BUILDER GAUCHER START ********
 	 *  	
 	 *  \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true
@@ -430,10 +437,12 @@ public interface Lemming {
 	 *  ****** BUILDER GAUCHER OK ********
 	 * \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true 
 	 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
-	 * 			AND !getGameEng().isLibre(getX()@pre-1, getY()@pre)
-	 * 			AND !getGameEng().isLibre(getX()@pre-2 getY()@pre)
-	 * 			AND !getGameEng().isLibre(getX()@pre-3, getY()@pre)
+	 * 			AND getGameEng().isLibre(getX()@pre-1, getY()@pre)
+	 * 			AND getGameEng().isLibre(getX()@pre-2 getY()@pre)
+	 * 			AND getGameEng().isLibre(getX()@pre-3, getY()@pre)
 	 * 			AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)
 	 * 			AND getNombreDallesPosees()@pre < 12
 	 * 		 \implies getGameEng().getLevel().getNature(getX()-1, getY()) = DIRT
 	 * 				  	AND getGameEng().getLevel().getNature(getX()-2, getY()) = DIRT
@@ -447,10 +456,13 @@ public interface Lemming {
 	 * ******* BUILDER GAUCHER S'ARRETE ********
 	 *  \post isBuilder() = true AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true 
 	 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
-	 * 	 		OR getGameEng().isLibre(getX()@pre-1, getY()@pre)
-	 * 			OR getGameEng().isLibre(getX()@pre-2 getY()@pre)
-	 * 			OR getGameEng().isLibre(getX()@pre-3, getY()@pre)
-	 * 			OR getNombreDallesPosees()@pre >= 12
+	 * 	 		AND ( !getGameEng().isLibre(getX()@pre-1, getY()@pre)
+	 * 				OR !getGameEng().isLibre(getX()@pre-2 getY()@pre)
+	 * 				OR !getGameEng().isLibre(getX()@pre-3, getY()@pre)
+	 * 	 			OR getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)
+	 * 				OR getNombreDallesPosees()@pre >= 12)
 	 * 		 \implies   AND getNombreDallesPosees() = getNombreDallesPosees()@pre
 	 * 					AND getX() = getX()@pre
 	 * 					AND getY() = getY()@pre	

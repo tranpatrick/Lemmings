@@ -5,7 +5,6 @@ import java.util.Set;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level;
-import model.lemmings.services.Level.Nature;
 import view.IObserver;
 
 public class GameEngContract extends GameEngDecorator{
@@ -90,6 +89,7 @@ public class GameEngContract extends GameEngDecorator{
 	@Override
 	public Level getLevel() {
 		return super.getLevel();
+
 	}
 
 	@Override
@@ -111,8 +111,35 @@ public class GameEngContract extends GameEngDecorator{
 
 	@Override
 	public boolean isLibre(int x, int y) {
-		return super.isLibre(x, y);
-		//TODO rajouter contrat si besoin
+		// \pre 0 <= x <= getLevel().getWidth() AND 0 <= y <= getLevel().getHeight()
+		if (!(x >= 0 && x < super.getLevel().getWidth())) {
+			throw new PreConditionError("isLibre: "
+					+ "0 <= x <= getLevel().getWidth() not satisfied");
+		}
+		if (!(y >= 0 && y < super.getLevel().getHeight())) {
+			throw new PreConditionError("islibre: "
+					+ "0 <= y <= getLevel().getHeight() not satisfied");
+		}
+		checkInvariant();
+		boolean isLibre = super.isLibre(x, y);
+		/* \post getLevel().isExit(x,y) || getLevel().isEntrance(x,y)
+		\implies isLibre(x,y) = false */
+		if (super.getLevel().isEntrance(x, y)) {
+			if (!isLibre == false) {
+				throw new PreConditionError("islibre: "
+						+ "getLevel().isEntrance(x,y) "
+						+ "implies isLibre(x,y) = false not satisfied");
+			}
+		}
+		if (super.getLevel().isExit(x, y)) {
+			if (!isLibre == false) {
+				throw new PreConditionError("islibre: "
+						+ "getLevel().isExit(x,y) "
+						+ "implies isLibre(x,y) = false not satisfied");
+			}
+		}
+		checkInvariant();
+		return isLibre;
 	}
 
 	@Override
@@ -255,7 +282,6 @@ public class GameEngContract extends GameEngDecorator{
 			throw new PreConditionError("init : spawnSpeed > 0 not satisfied");
 		}
 
-		//checkInvariant(); //TODO ptet decocher
 		super.init(sizeColony, spawnSpeed);
 		checkInvariant();
 
@@ -450,8 +476,6 @@ public class GameEngContract extends GameEngDecorator{
 			throw new PostConditionError("setSpawnSpeed : post setSpawnSpeed(s) implies getSpawnSpeed() = s not satisfied");
 	}
 
-	//TODO voir si il faut contrat pour l'ihm et observer
-	/* perso flemme je fais juste checkinvariant au pire */
 	@Override
 	public void addObserver(IObserver obs) {
 		super.addObserver(obs);

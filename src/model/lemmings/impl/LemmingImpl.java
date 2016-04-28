@@ -421,10 +421,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 				/** POSE DALLE **/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() == INTERVALLE_POSE_DALLE
 						&& getNombreDallesPosees() < MAX_DALLES
-						&& !getGameEng().isLibre(getX()+1, getY())
-						&& !getGameEng().isLibre(getX()+2, getY())
-						&& !getGameEng().isLibre(getX()+3, getY())
-						&& !getGameEng().isObstacle(getX()+1, getY()-2)) {
+						&& getGameEng().isLibre(getX()+1, getY())
+						&& getGameEng().isLibre(getX()+2, getY())
+						&& getGameEng().isLibre(getX()+3, getY())
+						&& !getGameEng().isObstacle(getX()+1, getY()-2)
+						&& !getGameEng().isObstacle(getX()+2, getY()-2)
+						&& !getGameEng().isObstacle(getX()+3, getY()-2)) {
 					getGameEng().getLevel().build(getX()+1, getY());
 					getGameEng().getLevel().build(getX()+2, getY());
 					getGameEng().getLevel().build(getX()+3, getY());
@@ -436,10 +438,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 				}
 				/** BUILDER S'ARRETE **/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() == INTERVALLE_POSE_DALLE && (
-						getGameEng().isLibre(getX()+1, getY())
-						|| getGameEng().isLibre(getX()+2, getY())
-						|| getGameEng().isLibre(getX()+3, getY())
+						!getGameEng().isLibre(getX()+1, getY())
+						|| !getGameEng().isLibre(getX()+2, getY())
+						|| !getGameEng().isLibre(getX()+3, getY())
 						|| getGameEng().isObstacle(getX()+1, getY()-2)
+						|| getGameEng().isObstacle(getX()+2, getY()-2)
+						|| getGameEng().isObstacle(getX()+3, getY()-2)
 						|| getNombreDallesPosees() >= MAX_DALLES)) {
 					isCurrentlyBuilding = false;
 					nombreToursBuilder = 0;
@@ -516,10 +520,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 				/** POSE DALLE **/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() == INTERVALLE_POSE_DALLE
 						&& getNombreDallesPosees() < MAX_DALLES
-						&& !getGameEng().isLibre(getX()-1, getY())
-						&& !getGameEng().isLibre(getX()-2, getY())
-						&& !getGameEng().isLibre(getX()-3, getY())
-						&& !getGameEng().isObstacle(getX()-1, getY()-2)) {
+						&& getGameEng().isLibre(getX()-1, getY())
+						&& getGameEng().isLibre(getX()-2, getY())
+						&& getGameEng().isLibre(getX()-3, getY())
+						&& !getGameEng().isObstacle(getX()-1, getY()-2)
+						&& !getGameEng().isObstacle(getX()-2, getY()-2)
+						&& !getGameEng().isObstacle(getX()-3, getY()-2)) {
 					getGameEng().getLevel().build(getX()-1, getY());
 					getGameEng().getLevel().build(getX()-2, getY());
 					getGameEng().getLevel().build(getX()-3, getY());
@@ -531,10 +537,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 				}
 				/** BUILDER S'ARRETE **/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() == INTERVALLE_POSE_DALLE && (
-						getGameEng().isLibre(getX()-1, getY())
-						|| getGameEng().isLibre(getX()-2, getY())
-						|| getGameEng().isLibre(getX()-3, getY())
+						!getGameEng().isLibre(getX()-1, getY())
+						|| !getGameEng().isLibre(getX()-2, getY())
+						|| !getGameEng().isLibre(getX()-3, getY())
 						|| getGameEng().isObstacle(getX()-1, getY()-2)
+						|| getGameEng().isObstacle(getX()-2, getY()-2)
+						|| getGameEng().isObstacle(getX()-3, getY()-2)
 						|| getNombreDallesPosees() >= MAX_DALLES)) {
 					isCurrentlyBuilding = false;
 					nombreToursBuilder = 0;

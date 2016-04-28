@@ -37,7 +37,7 @@ public class LevelContract extends LevelDecorator {
 		Nature res;
 
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
-		if(!(0 <= x && x <= super.getWidth() && 0 <= y && y <= super.getHeight()))
+		if(!(0 <= x && x < super.getWidth() && 0 <= y && y < super.getHeight()))
 			throw new PreConditionError("getNature : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
 
 		checkInvariant();
@@ -48,17 +48,15 @@ public class LevelContract extends LevelDecorator {
 	}
 
 	public Point getEntrance(){
-		Point res;
 		checkInvariant();
-		res = super.getEntrance();
+		Point res = super.getEntrance();
 		checkInvariant();
 		return res;
 	}
 
 	public Point getExit(){
-		Point res;
 		checkInvariant();
-		res = super.getExit();
+		Point res = super.getExit();
 		checkInvariant();
 		return res;
 	}
@@ -67,7 +65,7 @@ public class LevelContract extends LevelDecorator {
 		boolean res;
 
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
-		if(!(0 <= x && x <= super.getWidth() && 0 <= y && y <= super.getHeight()))
+		if(!(0 <= x && x < super.getWidth() && 0 <= y && y < super.getHeight()))
 			throw new PreConditionError("isEntrance : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
 
 		checkInvariant();
@@ -106,15 +104,15 @@ public class LevelContract extends LevelDecorator {
 		checkInvariant();
 
 		// \post getHeight() = h
-		if(!(getHeight() == h))
+		if(!(super.getHeight() == h))
 			throw new PostConditionError("init : getHeight = h not satisfied");
 
 		// \post getwidth() = w
-		if(!(getWidth() == w))
+		if(!(super.getWidth() == w))
 			throw new PostConditionError("init : getWidth = w not satisfied");
 
 		// \post isEditing() = true;
-		if(!(isEditing() == true))
+		if(!(super.isEditing() == true))
 			throw new PostConditionError("init : isEditing() = true not satisfied");
 
 		// \post \forall (x,y) getNature(x, y) = EMPTY
@@ -132,7 +130,7 @@ public class LevelContract extends LevelDecorator {
 
 	public void setNature(int x, int y, Nature n){
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
-		if(!(0 <= x && x <= super.getWidth() && 0 <= y && y <= super.getHeight()))
+		if(!(0 <= x && x < super.getWidth() && 0 <= y && y < super.getHeight()))
 			throw new PreConditionError("setNature : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
 
 		// \pre isEditing()
@@ -231,7 +229,7 @@ public class LevelContract extends LevelDecorator {
 
 	public void remove(int x, int y){
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
-		if(!(0 <= x && x <= super.getWidth() && 0 <= y && 0 <= super.getHeight()))
+		if(!(0 <= x && x < super.getWidth() && 0 <= y && 0 < super.getHeight()))
 			throw new PreConditionError("remove : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
 
 		// \pre !isEditing()
@@ -257,15 +255,6 @@ public class LevelContract extends LevelDecorator {
 		// \post getNature(x,y) = EMPTY
 		if(super.getNature(x, y) != Nature.EMPTY)
 			throw new PostConditionError("remove : getNature(x,y) = EMPTY not satisfied");
-
-		// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y)
-		for(int i=0; i<super.getHeight(); i++){
-			for(int j=0; j<super.getWidth(); j++){
-				//				if(i != x && j != y)
-				//					if(super.getNature(j, i) != naturePre[i][j])
-				//						throw new PostConditionError("remove : getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) not satisifed");
-			}
-		}
 
 	}
 
@@ -301,16 +290,6 @@ public class LevelContract extends LevelDecorator {
 		// \post getNature(x,y) = DIRT
 		if(super.getNature(x, y) != Nature.DIRT)
 			throw new PostConditionError("build : getNature(x,y) = DIRT not satisfied");
-
-		//TODO a retirer, pose pb pour BUILDER
-		// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y)
-		//		for(int i=0; i<super.getHeight(); i++){
-		//			for(int j=0; j<super.getWidth(); j++){
-		//				if(i != x && j != y)
-		//					if(super.getNature(j, i) != naturePre[i][j])
-		//						throw new PostConditionError("build : getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) not satisifed");
-		//			}
-		//		}
 
 	}
 

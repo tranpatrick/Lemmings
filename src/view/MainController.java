@@ -1,7 +1,5 @@
 package view;
 
-import java.util.Set;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -19,9 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import model.lemmings.contract.JoueurContract;
-import model.lemmings.impl.JoueurImpl;
-import model.lemmings.services.Joueur;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level.Nature;
 import view.Main.Images;
@@ -209,7 +204,6 @@ public class MainController {
 		}
 		/* Mode play */
 		else {
-			//TODO reagir en temps reel
 			System.err.println("Clic sur "+pointNode.toString());
 			try{
 				/* Si changement de type */
@@ -276,7 +270,6 @@ public class MainController {
 					while (!main.getGameEng().gameOver()) {
 						main.getGameEng().step();
 						updateGameInfo();
-						//TODO ptet revoir contrat gameEng
 						try {
 							Thread.sleep(REFRESH_TIME);
 						} catch (InterruptedException e) {
@@ -336,7 +329,6 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				if (!main.getGameEng().gameOver())
 					creesLabel.setText(""+main.getGameEng().getNombreCrees());
 			}
 		});
@@ -347,7 +339,6 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				if (!main.getGameEng().gameOver())
 					mortsLabel.setText(""+main.getGameEng().getNombreMorts());
 			}
 		});
@@ -357,7 +348,6 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				if (!main.getGameEng().gameOver())
 					sauvesLabel.setText(""+main.getGameEng().getNombreSauves());
 			}
 		});
@@ -367,14 +357,12 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				if (!main.getGameEng().gameOver())
 					tourLabel.setText(""+main.getGameEng().getNombreTours());
 			}
 		});
 	}
 
 	public void updateGameInfo() {
-		// TODO attention des fois valeurs incoherente a cause du runLater
 		updateNbCrees();
 		updateNbMorts();
 		updateNbSauves();
