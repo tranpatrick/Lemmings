@@ -8,6 +8,7 @@ import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level;
 import model.lemmings.services.RequireLevelService;
+import view.IObserver;
 import model.lemmings.services.Level.Nature;
 
 public class GameEngImplBug implements GameEng, RequireLevelService{
@@ -141,6 +142,27 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 	public boolean isLibre(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	public void addObserver(IObserver obs) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteObserver(IObserver obs) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void notifierObservateurs() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

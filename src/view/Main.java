@@ -26,14 +26,14 @@ import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
 
 //TODO rename Main et Main Controller
-public class Main extends Application {
+public class Main extends Application implements IObserver{
 
 	public static final String GAME_UI = "Game.fxml";
 	private Stage primaryStage;
 	private BorderPane game;
 	private AnchorPane root;
 	private GridPane plateauGridPane;
-	private GameEng gameEng;
+	private GameEng gameEng = null;
 
 	private static final String DIRT = "images/dirt.png";
 	private static final String METAL = "images/metal.png";
@@ -80,6 +80,9 @@ public class Main extends Application {
 	}
 
 	public void initGameEng(int width, int height){
+		if (gameEng != null) {
+			gameEng.deleteObserver(this);
+		}
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
 		GameEngImpl gameEngImpl = new GameEngImpl();
@@ -88,6 +91,7 @@ public class Main extends Application {
 		gameEngImpl.bindLevelService(levelContract);
 		//TODO recup les valeur d'init de gameEng sur l'UI
 		gameEng.init(10, 5);
+		gameEng.addObserver(this);
 	}
 
 	/**
@@ -160,6 +164,18 @@ public class Main extends Application {
 			}
 		}
 		//		plateauGridPane.setGridLinesVisible(true);
+	}
+
+	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
+	//TODO implementer Observer
+	@Override
+	public void update() {
+		System.out.println("Mise a jour interface");
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isSetExitClicked() {

@@ -5,6 +5,7 @@ import java.util.Set;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level;
+import view.IObserver;
 
 public class GameEngDecorator implements GameEng{
 	
@@ -166,6 +167,21 @@ public class GameEngDecorator implements GameEng{
 	 */
 	public void sauverLemming(int i) {
 		gameEng.sauverLemming(i);
+	}
+
+	@Override
+	public void addObserver(IObserver obs) {
+		gameEng.addObserver(obs);
+	}
+
+	@Override
+	public void deleteObserver(IObserver obs) {
+		gameEng.deleteObserver(obs);
+	}
+
+	@Override
+	public void notifierObservateurs() {
+		gameEng.notifierObservateurs();
 	}
 
 }

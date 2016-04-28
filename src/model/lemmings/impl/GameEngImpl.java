@@ -2,16 +2,19 @@ package model.lemmings.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
 import model.lemmings.contract.LemmingContract;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
-import model.lemmings.services.Level;
-import model.lemmings.services.RequireLevelService;
 import model.lemmings.services.Lemming.Type;
+import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
+import model.lemmings.services.RequireLevelService;
+import view.IObserver;
 
 public class GameEngImpl implements GameEng, RequireLevelService{
 
@@ -23,10 +26,12 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	private int nombreMorts;
 	private int nombreCrees;
 	private Map<Integer, Lemming> lemmingsActifs;
+	private LinkedList<IObserver> observers;
 
 	public GameEngImpl() {
 		super();
 		lemmingsActifs = new HashMap<Integer, Lemming>();
+		observers = new LinkedList<IObserver>();
 	}
 
 
@@ -165,8 +170,11 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 			lemming.init(nombreCrees);
 			lemmingsActifs.put(nombreCrees, lemming);
 		}
+		
+		/* On notifie les abonnes */
+		notifierObservateurs();
 
-
+		//TODO penser a tej les sysout du coup
 		System.out.print("liste ");
 		for (int i : lemmingsActifs.keySet()){
 			System.out.print(i+" ");
@@ -188,6 +196,28 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	public void sauverLemming(int i) {
 		lemmingsActifs.remove(i);
 		nombreSauves = nombreSauves + 1;
+	}
+
+
+	@Override
+	public void addObserver(IObserver obs) {
+		observers.add(obs);
+	}
+
+
+	@Override
+	public void deleteObserver(IObserver obs) {
+		observers.remove(obs);		
+	}
+
+
+	@Override
+	public void notifierObservateurs() {
+		Iterator<IObserver> iterator = observers.iterator();
+		while (iterator.hasNext()) {
+			IObserver obs = iterator.next();
+			obs.update();
+		}
 	}
 
 
