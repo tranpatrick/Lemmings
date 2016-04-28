@@ -221,7 +221,7 @@
 		</VBox>
 	</right>
 	<center>
-		<GridPane fx:id="plateauGridPane" minHeight="800.0" minWidth="800.0" onMouseClicked="#buildLevel" onMouseDragged="#buildLevel" prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+		<GridPane fx:id="plateauGridPane" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#buildLevel" onMouseDragged="#buildLevel" prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER">
 
 		</GridPane>
 	</center>
@@ -232,6 +232,90 @@
 		<VBox prefHeight="719.0" prefWidth="14.0" BorderPane.alignment="CENTER" />
 	</left>
 	<bottom>
-		<HBox prefHeight="44.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+		<HBox prefHeight="80.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="80.0" prefWidth="900.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="diggerButton" mnemonicParsing="false" onAction="#setDigger" text="Creuseur" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="climberButton" mnemonicParsing="false" onAction="#setClimber" text="Grimpeur" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="builderButton" mnemonicParsing="false" onAction="#setBuilder" text="Builder" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="floaterButton" mnemonicParsing="false" onAction="#setFloater" text="Floater" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="bomberButton" mnemonicParsing="false" onAction="#setBomber" text="Bomber" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="stopperButton" mnemonicParsing="false" onAction="#setStopper" text="Stopper" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="basherButton" mnemonicParsing="false" onAction="#setBasher" text="Basher" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="minerButton" mnemonicParsing="false" onAction="#setMiner" text="Miner" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children></HBox>
 	</bottom>
 </BorderPane>

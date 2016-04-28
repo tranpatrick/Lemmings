@@ -177,7 +177,7 @@ public class Main extends Application implements IObserver{
 
 	public void initialiserLevel(int width, int height) {
 
-		/* Remise a false des booleens isSetEntranceClicked et isSetExitClicked */
+		/* Remise aï¿½false des booleens isSetEntranceClicked et isSetExitClicked */
 		isSetEntranceClicked = false;
 		isSetExitClicked = false;
 
