@@ -149,7 +149,6 @@ public class Main extends Application implements IObserver{
 		levelContract.init(width, height);
 		gameEngImpl.bindLevelService(levelContract);
 		loadImages();
-		//TODO recup les valeur d'init de gameEng sur l'UI
 		gameEng.init(sizeColony, spawnSpeed);
 		gameEng.addObserver(this);
 		
@@ -232,11 +231,8 @@ public class Main extends Application implements IObserver{
 	}
 
 	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
-	//TODO implementer Observer
 	@Override
 	public void update() {
-		//TODO resoudre probleme freeze interface
-
 		System.err.println("Mise a jour interface");
 		loadImages();
 		if (plateauGridPane != null) {
@@ -372,8 +368,10 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.BOMBER_STEP2);
 				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
 					bg = getBackground(Images.BOMBER_STEP3);
-				else
+				else if (lem.nbCreuseTunnel()> 0)
 					bg = getBackground(Images.BASHER_D);
+				else
+					bg = getBackground(Images.MARCHEUR_D);
 				break;
 			case STOPPEUR:
 				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
@@ -454,8 +452,10 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.BOMBER_STEP2);
 				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
 					bg = getBackground(Images.BOMBER_STEP3);
-				else
+				else if (lem.nbCreuseTunnel() > 0)
 					bg = getBackground(Images.BASHER_G);
+				else
+					bg = getBackground(Images.MARCHEUR_G);
 				break;
 			case STOPPEUR:
 				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 

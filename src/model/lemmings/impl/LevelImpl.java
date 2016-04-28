@@ -78,21 +78,6 @@ public class LevelImpl implements Level{
 	@Override
 	public void goPlay() {
 		editing = false;
-		//TODO a retirer
-		/*Random rand = new Random();
-		int xe, ye;
-		do{
-			xe = rand.nextInt(width);
-			ye = rand.nextInt(height);
-		}while(terrain[ye][xe] != Nature.EMPTY);
-		int xex, yex;
-		do{
-			xex = rand.nextInt(width);
-			yex = rand.nextInt(height);
-		}while(terrain[yex][xex] != Nature.EMPTY && xex != xe && yex != ye);
-		entree = new Point(xe,ye);
-		sortie = new Point(xex,yex);
-		*/
 	}
 
 	@Override

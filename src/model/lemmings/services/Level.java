@@ -42,7 +42,6 @@ public interface Level {
 	// \pre isEditing()
 	// \post getNature(x,y) = n
 	// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) 
-	//TODO attention setNature sur empty
 	public void setNature(int x, int y, Nature n);
 	
 	// \pre getNature(x,y) = EMPTY
@@ -77,7 +76,6 @@ public interface Level {
  	// \pre !isEditing()
  	// \pre getNature(x,y) = DIRT;
  	// \post getNature(x,y) = EMPTY;
- 	// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) 	
 	public void remove(int x, int y);
 
  	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
@@ -85,6 +83,5 @@ public interface Level {
  	// \pre getNature(x,y) = EMPTY;
 	// \pre !isEntrance(x,y) AND !isExit(x,y);
  	// \post getNature(x,y) = DIRT;
- 	// \post getNature(i,j) = getNature(i,j)@pre if (i,j) != (x,y) //TODO a retirer
 	public void build(int x, int y);
 }

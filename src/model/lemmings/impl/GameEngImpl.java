@@ -70,14 +70,14 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	@Override
 	public boolean isLibre(int x, int y) {
 		boolean noLemming = isObstacle(x, y);
-		if (noLemming)
-			return true;
+		if (noLemming || getLevel().isEntrance(x, y) || getLevel().isExit(x, y))
+			return false;
 		for (int i : getLemmingsActifs()) {
 			Lemming l = getLemming(i);
 			if (l.getX() == x && l.getY() == y)
-				return true;
+				return false;
 		}
-		return noLemming;
+		return true;
 	}
 
 	@Override

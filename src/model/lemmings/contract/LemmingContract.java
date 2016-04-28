@@ -128,7 +128,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		checkInvariant();
 		return isCurrentlyBuilding;
 	}
-	
+
 	@Override
 	public boolean isCurrentlyClimbing() {
 		checkInvariant();
@@ -147,8 +147,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 	@Override
 	public int nbCreuseTunnel() {
-		//TODO contrat
+		checkInvariant();
 		int nbCreuseTunnel = super.nbCreuseTunnel();
+		checkInvariant();
 		return nbCreuseTunnel;
 	}
 
@@ -173,16 +174,14 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		if(super.tombeDepuis() != 0)
 			throw new PostConditionError("init : tombeDepuis() = 0 not statisfied");
 		// \post isGrimpeur = false
-		//TODO decomenter en bas
-		/*		if(super.isGrimpeur())
-		throw new PostConditionError("init : isGrimpeur() = false not statisfied"); */
+		if(super.isGrimpeur())
+			throw new PostConditionError("init : isGrimpeur() = false not statisfied"); 
 		// \post isExploseur = false
 		if(super.isExploseur())
 			throw new PostConditionError("init : isExploseur() = false not statisfied");
 		// \post isFlotteur = false
-		//TODO decommenter isFlotteur
-		/*if(super.isFlotteur())
-			throw new PostConditionError("init : isFlotteur() = false not statisfied");*/
+		if(super.isFlotteur())
+			throw new PostConditionError("init : isFlotteur() = false not statisfied");
 		// \post exploseurDepuis = 0
 		if(super.exploseurDepuis() != 0)
 			throw new PostConditionError("init : exploseurDepuis() = 0 not statisfied");
@@ -269,16 +268,17 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 	@Override
 	public void devientFlotteur(){
+		// \pre isGrimpeur()=false
+		if(super.isFlotteur() != false)
+			throw new PreConditionError("devientFlotteur: isFlotteur() != false not satisfied");
+		
 		checkInvariant();
-		if(super.isFlotteur())
-			throw new PreConditionError("DevientFlotteur mais l'est déja");
-		if(super.getType()!=Type.MARCHEUR && super.getType()!=Type.TOMBEUR && super.getType()!=Type.CREUSEUR){
-			throw new PreConditionError("DevientFlotteur mais n'est pas marcheur ou tombeur ou creuseur");
-		}
 		super.devientFlotteur();
 		checkInvariant();
-		if(!super.isFlotteur())
-			throw new PostConditionError("DevientFlotteur mais ne l'est pas apres");
+
+		// \post isGrimpeur()=true
+		if(super.isFlotteur() == true)
+			throw new PreConditionError("devientFlotteur: isFlotteur() = false not satisfied");
 	}
 
 	public void devientGrimpeur(){
@@ -312,37 +312,75 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			throw new PostConditionError("devientExploseur: isExploseur() = true not satisfied");
 	}
 
+	//TODO contrat
 	@Override
 	public void devientCreuseur() {
-		//TODO contrat
+		// \pre getType() != CREUSEUR
+		if (!(super.getType() != Type.CREUSEUR)) 
+			throw new PreConditionError("devientCreuseur : getType() != CREUSEUR not satisfied");
+		
+		checkInvariant();
 		super.devientCreuseur();
+		checkInvariant();
+		
+		// \post getType() = CREUSEUR
+		if (!(super.getType() == Type.CREUSEUR)) 
+			throw new PostConditionError("devientCreuseur : getType() == CREUSEUR not satisfied");
 	}
 
 	@Override 
 	public void devientBuilder() {
-		//TODO contrat
+		// \pre isBuilder() = false
+				if (!(super.isBuilder() == false)) 
+					throw new PreConditionError("devientBuilder : isBuilder() = false not satisfied");
+				
+		checkInvariant();
 		super.devientBuilder();
+		checkInvariant();
+		
+		// \post isBuilder() = true
+		if (!(super.isBuilder() == true)) 
+			throw new PostConditionError("devientBuilder : isBuilder() = true not satisfied");
 	}
 
 	@Override
 	public void devientMiner() {
-		//TODO contrat
+		// \pre getType() != MINER
+		if (!(super.getType() != Type.MINER)) 
+			throw new PreConditionError("devientMiner: getType() != MINER not satisfied");
+		checkInvariant();
 		super.devientMiner();
+		checkInvariant();
+		// \post getType() = MINER
+		if (!(super.getType() == Type.MINER)) 
+			throw new PostConditionError("devientMiner: getType() == MINER not satisfied");
 	}
-	
+
 	@Override
 	public void devientBasher() {
-		//TODO contrat
+		// \pre getType() != BASHER
+		if (!(super.getType() != Type.BASHER)) 
+			throw new PreConditionError("devientBasher: getType() != BASHER not satisfied");
+		checkInvariant();
 		super.devientBasher();
+		checkInvariant();
+		// \post getType() = BASHER
+		if (!(super.getType() == Type.BASHER)) 
+			throw new PostConditionError("devientBasher: getType() == BASHER not satisfied");
+		// \post nbCreuseTunnel() = 0
+		if (!(super.nbCreuseTunnel() == 0))
+			throw new PostConditionError("devientBasher: nbCreuseTunnel() = 0 not satisfied");
 	}
 
 
 	@Override
 	public void devientStoppeur(){
 		//TODO revoir contrat
-		// \pre getType() = MARCHEUR;
-		if(getType() != Type.MARCHEUR)
-			throw new PreConditionError("devientStoppeur: getType()@pre = MARCHEUR not satisfied");
+		// \pre getType() != TOMBEUR && getType() != STOPPEUR;
+		if(!(getType() != Type.TOMBEUR))
+			throw new PreConditionError("devientStoppeur: getType()@pre = TOMBEUR not satisfied");
+		if(!(getType() != Type.STOPPEUR))
+			throw new PreConditionError("devientStoppeur: getType()@pre = STOPPEUR not satisfied");
 		checkInvariant();
 		super.devientStoppeur();
 		// \post getType() = STOPPEUR;
@@ -374,9 +412,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		boolean isCurrentlyBuildingPre = super.isCurrentlyBuilding();
 
 		/* indique si les case etaient des obstacles avant le step pour BUILDER*/
-		boolean caseDroite1Pre = xPre+1<widthPre?super.getGameEng().isLibre(xPre+1, yPre):true;
-		boolean caseDroite2Pre = xPre+2<widthPre?super.getGameEng().isLibre(xPre+2, yPre):true;
-		boolean caseDroite3Pre = xPre+3<widthPre?super.getGameEng().isLibre(xPre+3, yPre):true;
+		boolean isLibreDroite1Pre = xPre+1<widthPre?super.getGameEng().isLibre(xPre+1, yPre):true;
+		boolean isLibreDroite2Pre = xPre+2<widthPre?super.getGameEng().isLibre(xPre+2, yPre):true;
+		boolean isLibreDroite3Pre = xPre+3<widthPre?super.getGameEng().isLibre(xPre+3, yPre):true;
 		boolean isMetalCaseDroiteTunnel1Pre = xPre+1<widthPre?super.getGameEng().getLevel().getNature(xPre+1, yPre) == Nature.METAL:true;
 		boolean isMetalCaseDroiteTunnel2Pre = xPre+1<widthPre && yPre - 1 > 0?super.getGameEng().getLevel().getNature(xPre+1, yPre-1) == Nature.METAL:true;
 		boolean isMetalCaseDroiteTunnel3Pre = xPre+1<widthPre && yPre - 2 > 0?super.getGameEng().getLevel().getNature(xPre+1, yPre-2) == Nature.METAL:true;
@@ -385,11 +423,13 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		boolean isMetalCaseDroiteBas1Pre = xPre+1<widthPre && yPre+1<heightPre?super.getGameEng().getLevel().getNature(xPre+1, yPre+1) == Nature.METAL:true;
 		boolean isMetalCaseDroiteBas2Pre = xPre+2<widthPre && yPre+1<heightPre?super.getGameEng().getLevel().getNature(xPre+2, yPre+1) == Nature.METAL:true;
 		boolean isMetalCaseDroiteBas3Pre = xPre+3<widthPre && yPre+1<heightPre?super.getGameEng().getLevel().getNature(xPre+3, yPre+1) == Nature.METAL:true;
-		boolean caseDroiteHautePre = xPre+1<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+1, yPre-2):true;
+		boolean isObstacleDroite1Haut2Pre = xPre+1<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+1, yPre-2):true;
+		boolean isObstacleDroite2Haut2Pre = xPre+2<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+2, yPre-2):true;
+		boolean isObstacleDroite3Haut2Pre = xPre+3<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+3, yPre-2):true;
 
-		boolean caseGauche1Pre = xPre-1>0?super.getGameEng().isLibre(xPre-1, yPre):true;
-		boolean caseGauche2Pre = xPre-2>0?super.getGameEng().isLibre(xPre-2, yPre):true;
-		boolean caseGauche3Pre = xPre-3>0?super.getGameEng().isLibre(xPre-3, yPre):true;
+		boolean isLibreGauche1Pre = xPre-1>0?super.getGameEng().isLibre(xPre-1, yPre):true;
+		boolean isLibreGauche2Pre = xPre-2>0?super.getGameEng().isLibre(xPre-2, yPre):true;
+		boolean isLibreGauche3Pre = xPre-3>0?super.getGameEng().isLibre(xPre-3, yPre):true;
 		boolean isMetalCaseGaucheTunnel1Pre = xPre-1<widthPre?super.getGameEng().getLevel().getNature(xPre-1, yPre) == Nature.METAL:true;
 		boolean isMetalCaseGaucheTunnel2Pre = xPre-1>0 && yPre - 1 > 0?super.getGameEng().getLevel().getNature(xPre-1, yPre-1) == Nature.METAL:true;
 		boolean isMetalCaseGaucheTunnel3Pre = xPre-1>0 && yPre - 2 > 0?super.getGameEng().getLevel().getNature(xPre-1, yPre-2) == Nature.METAL:true;
@@ -398,7 +438,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		boolean isMetalCaseGaucheBas1Pre = xPre-1>0 && yPre+1<heightPre?super.getGameEng().getLevel().getNature(xPre-1, yPre+1) == Nature.METAL:true;
 		boolean isMetalCaseGaucheBas2Pre = xPre-2>0 && yPre+1<heightPre?super.getGameEng().getLevel().getNature(xPre-2, yPre+1) == Nature.METAL:true;
 		boolean isMetalCaseGaucheBas3Pre = xPre-3>0 && yPre+1<heightPre?super.getGameEng().getLevel().getNature(xPre-3, yPre+1) == Nature.METAL:true;
-		boolean caseGaucheHautePre = xPre-1>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-1, yPre-2):true;
+		boolean isObstacleGauche1Haut2Pre = xPre-1>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-1, yPre-2):true;
+		boolean isObstacleGauche2Haut2Pre = xPre-2>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-2, yPre-2):true;
+		boolean isObstacleGauche3Haut2Pre = xPre-3>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-3, yPre-2):true;
 
 		int nombreDallesPoseesPre = super.getNombreDallesPosees();
 		int nombreToursBuilderPre = super.getNombreToursBuilder();
@@ -659,6 +701,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				/*************** FIN GRIMPEUR ****************/
 
 				/*************** DEBUT BUILDER ***************/
+				//TODO Builder
 				/*  \post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true
 				 *  	AND getNombreToursBuilder()@pre < INTERVALLE_POSE_DALLE
 				 *  	\implies getNombreToursBuilder() = getNombreToursBuilder()@pre + 1 */
@@ -688,10 +731,12 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				/**************** BUILDER POSE DALLE *****************/
 				/* \post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true 
 				 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
-				 * 			AND !getGameEng().isLibre(getX()@pre+1, getY()@pre)
-				 * 			AND !getGameEng().isLibre(getX()@pre+2 getY()@pre)
-				 * 			AND !getGameEng().isLibre(getX()@pre+3, getY()@pre)
+				 * 			AND getGameEng().isLibre(getX()@pre+1, getY()@pre)
+				 * 			AND getGameEng().isLibre(getX()@pre+2 getY()@pre)
+				 * 			AND getGameEng().isLibre(getX()@pre+3, getY()@pre)
 				 * 			AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
+				 * 			AND !getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)
+				 * 			AND !getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)
 				 * 			AND getNombreDallesPosees()@pre < 12
 				 * 		 \implies getGameEng().getLevel().getNature(getX()+1, getY()) = DIRT
 				 * 				  	AND getGameEng().getLevel().getNature(getX()+2, getY()) = DIRT
@@ -700,19 +745,22 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				 * 					AND getX() = getX()@pre + 2
 				 * 					AND getY() = getY()@pre - 1	
 				 * 					AND getDirection() = getDirection()@pre
-				 * 					AND getNombreToursBuilder() = 0; 
+				 * 					AND getNombreToursBuilder() = 0;
 				 */
 				else if (isBuilderPre && isCurrentlyBuildingPre 
 						&& nombreToursBuilderPre == Lemming.INTERVALLE_POSE_DALLE
-						&& !caseDroite1Pre && !caseDroite2Pre && !caseDroite3Pre
-						&& !caseDroiteHautePre
+						&& isLibreDroite1Pre && isLibreDroite2Pre && isLibreDroite3Pre
+						&& !isObstacleDroite1Haut2Pre && !isObstacleDroite2Haut2Pre
+						&& !isObstacleDroite3Haut2Pre
 						&& nombreDallesPoseesPre < Lemming.MAX_DALLES) {
 					String msg = "post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true"+ 
 							"AND getNombreToursBuilder()@pre = 2"+
-							"AND !getGameEng().isLibre(getX()@pre+1, getY()@pre)"+
-							"AND !getGameEng().isLibre(getX()@pre+2 getY()@pre)"+
-							"AND !getGameEng().isLibre(getX()@pre+3, getY()@pre)"+
+							"AND getGameEng().isLibre(getX()@pre+1, getY()@pre)"+
+							"AND getGameEng().isLibre(getX()@pre+2 getY()@pre)"+
+							"AND getGameEng().isLibre(getX()@pre+3, getY()@pre)"+
 							"AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)"+
+							"AND !getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)"+
+							"AND !getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)"+
 							"AND getNombreDallesPosees()@pre < 12";
 					if (!(super.getGameEng().getLevel().getNature(xPre+1, yPre) == Nature.DIRT)) {
 						throw new PostConditionError(msg+" implies caseDroite1 = DIRT not satisfied");
@@ -742,15 +790,15 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				}
 				/****************** BUILDER S'ARRETTE **********************/
 				/*  \post isBuilder() = true AND getDirection() == DROITIER AND isCurrentlyBuilding() = true 
-				 * 			AND getGameEng().getNombreTours() = getGameEng().getNombreTours()@pre + 3
-				 * 	 		OR getGameEng().isLibre(getX()@pre+1, getY()@pre)
-				 * 			OR getGameEng().isLibre(getX()@pre+2 getY()@pre)
-				 * 			OR getGameEng().isLibre(getX()@pre+3, getY()@pre)
-				 * 			OR getNombreDallesPosees()@pre >= 12
-				 * 		 \implies getGameEng().getLevel().getNature(getX()+1, getY()) = getGameEng().getLevel().getNature(getX()+1, getY())@pre
-				 * 				  	AND getGameEng().getLevel().getNature(getX()+2, getY()) = getGameEng().getLevel().getNature(getX()+2, getY())@pre
-				 * 					AND getGameEng().getLevel().getNature(getX()+3, getY()) = getGameEng().getLevel().getNature(getX()+3, getY())@pre
-				 * 					AND getNombreDallesPosees() = getNombreDallesPosees()@pre
+				 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
+				 * 	 		AND (getGameEng().isLibre(getX()@pre+1, getY()@pre)
+				 * 				OR getGameEng().isLibre(getX()@pre+2 getY()@pre)
+				 * 				OR getGameEng().isLibre(getX()@pre+3, getY()@pre)
+				 * 				OR getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
+				 * 				OR getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)
+				 * 				OR getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)
+				 * 				OR getNombreDallesPosees()@pre >= 12)
+				 * 		 \implies	AND getNombreDallesPosees() = getNombreDallesPosees()@pre
 				 * 					AND getX() = getX()@pre
 				 * 					AND getY() = getY()@pre	
 				 * 					AND getDirection() = getDirection()@pre
@@ -759,8 +807,10 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				 */
 				else if (isBuilderPre && isCurrentlyBuildingPre
 						&& nombreToursBuilderPre == Lemming.INTERVALLE_POSE_DALLE
-						&& (caseDroite1Pre || caseDroite2Pre || caseDroite3Pre 
-								|| caseDroiteHautePre 
+						&& (!isLibreDroite1Pre || !isLibreDroite2Pre || !isLibreDroite3Pre 
+								|| isObstacleDroite1Haut2Pre
+								|| isObstacleDroite2Haut2Pre 
+								|| isObstacleDroite3Haut2Pre 
 								|| nombreDallesPoseesPre >= Lemming.MAX_DALLES)) {
 					String msg = "post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true"+ 
 							"AND getNombreToursBuilder()@pre = Lemming.INTERVALLE_POSE_DALLE"+
@@ -1010,7 +1060,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 				}
 				/**************** FIN GRIMPEUR *****************/
-
+				//TODO builder
 				/*************** DEBUT BUILDER GAUCHER ***************/
 				/*  \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true
 				 *  	AND getNombreToursBuilder()@pre < INTERVALLE_POSE_DALLE
@@ -1041,10 +1091,12 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				/**************** BUILDER POSE DALLE *****************/
 				/* \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true 
 				 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
-				 * 			AND !getGameEng().isLibre(getX()@pre-1, getY()@pre)
-				 * 			AND !getGameEng().isLibre(getX()@pre-2 getY()@pre)
-				 * 			AND !getGameEng().isLibre(getX()@pre-3, getY()@pre)
+				 * 			AND getGameEng().isLibre(getX()@pre-1, getY()@pre)
+				 * 			AND getGameEng().isLibre(getX()@pre-2 getY()@pre)
+				 * 			AND getGameEng().isLibre(getX()@pre-3, getY()@pre)
 				 * 			AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
+				 * 			AND !getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)
+				 * 			AND !getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)
 				 * 			AND getNombreDallesPosees()@pre < 12
 				 * 		 \implies getGameEng().getLevel().getNature(getX()-1, getY()) = DIRT
 				 * 				  	AND getGameEng().getLevel().getNature(getX()-2, getY()) = DIRT
@@ -1053,19 +1105,23 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				 * 					AND getX() = getX()@pre - 2
 				 * 					AND getY() = getY()@pre - 1	
 				 * 					AND getDirection() = getDirection()@pre
-				 * 					AND getNombreToursBuilder() = 0; 
+				 * 					AND getNombreToursBuilder() = 0;
 				 */
 				else if (isBuilderPre && isCurrentlyBuildingPre 
 						&& nombreToursBuilderPre == Lemming.INTERVALLE_POSE_DALLE
-						&& !caseGauche1Pre && !caseGauche2Pre && !caseGauche3Pre
-						&& !caseGaucheHautePre
+						&& isLibreGauche1Pre && isLibreGauche2Pre && isLibreGauche3Pre
+						&& !isObstacleGauche1Haut2Pre 
+						&& !isObstacleGauche2Haut2Pre
+						&& !isObstacleGauche3Haut2Pre
 						&& nombreDallesPoseesPre < Lemming.MAX_DALLES) {
 					String msg = "post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true"+ 
 							"AND getNombreToursBuilder()@pre = 2"+
-							"AND !getGameEng().isLibre(getX()@pre-1, getY()@pre)"+
-							"AND !getGameEng().isLibre(getX()@pre-2 getY()@pre)"+
-							"AND !getGameEng().isLibre(getX()@pre-3, getY()@pre)"+
+							"AND getGameEng().isLibre(getX()@pre-1, getY()@pre)"+
+							"AND getGameEng().isLibre(getX()@pre-2 getY()@pre)"+
+							"AND getGameEng().isLibre(getX()@pre-3, getY()@pre)"+
 							"AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)"+
+							"AND !getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)"+
+							"AND !getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)"+
 							"AND getNombreDallesPosees()@pre < 12";
 					if (!(super.getGameEng().getLevel().getNature(xPre-1, yPre) == Nature.DIRT)) {
 						throw new PostConditionError(msg+" implies caseGauche1= DIRT not satisfied");
@@ -1095,15 +1151,15 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				}
 				/****************** BUILDER S'ARRETTE **********************/
 				/*  \post isBuilder() = true AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true 
-				 * 			AND getGameEng().getNombreTours() = getGameEng().getNombreTours()@pre + 3
-				 * 	 		OR getGameEng().isLibre(getX()@pre-1, getY()@pre)
-				 * 			OR getGameEng().isLibre(getX()@pre-2 getY()@pre)
-				 * 			OR getGameEng().isLibre(getX()@pre-3, getY()@pre)
-				 * 			OR getNombreDallesPosees()@pre >= 12
-				 * 		 \implies getGameEng().getLevel().getNature(getX()-1, getY()) = getGameEng().getLevel().getNature(getX()-1, getY())@pre
-				 * 				  	AND getGameEng().getLevel().getNature(getX()-2, getY()) = getGameEng().getLevel().getNature(getX()-2, getY())@pre
-				 * 					AND getGameEng().getLevel().getNature(getX()-3, getY()) = getGameEng().getLevel().getNature(getX()-3, getY())@pre
-				 * 					AND getNombreDallesPosees() = getNombreDallesPosees()@pre
+				 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
+				 * 	 		AND ( !getGameEng().isLibre(getX()@pre-1, getY()@pre)
+				 * 				OR !getGameEng().isLibre(getX()@pre-2 getY()@pre)
+				 * 				OR !getGameEng().isLibre(getX()@pre-3, getY()@pre)
+				 * 	 			OR getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
+				 * 				OR getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)
+				 * 				OR getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)
+				 * 				OR getNombreDallesPosees()@pre >= 12)
+				 * 		 \implies   AND getNombreDallesPosees() = getNombreDallesPosees()@pre
 				 * 					AND getX() = getX()@pre
 				 * 					AND getY() = getY()@pre	
 				 * 					AND getDirection() = getDirection()@pre
@@ -1112,15 +1168,19 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				 */
 				else if (isBuilderPre && isCurrentlyBuildingPre
 						&& nombreToursBuilderPre == Lemming.INTERVALLE_POSE_DALLE
-						&& (caseGauche1Pre || caseGauche2Pre || caseGauche3Pre 
-								|| caseGaucheHautePre 
+						&& (!isLibreGauche1Pre || !isLibreGauche2Pre || !isLibreGauche3Pre 
+								|| isObstacleGauche1Haut2Pre
+								|| isObstacleGauche2Haut2Pre 
+								|| isObstacleGauche3Haut2Pre 
 								|| nombreDallesPoseesPre >= Lemming.MAX_DALLES)) {
 					String msg = "post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true"+ 
 							"AND getNombreToursBuilder()@pre = Lemming.INTERVALLE_POSE_DALLE"+
-							"AND (getGameEng().isLibre(getX()@pre-1, getY()@pre)"+
-							"OR getGameEng().isLibre(getX()@pre-2 getY()@pre)"+
-							"OR getGameEng().isLibre(getX()@pre-3, getY()@pre)"+
+							"AND (!getGameEng().isLibre(getX()@pre-1, getY()@pre)"+
+							"OR !getGameEng().isLibre(getX()@pre-2 getY()@pre)"+
+							"OR !getGameEng().isLibre(getX()@pre-3, getY()@pre)"+
 							"OR getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)"+
+							"OR getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)"+
+							"OR getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)"+
 							"OR getNombreDallesPosees()@pre >= Lemming.MAX_DALLES)";
 					if (!(super.getNombreDallesPosees() == nombreDallesPoseesPre)) {
 						throw new PostConditionError(msg+" implies getNombreDallesPosees() = "+
@@ -1751,9 +1811,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 		// TODO ZONE DE TEST, A ENLEVER PLUS TARD
 		if (super.getId() == 1 && super.getGameEng().getNombreTours() == 12) {
-//			System.err.println(">>>>>>>>>>>>>> BASHEUR <<<<<<<<<<<<<<<<<<<<<");
+			//			System.err.println(">>>>>>>>>>>>>> BASHEUR <<<<<<<<<<<<<<<<<<<<<");
 			//			super.getGameEng().getLemming(super.getGameEng().getNombreCrees()-1).devientBuilder();
-//			super.getGameEng().getLemming(1).devientBasher();
+			//			super.getGameEng().getLemming(1).devientBasher();
 		}
 
 	}
