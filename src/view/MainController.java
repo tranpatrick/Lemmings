@@ -299,19 +299,6 @@ public class MainController {
 	}
 
 	@FXML
-	void changeSpawnSpeed(ActionEvent event) {
-		if (!main.getGameEng().gameOver()) {
-			String vitesse = spawnSpeedTextField.getText();
-			if (Outils.isNumber(vitesse)) {
-				int spawnSpeed = Integer.parseInt(vitesse);
-				//TODO rajouter setSpawnSpeed dans GameEng
-				//main.getGameEng().setSpawnSpeed(spawnSpeed);
-			}
-		}
-	}
-
-
-	@FXML
 	void goEditing(ActionEvent event) {
 		// TODO reset proprement
 	}
