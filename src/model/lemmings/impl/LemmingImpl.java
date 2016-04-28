@@ -259,9 +259,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 			/** BASHEUR DROITIER S"ARRETE DE CREUSER **/
 			else if (getGameEng().isObstacle(x, y+1)
 					&& getDirection() == Direction.DROITIER
-					&& (getGameEng().getLevel().getNature(x+1, y) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x+1, y-1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x+1, y-2) != Nature.METAL
+					&& (getGameEng().getLevel().getNature(x+1, y) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x+1, y-1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x+1, y-2) == Nature.METAL
 					|| nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)) {
 				devientMarcheur();
 			}
@@ -284,9 +284,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 			/** BASHEUR GAUCHER S"ARRETE DE CREUSER **/
 			else if (getGameEng().isObstacle(x, y+1)
 					&& getDirection() == Direction.GAUCHER
-					&& (getGameEng().getLevel().getNature(x-1, y) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x-1, y-1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x-1, y-2) != Nature.METAL
+					&& (getGameEng().getLevel().getNature(x-1, y) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x-1, y-1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x-1, y-2) == Nature.METAL
 					|| nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)) {
 				devientMarcheur();
 			}
@@ -320,10 +320,10 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 			else if (getGameEng().isObstacle(x, y+1)
 					&& getDirection() == Direction.DROITIER
 					&& (getGameEng().getLevel().getNature(x+1, y+1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x+2, y+1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x+3, y+1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x+1, y) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x+2, y) != Nature.METAL)) {
+					|| getGameEng().getLevel().getNature(x+2, y+1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x+3, y+1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x+1, y) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x+2, y) == Nature.METAL)) {
 				devientMarcheur();
 			}
 			/** MINER GAUCHER CREUSE EN BAS **/
@@ -350,11 +350,11 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 			/** MINER GAUCHER S"ARRETE DE CREUSER **/
 			else if (getGameEng().isObstacle(x, y+1)
 					&& getDirection() == Direction.GAUCHER
-					&& (getGameEng().getLevel().getNature(x-1, y+1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x-2, y+1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x-3, y+1) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x-1, y) != Nature.METAL
-					|| getGameEng().getLevel().getNature(x-2, y) != Nature.METAL)) {
+					&& (getGameEng().getLevel().getNature(x-1, y+1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x-2, y+1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x-3, y+1) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x-1, y) == Nature.METAL
+					|| getGameEng().getLevel().getNature(x-2, y) == Nature.METAL)) {
 				devientMarcheur();
 			}
 			break;

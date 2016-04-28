@@ -1632,6 +1632,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 						+ "OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) = METAL "
 						+ "OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)";
 				if (!(super.getType() == Type.MARCHEUR)) {
+					//TODO pb ici
 					throw new PostConditionError(msg+" implies getType() = MARCHEUR not satisfied");
 				}
 				if (!(super.getX() == xPre)) {
@@ -1716,6 +1717,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 						+ "OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) = METAL "
 						+ "OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)";
 				if (!(super.getType() == Type.MARCHEUR)) {
+					//TODO pb ici
 					throw new PostConditionError(msg+" implies getType() = MARCHEUR not satisfied");
 				}
 				if (!(super.getX() == xPre)) {
