@@ -217,8 +217,6 @@ public class MainController {
 		}
 		/* Mode play */
 		else {
-			//TODO reagir en temps reel
-			System.err.println("Clic sur "+pointNode.toString());
 			try{
 				/* Si changement de type */
 				Lemming l = main.getJoueur().select(x, y);
@@ -400,7 +398,6 @@ public class MainController {
 	}
 
 	public void updateJetons(SelectedType sl){
-		System.out.println("JE PASSE ICI");
 		switch(sl){
 		case DIGGER:
 			labelDigger.setText(""+main.getJoueur().getNbJetons(sl.toString()));

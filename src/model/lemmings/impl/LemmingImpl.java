@@ -25,7 +25,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	private boolean isCurrentlyBuilding;
 	private boolean isCurrentlyClimbing;
 	private boolean isExploseur;
-	
+
 	private GameEng gameEng;
 
 	public LemmingImpl(){
@@ -46,7 +46,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	public Type getType() {
 		return type;
 	}
-	
+
 	@Override
 	public boolean isGrimpeur() {
 		return isGrimpeur;
@@ -91,12 +91,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	public boolean isCurrentlyBuilding() {
 		return isCurrentlyBuilding;
 	}
-	
+
 	@Override
 	public boolean isCurrentlyClimbing() {
 		return isCurrentlyClimbing;
 	}
-	 
+
 
 	@Override
 	public int getNombreToursBuilder() {
@@ -196,7 +196,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	public void devientBasher() {
 		this.type = Type.BASHER;
 	}
-	
+
 	@Override
 	public void devientMiner() {
 		this.type = Type.MINER;
@@ -373,9 +373,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 				if(isGrimpeur() 
 						&& !gameEng.isObstacle(x, y+1) 
 						&& !gameEng.isObstacle(x+1, y)){
-					if (getId() == 2) {
-						System.err.println(">>>>>>>>>> ID = 2, je deviens tombeur <<<<<<<<<<<<<<");
-					}
 					devientTombeur();
 					break;
 				}
@@ -415,7 +412,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 
 				/***** BUILDER DROITIER ******/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() < INTERVALLE_POSE_DALLE) {
-					System.err.println(" >>>>>>> J'ATTENDS <<<<<<<< ");
 					nombreToursBuilder++;
 				}
 				/** POSE DALLE **/
@@ -432,7 +428,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					nombreToursBuilder = 0;
 					x = x + 2;
 					y = y - 1;
-					System.err.println(" >>>>>>> JE POSE LA DALLE <<<<<<<< ");
 				}
 				/** BUILDER S'ARRETE **/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() == INTERVALLE_POSE_DALLE && (
@@ -443,8 +438,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 						|| getNombreDallesPosees() >= MAX_DALLES)) {
 					isCurrentlyBuilding = false;
 					nombreToursBuilder = 0;
-					System.out.println("safs");
-					System.err.println(" >>>>>>> JE M'ARRETE <<<<<<<< ");
 				}
 				/***** FIN BUILDER ******/
 
@@ -510,7 +503,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 
 				/***** BUILDER GAUCHER ******/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() < INTERVALLE_POSE_DALLE) {
-					System.err.println(" >>>>>>> J'ATTENDS <<<<<<<< ");
 					nombreToursBuilder++;
 				}
 				/** POSE DALLE **/
@@ -527,7 +519,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					nombreToursBuilder = 0;
 					x = x - 2;
 					y = y - 1;
-					System.err.println(" >>>>>>> JE POSE LA DALLE <<<<<<<< ");
 				}
 				/** BUILDER S'ARRETE **/
 				else if (isBuilder() && isCurrentlyBuilding() && getNombreToursBuilder() == INTERVALLE_POSE_DALLE && (
@@ -538,7 +529,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 						|| getNombreDallesPosees() >= MAX_DALLES)) {
 					isCurrentlyBuilding = false;
 					nombreToursBuilder = 0;
-					System.err.println(" >>>>>>> JE M'ARRETE <<<<<<<< ");
 				}
 				else if(gameEng.isObstacle(x-1, y-1)) {
 					devientDroitier();
@@ -593,15 +583,12 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 			break;
 		case CREUSEUR:
 			/* CREUSEUR */
-			System.out.println(">>>>>>>>>> DEBUT CREUSEUR <<<<<<<<<<<<<");
 			/* Cas 1 */
 			if (!gameEng.isObstacle(x, y+1)) {
 				devientTombeur();
-				System.out.println(">>>>>>>>> HELLO 1");
 			}
 			else if (gameEng.getLevel().getNature(x, y+1) == Nature.METAL) {
 				devientMarcheur();
-				System.out.println(">>>>>>>>> HELLO 2");
 			}
 			else if (gameEng.getLevel().getNature(x, y+1) == Nature.DIRT) {
 				gameEng.getLevel().remove(x, y+1);
@@ -612,7 +599,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					gameEng.getLevel().remove(x+1, y+1);
 				}
 				y = y+1;
-				System.out.println(">>>>>>>>> HELLO 3");
 			}
 			break;
 		case STOPPEUR:
