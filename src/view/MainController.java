@@ -269,7 +269,8 @@ public class MainController {
 			}
 		});
 	}
-
+	
+ 
 	public void updateNbMorts() {
 		Platform.runLater(new Runnable() {
 			@Override

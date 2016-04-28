@@ -52,7 +52,7 @@ public class Main extends Application implements IObserver{
 		DIRT,METAL,EMPTY,ENTREE,SORTIE,
 		//		/* Lemmings droitiers */
 		MARCHEUR_D,
-		TOMBEUR_D,
+		TOMBEUR,
 		//		CREUSEUR_D,
 		//		GRIMPEUR_D,
 		//		BUILDER_D,
@@ -63,7 +63,6 @@ public class Main extends Application implements IObserver{
 		//		MINER_D,
 		//		/* Lemmings gauchers */
 		MARCHEUR_G, 
-		TOMBEUR_G,
 		//		CREUSEUR_G,
 		//		GRIMPEUR_G,
 		//		BUILDER_G,
@@ -77,7 +76,6 @@ public class Main extends Application implements IObserver{
 
 	/* Images */
 	private HashMap<Images, Background> backgrounds;
-	private HashMap<Images, Background> backgrounds2;
 	private static int cptImage = 0;
 
 	/* Variables */
@@ -102,18 +100,19 @@ public class Main extends Application implements IObserver{
 	private void loadImages() {
 		BackgroundSize backgroundSize = new BackgroundSize(
 				plateauGridPane.getWidth()/gameEng.getLevel().getWidth(), 
-				plateauGridPane.getHeight()/(gameEng.getLevel().getHeight()-1), 
+				plateauGridPane.getHeight()/(gameEng.getLevel().getHeight()), 
 				false, false, false, false);
 		for (Images v : Images.values()) {
 			String filename = "";
+			int cpt = (cptImage%4)+1;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY 
 					|| v == Images.ENTREE|| v == Images.SORTIE) {
 				filename = "images/"+v.toString().toLowerCase()+".png";
 			}
 			else { 
-				filename = "images/"+v.toString().toLowerCase()+(cptImage%4+1)+".png";
+				filename = "images/"+v.toString().toLowerCase()+cpt+".png";
 			}
-			cptImage++;
+			System.out.println(filename);
 			Image tmpImage = new Image(new File(filename).toURI().toString());
 			Background tmpBackground = null;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
@@ -134,12 +133,12 @@ public class Main extends Application implements IObserver{
 			}
 			backgrounds.put(v, tmpBackground);
 		}
+		cptImage++;
 	}
 
 	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed){
 		if (gameEng != null) {
 			gameEng.deleteObserver(this);
-			
 		}
 		Level levelImpl = new LevelImpl();
 		Level levelContract = new LevelContract(levelImpl);
@@ -253,9 +252,28 @@ public class Main extends Application implements IObserver{
 				}
 				else if (lem != null) {
 					if (lem.getDirection() == Direction.DROITIER)
-						pane.setBackground(getBackground(Images.MARCHEUR_D));
-					else 
-						pane.setBackground(getBackground(Images.MARCHEUR_G));
+						switch (lem.getType()) {
+						case TOMBEUR:
+							pane.setBackground(getBackground(Images.TOMBEUR));
+							break;
+						case MARCHEUR:
+							pane.setBackground(getBackground(Images.MARCHEUR_D));
+							break;
+						default:
+							break;
+						}
+					else {
+						switch (lem.getType()) {
+						case TOMBEUR:
+							pane.setBackground(getBackground(Images.TOMBEUR));
+							break;
+						case MARCHEUR:
+							pane.setBackground(getBackground(Images.MARCHEUR_G));
+							break;
+						default:
+							break;
+						}
+					}
 				}	
 				else {
 					Nature nature = gameEng.getLevel().getNature(i, j); 

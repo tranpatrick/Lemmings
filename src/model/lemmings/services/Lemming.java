@@ -114,7 +114,8 @@ public interface Lemming {
 	public void devientStoppeur();
 
 	// TODO revoir les preconditon des devient
-	
+	// TODO le stoppeur peut aussi être basher, creuseur, grimpeur etc.......
+	// TODO le builder ne peut pas build sur l'entrée ou la sortie
 	// \pre !getGameEng().gameOver()
 	// \pre getId() \in getGameEng().getLemmingActifs()
 
