@@ -55,7 +55,10 @@ public class Main extends Application implements IObserver{
 		TOMBEUR,
 		//		CREUSEUR_D,
 		GRIMPEUR_D,
-		//		BUILDER_D,
+		BUILDER_D1,
+		BUILDER_D2,
+		BUILDER_D3,
+		BUILDER_D4,
 		FLOTTEUR_D,
 		//		EXPLOSEUR_D,
 		//		STOPPEUR_D,
@@ -65,7 +68,10 @@ public class Main extends Application implements IObserver{
 		MARCHEUR_G, 
 		//		CREUSEUR_G,
 		GRIMPEUR_G,
-		//		BUILDER_G,
+		BUILDER_G1,
+		BUILDER_G2,
+		BUILDER_G3,
+		BUILDER_G4,
 		FLOTTEUR_G,
 		//		EXPLOSEUR_G,
 		//		STOPPEUR_G,
@@ -106,7 +112,11 @@ public class Main extends Application implements IObserver{
 			String filename = "";
 			int cpt = (cptImage%4)+1;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY 
-					|| v == Images.ENTREE|| v == Images.SORTIE) {
+					|| v == Images.ENTREE|| v == Images.SORTIE 
+					|| v == Images.BUILDER_D1 || v == Images.BUILDER_D2
+					|| v == Images.BUILDER_D3 || v == Images.BUILDER_D4
+					|| v == Images.BUILDER_G1 || v == Images.BUILDER_G2
+					|| v == Images.BUILDER_G3 || v == Images.BUILDER_G4) {
 				filename = "images/"+v.toString().toLowerCase()+".png";
 			}
 			else { 
@@ -182,7 +192,7 @@ public class Main extends Application implements IObserver{
 		isSetExitClicked = false;
 
 		if (plateauGridPane != null) {
-						plateauGridPane.setGridLinesVisible(false);
+			plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 			plateauGridPane.getColumnConstraints().clear();
 			plateauGridPane.getRowConstraints().clear();
@@ -220,7 +230,7 @@ public class Main extends Application implements IObserver{
 				plateauGridPane.getChildren().add(pane);
 			}
 		}
-				plateauGridPane.setGridLinesVisible(true);
+		plateauGridPane.setGridLinesVisible(true);
 	}
 
 	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
@@ -232,7 +242,7 @@ public class Main extends Application implements IObserver{
 		System.err.println("Mise a jour interface");
 		loadImages();
 		if (plateauGridPane != null) {
-				plateauGridPane.setGridLinesVisible(false);
+			plateauGridPane.setGridLinesVisible(false);
 			plateauGridPane.getChildren().clear();
 		}
 		int width = gameEng.getLevel().getWidth();
@@ -263,7 +273,7 @@ public class Main extends Application implements IObserver{
 				plateauGridPane.getChildren().add(pane);
 			}
 		}
-				plateauGridPane.setGridLinesVisible(true);
+		plateauGridPane.setGridLinesVisible(true);
 
 	}
 
@@ -322,6 +332,14 @@ public class Main extends Application implements IObserver{
 			case MARCHEUR:
 				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
 					bg = getBackground(Images.GRIMPEUR_D);
+				else if(lem.isBuilder() && !lem.isCurrentlyBuilding())
+					bg = getBackground(Images.BUILDER_D1);
+				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 0)
+					bg = getBackground(Images.BUILDER_D2);
+				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 1)
+					bg = getBackground(Images.BUILDER_D3);
+				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 2)
+					bg = getBackground(Images.BUILDER_D4);
 				else
 					bg = getBackground(Images.MARCHEUR_D);
 				break;
@@ -349,7 +367,7 @@ public class Main extends Application implements IObserver{
 			}
 		}
 		else {
-			System.err.println("Main::getLemmingBackground 3 : je ne dois jamais passer ici");
+			System.err.println("Main::getLemmingBackground : je ne dois jamais passer ici");
 		}
 
 		return bg;
