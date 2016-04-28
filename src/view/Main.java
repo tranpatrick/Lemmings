@@ -47,42 +47,24 @@ public class Main extends Application implements IObserver{
 	 * 
 	 * Noms de fichers : pour enum DIRT, placer dirt.png dans le dossier Images
 	 */
+
+
 	enum Images {
 		/* Cases */
 		DIRT,METAL,EMPTY,ENTREE,SORTIE,
+		TOMBEUR, BUILDER_TOMBEUR, MORT_CHUTE,
+		CREUSEUR,STOPPEUR, BOMBER_STEP1,
+		BOMBER_STEP2, BOMBER_STEP3,
 		//		/* Lemmings droitiers */
-		MARCHEUR_D,
-		TOMBEUR,
-		BUILDER_TOMBEUR,
-		MORT_CHUTE,
-		CREUSEUR,
-		STOPPEUR,
-		//		CREUSEUR_D,
-		GRIMPEUR_D,
-		BUILDER_D,
-		FLOTTEUR_D,
-		BUILDER_STEP1_D,
-		BUILDER_STEP2_D,
-		BUILDER_STEP3_D,
-		
-		//		EXPLOSEUR_D,
-				
-				BASHER_D,
-		//		MINER_D,
+		MARCHEUR_D, GRIMPEUR_D, BUILDER_D, FLOTTEUR_D,
+		BUILDER_STEP1_D, BUILDER_STEP2_D, BUILDER_STEP3_D,
+		BASHER_D, MINER_D,
 		//		/* Lemmings gauchers */
-		MARCHEUR_G, 
-		//		CREUSEUR_G,
-		GRIMPEUR_G,
-		BUILDER_G,
-		FLOTTEUR_G,
-		BUILDER_STEP1_G,
-		BUILDER_STEP2_G,
-		BUILDER_STEP3_G,
-		//		EXPLOSEUR_G,
-		//		STOPPEUR_G,
-				BASHER_G,
-		//		MINER_G,
+		MARCHEUR_G, GRIMPEUR_G, BUILDER_G, FLOTTEUR_G,
+		BUILDER_STEP1_G, BUILDER_STEP2_G, BUILDER_STEP3_G,
+		BASHER_G,MINER_G,
 	}
+
 
 
 	/* Images */
@@ -121,7 +103,8 @@ public class Main extends Application implements IObserver{
 					|| v == Images.BUILDER_STEP1_D || v == Images.BUILDER_STEP2_D
 					|| v == Images.BUILDER_STEP3_D || v == Images.BUILDER_STEP1_G
 					|| v == Images.BUILDER_STEP2_G || v == Images.BUILDER_STEP3_G
-					|| v == Images.MORT_CHUTE) {
+					|| v == Images.MORT_CHUTE || v == Images.BOMBER_STEP1
+					|| v == Images.BOMBER_STEP2 || v == Images.BOMBER_STEP3) {
 				filename = "images/"+v.toString().toLowerCase()+".png";
 			}
 			else { 
@@ -282,8 +265,6 @@ public class Main extends Application implements IObserver{
 
 	}
 
-
-
 	public boolean isSetExitClicked() {
 		return isSetExitClicked;
 	}
@@ -329,18 +310,29 @@ public class Main extends Application implements IObserver{
 		if (lem.getDirection() == Direction.DROITIER)
 			switch (lem.getType()) {
 			case TOMBEUR:
-				if (lem.isFlotteur()) 
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else if (lem.isFlotteur()) 
 					bg = getBackground(Images.FLOTTEUR_D);
-				else if (lem.isBuilder()) {
+				else if (lem.isBuilder()) 
 					bg = getBackground(Images.BUILDER_TOMBEUR);
-				}
 				else if (lem.tombeDepuis() >= 8 && gameEng.isObstacle(lem.getX(), lem.getY()+1))
 					bg = getBackground(Images.MORT_CHUTE);
 				else
 					bg =  getBackground(Images.TOMBEUR);
 				break;
 			case MARCHEUR:
-				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
 					bg = getBackground(Images.GRIMPEUR_D);
 				else if(lem.isBuilder() && !lem.isCurrentlyBuilding())
 					bg = getBackground(Images.BUILDER_D);
@@ -354,13 +346,44 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.MARCHEUR_D);
 				break;
 			case CREUSEUR:
-				bg = getBackground(Images.CREUSEUR);
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.CREUSEUR);
 				break;
 			case BASHER:
-				bg = getBackground(Images.BASHER_D);
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.BASHER_D);
 				break;
 			case STOPPEUR:
-				bg = getBackground(Images.STOPPEUR);
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.STOPPEUR);
+				break;
+			case MINER:
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.MINER_D);
 				break;
 			default:
 				System.err.println("Main::getLemmingBackground 1 : je ne dois jamais passer ici");
@@ -369,7 +392,13 @@ public class Main extends Application implements IObserver{
 		else if (lem.getDirection() == Direction.GAUCHER) {
 			switch (lem.getType()) {
 			case TOMBEUR:
-				if (lem.isFlotteur())
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else if (lem.isFlotteur())
 					bg = getBackground(Images.FLOTTEUR_G);
 				else if (lem.isBuilder()) 
 					bg = getBackground(Images.BUILDER_TOMBEUR);
@@ -379,7 +408,13 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.TOMBEUR);
 				break;
 			case MARCHEUR:
-				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
 					bg = getBackground(Images.GRIMPEUR_G);
 				else if(lem.isBuilder() && !lem.isCurrentlyBuilding())
 					bg = getBackground(Images.BUILDER_G);
@@ -393,13 +428,44 @@ public class Main extends Application implements IObserver{
 					bg = getBackground(Images.MARCHEUR_G);
 				break;
 			case CREUSEUR:
-				bg = getBackground(Images.CREUSEUR);
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.CREUSEUR);
 				break;
 			case BASHER:
-				bg = getBackground(Images.BASHER_G);
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.BASHER_G);
 				break;
 			case STOPPEUR:
-				bg = getBackground(Images.STOPPEUR);
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.STOPPEUR);
+				break;
+			case MINER:
+				if (lem.isExploseur() && lem.exploseurDepuis() == 2) 
+					bg = getBackground(Images.BOMBER_STEP1);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 4) 
+					bg = getBackground(Images.BOMBER_STEP2);
+				else if (lem.isExploseur() && lem.exploseurDepuis() == 3) 
+					bg = getBackground(Images.BOMBER_STEP3);
+				else
+					bg = getBackground(Images.MINER_D);
 				break;
 			default:
 				System.err.println("Main::getLemmingBackground 2 : je ne dois jamais passer ici");
