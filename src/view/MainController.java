@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Set;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -17,14 +19,26 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import model.lemmings.services.GameEng;
+import model.lemmings.services.Lemming;
 import model.lemmings.services.Level.Nature;
 import view.Main.Images;
 
 public class MainController {
 
-	private static final long REFRESH_TIME = 200;
+	private static final long REFRESH_TIME = 1500;
 	private Pane exitPane;
 	private Pane entrancePane;
+
+	/* Booleens pour les types de lemmings */
+	private boolean settingDigger;
+	private boolean settingClimber;
+	private boolean settingBuilder;
+	private boolean settingFloater;
+	private boolean settingStopper;
+	private boolean settingBasher;
+	private boolean settingBomber;
+	private boolean settingMiner;
 
 	@FXML private Button dimensionButton;
 	@FXML private Button editingButton;
@@ -32,6 +46,14 @@ public class MainController {
 	@FXML private Button rejouerButton;
 	@FXML private Button setEntranceButton;
 	@FXML private Button setExitButton;
+	@FXML private Button diggerButton;
+	@FXML private Button climberButton;
+	@FXML private Button builderButton;
+	@FXML private Button floaterButton;
+	@FXML private Button stopperButton;
+	@FXML private Button basherButton;
+	@FXML private Button bomberButton;
+	@FXML private Button minerButton;
 	@FXML private GridPane plateauGridPane;
 	@FXML private HBox scoreHBox;
 	@FXML private Label creesLabel;
@@ -187,6 +209,50 @@ public class MainController {
 		else {
 			//TODO reagir en temps reel
 			System.err.println("Clic sur "+pointNode.toString());
+			try{
+				/* Si changement de type */
+				Lemming l = getLemming(x, y);
+
+				/* Si la case était vide alors on annule */ 
+				if(l == null){
+					settingDigger = false;
+					settingClimber = false;
+					settingBuilder = false;
+					settingFloater = false;
+					settingBomber = false;
+					settingStopper = false;
+					settingBasher = false;
+					settingMiner= false;
+				}else{
+					if(settingDigger){
+						l.devientCreuseur();
+						settingDigger = false;
+					}else if(settingClimber){
+						l.devientGrimpeur();
+						settingClimber = false;
+					}else if(settingBuilder){
+						l.devientBuilder();
+						settingBuilder = false;
+					}else if(settingFloater){
+						l.devientFlotteur();
+						settingFloater = false;
+					}else if(settingBomber){
+						l.devientExploseur();
+						settingBomber = false;
+					}else if(settingStopper){
+						l.devientStoppeur();
+						settingStopper = false;
+					}else if(settingBasher){
+						l.devientBasher();
+						settingBasher = false;
+					}else if(settingMiner){
+						l.devientMiner();
+						settingMiner = false;
+					}
+				}
+			}catch(Error e){
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 
@@ -194,8 +260,28 @@ public class MainController {
 	void goPlay(ActionEvent event) {
 		try {
 			main.getGameEng().getLevel().goPlay();
-			goPlayButton.setDisable(true);
 			
+			/* Activer/Désactiver/Visible les boutons */
+			goPlayButton.setDisable(true);
+			diggerButton.setVisible(true);
+			climberButton.setVisible(true);
+			builderButton.setVisible(true);
+			floaterButton.setVisible(true);
+			bomberButton.setVisible(true);
+			stopperButton.setVisible(true);
+			basherButton.setVisible(true);
+			minerButton.setVisible(true);
+
+			/* Mise des booleans de type à false */
+			settingDigger = false;
+			settingClimber = false;
+			settingBuilder = false;
+			settingFloater = false;
+			settingBomber = false;
+			settingStopper = false;
+			settingBasher = false;
+			settingMiner= false;
+
 			//TODO masquer des zones de saisies ( colony, largeur hauteur) mais laisser qqch pour changer spawnspeed
 			Thread t = new Thread(new Runnable() {
 				@Override
@@ -243,11 +329,11 @@ public class MainController {
 	void goEditing(ActionEvent event) {
 		// TODO reset proprement
 	}
-	
-    @FXML
-    void relancerNiveau(ActionEvent event) {
-    	
-    }
+
+	@FXML
+	void relancerNiveau(ActionEvent event) {
+
+	}
 
 
 	public void updateScore() {
@@ -265,18 +351,18 @@ public class MainController {
 			@Override
 			public void run() {
 				if (!main.getGameEng().gameOver())
-				creesLabel.setText(""+main.getGameEng().getNombreCrees());
+					creesLabel.setText(""+main.getGameEng().getNombreCrees());
 			}
 		});
 	}
-	
- 
+
+
 	public void updateNbMorts() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				if (!main.getGameEng().gameOver())
-				mortsLabel.setText(""+main.getGameEng().getNombreMorts());
+					mortsLabel.setText(""+main.getGameEng().getNombreMorts());
 			}
 		});
 	}
@@ -286,7 +372,7 @@ public class MainController {
 			@Override
 			public void run() {
 				if (!main.getGameEng().gameOver())
-				sauvesLabel.setText(""+main.getGameEng().getNombreSauves());
+					sauvesLabel.setText(""+main.getGameEng().getNombreSauves());
 			}
 		});
 	}
@@ -325,4 +411,112 @@ public class MainController {
 		System.err.println("getCoordonneesClic : Je ne dois jamais passer ici !");
 		return null;
 	}
+
+	/* Permet d'obtenir le premier lemming actif que l'on rencontre sur une certaine case */
+	public Lemming getLemming(int x, int y){
+		GameEng g = main.getGameEng();
+		Set<Integer> set = g.getLemmingsActifs();
+		for(int i : set){
+			if(g.getLemming(i).getX() == x && g.getLemming(i).getY() == y)
+				return g.getLemming(i);
+		}
+		return null;
+	}
+
+	@FXML
+	void setDigger(ActionEvent event) {
+		settingDigger = true;
+		settingClimber = false;
+		settingBuilder = false;
+		settingFloater = false;
+		settingBomber = false;
+		settingStopper = false;
+		settingBasher = false;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setClimber(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = true;
+		settingBuilder = false;
+		settingFloater = false;
+		settingBomber = false;
+		settingStopper = false;
+		settingBasher = false;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setBuilder(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = false;
+		settingBuilder = true;
+		settingFloater = false;
+		settingBomber = false;
+		settingStopper = false;
+		settingBasher = false;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setFloater(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = false;
+		settingBuilder = false;
+		settingFloater = true;
+		settingBomber = false;
+		settingStopper = false;
+		settingBasher = false;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setBomber(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = false;
+		settingBuilder = false;
+		settingFloater = false;
+		settingBomber = true;
+		settingStopper = false;
+		settingBasher = false;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setStopper(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = false;
+		settingBuilder = false;
+		settingFloater = false;
+		settingBomber = false;
+		settingStopper = true;
+		settingBasher = false;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setBasher(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = false;
+		settingBuilder = false;
+		settingFloater = false;
+		settingBomber = false;
+		settingStopper = false;
+		settingBasher = true;
+		settingMiner= false;
+	}
+
+	@FXML
+	void setMiner(ActionEvent event) {
+		settingDigger = false;
+		settingClimber = false;
+		settingBuilder = false;
+		settingFloater = false;
+		settingBomber = false;
+		settingStopper = false;
+		settingBasher = false;
+		settingMiner= true;
+	}
+
 }
