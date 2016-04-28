@@ -19,28 +19,27 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import model.lemmings.services.GameEng;
+import model.lemmings.contract.JoueurContract;
+import model.lemmings.impl.JoueurImpl;
+import model.lemmings.services.Joueur;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level.Nature;
 import view.Main.Images;
 
 public class MainController {
 
+	/* Enum qui permet de savoir quelle chase est sélectionnée (pour changer le type d'un lemming) */
+	private enum SelectedType{
+		DIGGER, CLIMBER, BUILDER, FLOATER, STOPPER, BASHER, BOMBER, MINER, NONE;
+	}
 
 	private static final long REFRESH_TIME = 400;
 
 	private Pane exitPane;
 	private Pane entrancePane;
-
+	
 	/* Booleens pour les types de lemmings */
-	private boolean settingDigger;
-	private boolean settingClimber;
-	private boolean settingBuilder;
-	private boolean settingFloater;
-	private boolean settingStopper;
-	private boolean settingBasher;
-	private boolean settingBomber;
-	private boolean settingMiner;
+	private SelectedType setLemming;
 
 	@FXML private Button dimensionButton;
 	@FXML private Button editingButton;
@@ -70,6 +69,7 @@ public class MainController {
 	@FXML private VBox dimensionVBox;
 
 	private Main main;
+	
 
 	public void setMainApp(Main main) {
 		this.main = main;
@@ -213,27 +213,35 @@ public class MainController {
 			System.err.println("Clic sur "+pointNode.toString());
 			try{
 				/* Si changement de type */
-				Lemming l = getLemming(x, y);
+				Lemming l = main.getJoueur().select(x, y);
 
 				/* Si la case était vide alors on annule */ 
 				if (l != null){
-					if(settingDigger){
-						l.devientCreuseur();
-					}else if(settingClimber){
-						l.devientGrimpeur();
-						System.err.println(">>>>>>>>>>>>>> devient grimpeur <<<<<<<<<<<<<<<<<");
-					}else if(settingBuilder){
-						l.devientBuilder();
-					}else if(settingFloater){
-						l.devientFlotteur();
-					}else if(settingBomber){
-						l.devientExploseur();
-					}else if(settingStopper){
-						l.devientStoppeur();
-					}else if(settingBasher){
-						l.devientBasher();
-					}else if(settingMiner){
-						l.devientMiner();
+					switch(setLemming){
+					case DIGGER:
+						main.getJoueur().changeClasse(l, "DIGGER");
+						break;
+					case CLIMBER:
+						main.getJoueur().changeClasse(l, "CLIMBER");
+						break;
+					case BUILDER:
+						main.getJoueur().changeClasse(l, "BUILDER");
+						break;
+					case BOMBER:
+						main.getJoueur().changeClasse(l, "BOMBER");
+						break;
+					case STOPPER:
+						main.getJoueur().changeClasse(l, "STOPPER");
+						break;
+					case FLOATER:
+						main.getJoueur().changeClasse(l, "FLOATER");
+						break;
+					case BASHER:
+						main.getJoueur().changeClasse(l, "BASHER");
+						break;
+					case MINER:
+						main.getJoueur().changeClasse(l, "MINER");
+						break;
 					}
 				}
 			}catch(Error e){
@@ -258,15 +266,8 @@ public class MainController {
 			basherButton.setVisible(true);
 			minerButton.setVisible(true);
 
-			/* Mise des booleans de type à false */
-			settingDigger = false;
-			settingClimber = false;
-			settingBuilder = false;
-			settingFloater = false;
-			settingBomber = false;
-			settingStopper = false;
-			settingBasher = false;
-			settingMiner= false;
+			/* setLemming à NONE (aucune case de type n'est sélectionné) */
+			setLemming = SelectedType.NONE;
 
 			//TODO masquer des zones de saisies ( colony, largeur hauteur) mais laisser qqch pour changer spawnspeed
 			Thread t = new Thread(new Runnable() {
@@ -304,8 +305,7 @@ public class MainController {
 			String vitesse = spawnSpeedTextField.getText();
 			if (Outils.isNumber(vitesse)) {
 				int spawnSpeed = Integer.parseInt(vitesse);
-				//TODO rajouter setSpawnSpeed dans GameEng
-				//main.getGameEng().setSpawnSpeed(spawnSpeed);
+				main.getGameEng().setSpawnSpeed(spawnSpeed);
 			}
 		}
 	}
@@ -399,110 +399,54 @@ public class MainController {
 	}
 
 	/* Permet d'obtenir le premier lemming actif que l'on rencontre sur une certaine case */
-	public Lemming getLemming(int x, int y){
-		GameEng g = main.getGameEng();
-		Set<Integer> set = g.getLemmingsActifs();
-		for(int i : set){
-			if(g.getLemming(i).getX() == x && g.getLemming(i).getY() == y)
-				return g.getLemming(i);
-		}
-		return null;
-	}
+//	public Lemming getLemming(int x, int y){
+//		GameEng g = main.getGameEng();
+//		Set<Integer> set = g.getLemmingsActifs();
+//		for(int i : set){
+//			if(g.getLemming(i).getX() == x && g.getLemming(i).getY() == y)
+//				return g.getLemming(i);
+//		}
+//		return null;
+//	}
 
 	@FXML
 	void setDigger(ActionEvent event) {
-		settingDigger = true;
-		settingClimber = false;
-		settingBuilder = false;
-		settingFloater = false;
-		settingBomber = false;
-		settingStopper = false;
-		settingBasher = false;
-		settingMiner= false;
+		setLemming = SelectedType.DIGGER;
 	}
 
 	@FXML
 	void setClimber(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = true;
-		settingBuilder = false;
-		settingFloater = false;
-		settingBomber = false;
-		settingStopper = false;
-		settingBasher = false;
-		settingMiner= false;
+		setLemming = SelectedType.CLIMBER;
 	}
 
 	@FXML
 	void setBuilder(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = false;
-		settingBuilder = true;
-		settingFloater = false;
-		settingBomber = false;
-		settingStopper = false;
-		settingBasher = false;
-		settingMiner= false;
+		setLemming = SelectedType.BUILDER;
 	}
 
 	@FXML
 	void setFloater(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = false;
-		settingBuilder = false;
-		settingFloater = true;
-		settingBomber = false;
-		settingStopper = false;
-		settingBasher = false;
-		settingMiner= false;
+		setLemming = SelectedType.FLOATER;
 	}
 
 	@FXML
 	void setBomber(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = false;
-		settingBuilder = false;
-		settingFloater = false;
-		settingBomber = true;
-		settingStopper = false;
-		settingBasher = false;
-		settingMiner= false;
+		setLemming = SelectedType.BOMBER;
 	}
 
 	@FXML
 	void setStopper(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = false;
-		settingBuilder = false;
-		settingFloater = false;
-		settingBomber = false;
-		settingStopper = true;
-		settingBasher = false;
-		settingMiner= false;
+		setLemming = SelectedType.STOPPER;
 	}
 
 	@FXML
 	void setBasher(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = false;
-		settingBuilder = false;
-		settingFloater = false;
-		settingBomber = false;
-		settingStopper = false;
-		settingBasher = true;
-		settingMiner= false;
+		setLemming = SelectedType.BASHER;
 	}
 
 	@FXML
 	void setMiner(ActionEvent event) {
-		settingDigger = false;
-		settingClimber = false;
-		settingBuilder = false;
-		settingFloater = false;
-		settingBomber = false;
-		settingStopper = false;
-		settingBasher = false;
-		settingMiner= true;
+		setLemming = SelectedType.MINER;
 	}
 
 }

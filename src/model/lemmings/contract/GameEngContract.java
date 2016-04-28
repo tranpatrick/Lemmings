@@ -45,14 +45,14 @@ public class GameEngContract extends GameEngDecorator{
 
 		//TODO A voir si on doit vraiment l'enlever
 		// \invMin isObstacle(x,y) == getLevel().getNature(x,y) != EMPTY
-//		for (int x = 0; x < super.getLevel().getWidth() ; x++) {
-//			for (int y = 0; y < super.getLevel().getHeight() ; y++) {
-//				if (!(super.isObstacle(x, y) == (super.getLevel().getNature(x, y) != Nature.EMPTY))) {
-//					throw new InvariantError("isObstacle(x,y) == "
-//							+ "getLevel().getNature(x,y) != EMPTY not satisfied");
-//				}
-//			}
-//		}
+		//		for (int x = 0; x < super.getLevel().getWidth() ; x++) {
+		//			for (int y = 0; y < super.getLevel().getHeight() ; y++) {
+		//				if (!(super.isObstacle(x, y) == (super.getLevel().getNature(x, y) != Nature.EMPTY))) {
+		//					throw new InvariantError("isObstacle(x,y) == "
+		//							+ "getLevel().getNature(x,y) != EMPTY not satisfied");
+		//				}
+		//			}
+		//		}
 
 		// \inv getNombreTours() >= 0
 		if (!(super.getNombreTours() >= 0)) {
@@ -320,7 +320,7 @@ public class GameEngContract extends GameEngDecorator{
 		 */
 		if (super.getNombreTours() % super.getSpawnSpeed() == 0 && 
 				super.getNombreCrees() < super.getSizeColony()) {
-			
+
 			System.out.println("size@pre "+nombreActifsPre);
 			System.out.println("super size "+super.getNombreActifs());
 			if (!(super.getLemmingsActifs().contains(super.getNombreCrees()))) {
@@ -405,17 +405,17 @@ public class GameEngContract extends GameEngDecorator{
 					+ "getLemming(i).getX() = x AND getLemming(i).getY() = y "
 					+ "AND getLevel().isExit(x, y) not satisfied");
 		}
-		
+
 		/* Captures */
 		final int nombreSauvesPre = super.getNombreSauves();
 		final int nombreActifsPre = super.getNombreActifs();
 		final Set<Integer> lemmingsActifsPre = super.getLemmingsActifs();
-		
+
 		checkInvariant();
 		super.sauverLemming(i);
 		checkInvariant();
-		
-		
+
+
 		if (!(super.getNombreActifs() == nombreActifsPre - 1)) {
 			throw new PostConditionError("step : getNombreActifs() = "
 					+ "getNombreActifs()@pre-1 not satisfied");
@@ -437,7 +437,19 @@ public class GameEngContract extends GameEngDecorator{
 		}		
 
 	}
-	
+
+	// \pre !gameOver()
+	// \post setSpawnSpeed(s) \implies getSpawnSpeed() = s
+	public void setSpawnSpeed(int s){
+		if(super.gameOver())
+			throw new PreConditionError("setSpawnSpeed : !gameOver() not satisfied");
+		checkInvariant();
+		super.setSpawnSpeed(s);
+		checkInvariant();
+		if(super.getSpawnSpeed() != s)
+			throw new PostConditionError("setSpawnSpeed : post setSpawnSpeed(s) implies getSpawnSpeed() = s not satisfied");
+	}
+
 	//TODO voir si il faut contrat pour l'ihm et observer
 	/* perso flemme je fais juste checkinvariant au pire */
 	@Override

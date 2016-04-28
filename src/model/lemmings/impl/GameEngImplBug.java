@@ -165,4 +165,10 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 		
 	}
 
+
+	@Override
+	public void setSpawnSpeed(int s) {
+		spawnSpeed = s-1;
+	}
+
 }
