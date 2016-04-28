@@ -277,8 +277,8 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		checkInvariant();
 
 		// \post isGrimpeur()=true
-		if(super.isFlotteur() == true)
-			throw new PreConditionError("devientFlotteur: isFlotteur() = false not satisfied");
+		if(!super.isFlotteur() == true)
+			throw new PreConditionError("devientFlotteur: isFlotteur() = true not satisfied");
 	}
 
 	public void devientGrimpeur(){
@@ -312,7 +312,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			throw new PostConditionError("devientExploseur: isExploseur() = true not satisfied");
 	}
 
-	//TODO contrat
+	//TODO ladi a surement fait des betises avec les booleen contrat
 	@Override
 	public void devientCreuseur() {
 		// \pre getType() != CREUSEUR
@@ -359,7 +359,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 	@Override
 	public void devientBasher() {
 		// \pre getType() != BASHER
-		if (!(super.getType() != Type.BASHER)) 
+		if (super.getType() == Type.BASHER)
 			throw new PreConditionError("devientBasher: getType() != BASHER not satisfied");
 		checkInvariant();
 		super.devientBasher();

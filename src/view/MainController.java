@@ -28,7 +28,8 @@ public class MainController {
 		DIGGER, CLIMBER, BUILDER, FLOATER, STOPPER, BASHER, BOMBER, MINER, NONE;
 	}
 
-	private static final long REFRESH_TIME = 400;
+	//TODO ajouter champs de saisie pour regler vitesse d'animation
+	private static final long REFRESH_TIME = 350;
 
 	private Pane exitPane;
 	private Pane entrancePane;

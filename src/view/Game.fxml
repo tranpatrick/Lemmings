@@ -253,7 +253,7 @@
 		<VBox prefHeight="719.0" prefWidth="14.0" BorderPane.alignment="CENTER" />
 	</left>
 	<bottom>
-		<HBox prefHeight="80.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+		<HBox alignment="CENTER" prefHeight="80.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="80.0" prefWidth="900.0">
                <children>

@@ -185,10 +185,7 @@ public class GameEngContract extends GameEngDecorator{
 			throw new PreConditionError("getNombreTours : "
 					+ "getLevel().isEditing() == false not satisfied");
 		}
-		// \pre !gameOver()
-		if (super.gameOver()) {
-			throw new PreConditionError("getNombreTours : !gameOver() not satisfied");
-		}
+
 		checkInvariant();
 		int nombreTours = super.getNombreTours();
 		checkInvariant();
