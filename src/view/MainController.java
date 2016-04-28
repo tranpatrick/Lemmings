@@ -1,6 +1,5 @@
 package view;
 
-import java.io.File;
 import java.util.Set;
 
 import javafx.application.Platform;
@@ -9,7 +8,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,11 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -304,19 +297,6 @@ public class MainController {
 			//							+ "une entree et une sortie");
 		}
 	}
-
-	@FXML
-	void changeSpawnSpeed(ActionEvent event) {
-		if (!main.getGameEng().gameOver()) {
-			String vitesse = spawnSpeedTextField.getText();
-			if (Outils.isNumber(vitesse)) {
-				int spawnSpeed = Integer.parseInt(vitesse);
-				//TODO rajouter setSpawnSpeed dans GameEng
-				//main.getGameEng().setSpawnSpeed(spawnSpeed);
-			}
-		}
-	}
-
 
 	@FXML
 	void goEditing(ActionEvent event) {

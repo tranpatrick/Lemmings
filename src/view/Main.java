@@ -53,13 +53,14 @@ public class Main extends Application implements IObserver{
 		//		/* Lemmings droitiers */
 		MARCHEUR_D,
 		TOMBEUR,
+		BUILDER_TOMBEUR,
 		//		CREUSEUR_D,
 		GRIMPEUR_D,
-		BUILDER_D1,
-		BUILDER_D2,
-		BUILDER_D3,
-		BUILDER_D4,
+		BUILDER_D,
 		FLOTTEUR_D,
+		BUILDER_STEP1_D,
+		BUILDER_STEP2_D,
+		BUILDER_STEP3_D,
 		//		EXPLOSEUR_D,
 		//		STOPPEUR_D,
 		//		BASHER_D,
@@ -68,11 +69,11 @@ public class Main extends Application implements IObserver{
 		MARCHEUR_G, 
 		//		CREUSEUR_G,
 		GRIMPEUR_G,
-		BUILDER_G1,
-		BUILDER_G2,
-		BUILDER_G3,
-		BUILDER_G4,
+		BUILDER_G,
 		FLOTTEUR_G,
+		BUILDER_STEP1_G,
+		BUILDER_STEP2_G,
+		BUILDER_STEP3_G,
 		//		EXPLOSEUR_G,
 		//		STOPPEUR_G,
 		//		BASHER_G,
@@ -113,10 +114,9 @@ public class Main extends Application implements IObserver{
 			int cpt = (cptImage%4)+1;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY 
 					|| v == Images.ENTREE|| v == Images.SORTIE 
-					|| v == Images.BUILDER_D1 || v == Images.BUILDER_D2
-					|| v == Images.BUILDER_D3 || v == Images.BUILDER_D4
-					|| v == Images.BUILDER_G1 || v == Images.BUILDER_G2
-					|| v == Images.BUILDER_G3 || v == Images.BUILDER_G4) {
+					|| v == Images.BUILDER_STEP1_D || v == Images.BUILDER_STEP2_D
+					|| v == Images.BUILDER_STEP3_D || v == Images.BUILDER_STEP1_G
+					|| v == Images.BUILDER_STEP2_G || v == Images.BUILDER_STEP3_G) {
 				filename = "images/"+v.toString().toLowerCase()+".png";
 			}
 			else { 
@@ -326,6 +326,9 @@ public class Main extends Application implements IObserver{
 			case TOMBEUR:
 				if (lem.isFlotteur()) 
 					bg = getBackground(Images.FLOTTEUR_D);
+				else if (lem.isBuilder()) {
+					bg = getBackground(Images.BUILDER_TOMBEUR);
+				}
 				else
 					bg =  getBackground(Images.TOMBEUR);
 				break;
@@ -333,13 +336,13 @@ public class Main extends Application implements IObserver{
 				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
 					bg = getBackground(Images.GRIMPEUR_D);
 				else if(lem.isBuilder() && !lem.isCurrentlyBuilding())
-					bg = getBackground(Images.BUILDER_D1);
+					bg = getBackground(Images.BUILDER_D);
 				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 0)
-					bg = getBackground(Images.BUILDER_D2);
+					bg = getBackground(Images.BUILDER_STEP1_D);
 				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 1)
-					bg = getBackground(Images.BUILDER_D3);
+					bg = getBackground(Images.BUILDER_STEP2_D);
 				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 2)
-					bg = getBackground(Images.BUILDER_D4);
+					bg = getBackground(Images.BUILDER_STEP3_D);
 				else
 					bg = getBackground(Images.MARCHEUR_D);
 				break;
@@ -358,6 +361,14 @@ public class Main extends Application implements IObserver{
 			case MARCHEUR:
 				if (lem.isGrimpeur() && lem.isCurrentlyClimbing()) 
 					bg = getBackground(Images.GRIMPEUR_G);
+				else if(lem.isBuilder() && !lem.isCurrentlyBuilding())
+					bg = getBackground(Images.BUILDER_G);
+				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 0)
+					bg = getBackground(Images.BUILDER_STEP1_G);
+				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 1)
+					bg = getBackground(Images.BUILDER_STEP2_G);
+				else if(lem.isBuilder() && lem.isCurrentlyBuilding() && lem.getNombreToursBuilder() == 2)
+					bg = getBackground(Images.BUILDER_STEP3_G);
 				else
 					bg = getBackground(Images.MARCHEUR_G);
 				break;

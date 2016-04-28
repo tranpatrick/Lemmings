@@ -132,7 +132,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		Point entrance = gameEng.getLevel().getEntrance();
 		x = entrance.x;
 		y = entrance.y;
-		isGrimpeur = true;
+		isGrimpeur = false;
 		isFlotteur = false;
 		isBuilder = false;
 		isCurrentlyBuilding = false;
