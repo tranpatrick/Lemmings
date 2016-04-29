@@ -118,7 +118,6 @@ public interface Lemming {
 
 	// TODO revoir les preconditon des devient
 	// TODO le stoppeur peut aussi être basher, creuseur, grimpeur etc.......
-	// TODO le builder ne peut pas build sur l'entrée ou la sortie
 	// \pre !getGameEng().gameOver()
 	// \pre getId() \in getGameEng().getLemmingActifs()
 
@@ -329,7 +328,6 @@ public interface Lemming {
 	 * 					AND getY() = getY()@pre	
 	 * 					AND getDirection() = getDirection()@pre
 	 *  
-	 *  //TODO Builder
 	 *  ****** BUILDER DROITIER OK ********
 	 * \post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true 
 	 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
@@ -436,7 +434,6 @@ public interface Lemming {
 	 * 
 	 * *********** FIN GRIMPEUR ***********
 	 * *********** DEBUT BUILDER *************
-	 *    //TODO builder
 	 *  ******** BUILDER GAUCHER START ********
 	 *  	
 	 *  \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true

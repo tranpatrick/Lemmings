@@ -227,7 +227,6 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					obs.update();		
 				}
 			});

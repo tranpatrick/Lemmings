@@ -105,7 +105,6 @@ public class LevelImplBug implements Level{
 
 	@Override
 	public Point getExit() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -102,8 +102,6 @@ public interface GameEng extends IObservable{
 	// \invMin getNombreActifs() == | getLemmingActifs() |
 	// \invMin score() == getNombreSauves / getSizeColony()
 	// \invMin getNombreCrees() == getNombreActifs() + getNombreSauves() + getNombreMorts()
-	//TODO enlever isObstacle
-	// \invMin isObstacle(x,y) == getLevel().getNature(x,y) != EMPTY
 	// \inv getNombreTours() >= 0
 	// \inv getNombreSauves() >= 0 AND getNombreSauves() <= getNombreCrees() 
 	// \inv getNombreMorts() >= 0 AND getNombreMorts() <= getNombreCrees()

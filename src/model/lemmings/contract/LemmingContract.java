@@ -312,7 +312,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			throw new PostConditionError("devientExploseur: isExploseur() = true not satisfied");
 	}
 
-	//TODO ladi a surement fait des betises avec les booleen contrat
 	@Override
 	public void devientCreuseur() {
 		// \pre getType() != CREUSEUR
@@ -375,7 +374,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 	@Override
 	public void devientStoppeur(){
-		//TODO revoir contrat
 		// \pre getType() != TOMBEUR && getType() != STOPPEUR;
 		if(!(getType() != Type.TOMBEUR))
 			throw new PreConditionError("devientStoppeur: getType()@pre = TOMBEUR not satisfied");
@@ -406,7 +404,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		int yPre = super.getY();
 		int widthPre = super.getGameEng().getLevel().getWidth();
 		int heightPre = super.getGameEng().getLevel().getHeight();
-		//TODO enlever heightPre si inutile
 
 		boolean isBuilderPre = super.isBuilder();
 		boolean isCurrentlyBuildingPre = super.isCurrentlyBuilding();
@@ -452,7 +449,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		int nombreToursBuilderPre = super.getNombreToursBuilder();
 		int nbCreuseTunnelPre = super.nbCreuseTunnel();
 
-		//TODO attention si je suis sur bord du terrain
 		/* pour CREUSEUR */
 		Nature caseGaucheBasPre = super.getGameEng().getLevel().getNature(xPre-1, yPre+1);
 		Nature caseDroiteBasPre = super.getGameEng().getLevel().getNature(xPre+1, yPre+1);
@@ -707,7 +703,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				/*************** FIN GRIMPEUR ****************/
 
 				/*************** DEBUT BUILDER ***************/
-				//TODO Builder
 				/*  \post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true
 				 *  	AND getNombreToursBuilder()@pre < INTERVALLE_POSE_DALLE
 				 *  	\implies getNombreToursBuilder() = getNombreToursBuilder()@pre + 1 */
@@ -1066,7 +1061,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 
 				}
 				/**************** FIN GRIMPEUR *****************/
-				//TODO builder
 				/*************** DEBUT BUILDER GAUCHER ***************/
 				/*  \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true
 				 *  	AND getNombreToursBuilder()@pre < INTERVALLE_POSE_DALLE
@@ -1716,7 +1710,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 						+ "OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre - 2)"
 						+ "OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)";
 				if (!(super.getType() == Type.MARCHEUR)) {
-					//TODO pb ici
 					throw new PostConditionError(msg+" implies getType() = MARCHEUR not satisfied");
 				}
 				if (!(super.getX() == xPre)) {
@@ -1848,13 +1841,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 					+ "AND getGameEng().getNombreSauves() = getGameEng().getNombreSauves()@pre + 1"
 					+ "AND getGameEng().getNombreActifs() = getGameEng().getNombreActifs()@pre - 1");
 
-
-		// TODO ZONE DE TEST, A ENLEVER PLUS TARD
-		if (super.getId() == 1 && super.getGameEng().getNombreTours() == 12) {
-			//			System.err.println(">>>>>>>>>>>>>> BASHEUR <<<<<<<<<<<<<<<<<<<<<");
-			//			super.getGameEng().getLemming(super.getGameEng().getNombreCrees()-1).devientBuilder();
-			//			super.getGameEng().getLemming(1).devientBasher();
-		}
 
 	}
 }

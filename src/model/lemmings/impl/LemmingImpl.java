@@ -123,7 +123,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		return gameEng;
 	}
 
-	//TODO ne pas oublier de bien remettre init apres les test
 	@Override
 	public void init(int id) {
 		this.id = id;
