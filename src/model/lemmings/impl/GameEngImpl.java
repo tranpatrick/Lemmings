@@ -66,6 +66,16 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 
 		return isObstacle;
 	}
+	
+	@Override
+	public boolean isObstacle2(int x, int y) {
+		for (int i : getLemmingsActifs()) {
+			Lemming l = getLemming(i);
+			if (l.getX() == x && l.getY() == y)
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public boolean isLibre(int x, int y) {
@@ -177,7 +187,6 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 //		for (int i : lemmingsActifs.keySet()){
 //			System.out.print(i+" ");
 //		}
-		System.out.println();
 //		System.out.println("nombre cree "+nombreCrees);
 //		System.out.println("nombre actifs "+getNombreActifs());
 //		System.out.println("nombre morts "+getNombreMorts());

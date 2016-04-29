@@ -271,7 +271,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		// \pre isGrimpeur()=false
 		if(super.isFlotteur() != false)
 			throw new PreConditionError("devientFlotteur: isFlotteur() != false not satisfied");
-		
+
 		checkInvariant();
 		super.devientFlotteur();
 		checkInvariant();
@@ -286,7 +286,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		if(super.isGrimpeur() != false)
 			throw new PreConditionError("devientGrimpeur : isGrimpeur = false not satisfied");
 		// \pre getType()=MARCHEUR OR getType()=TOMBEUR OR getType()=CREUSEUR
-		if(super.getType() != Type.MARCHEUR || super.getType() != Type.TOMBEUR || super.getType() != Type.CREUSEUR)
+		if(!(super.getType() == Type.MARCHEUR || super.getType() == Type.TOMBEUR || super.getType() == Type.CREUSEUR))
 			throw new PreConditionError("devientGrimpeur : getType()=MARCHEUR OR getType()=TOMBEUR OR getType()=CREUSEUR not satisfied");
 
 		checkInvariant();
@@ -318,11 +318,11 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		// \pre getType() != CREUSEUR
 		if (!(super.getType() != Type.CREUSEUR)) 
 			throw new PreConditionError("devientCreuseur : getType() != CREUSEUR not satisfied");
-		
+
 		checkInvariant();
 		super.devientCreuseur();
 		checkInvariant();
-		
+
 		// \post getType() = CREUSEUR
 		if (!(super.getType() == Type.CREUSEUR)) 
 			throw new PostConditionError("devientCreuseur : getType() == CREUSEUR not satisfied");
@@ -331,13 +331,13 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 	@Override 
 	public void devientBuilder() {
 		// \pre isBuilder() = false
-				if (!(super.isBuilder() == false)) 
-					throw new PreConditionError("devientBuilder : isBuilder() = false not satisfied");
-				
+		if (!(super.isBuilder() == false)) 
+			throw new PreConditionError("devientBuilder : isBuilder() = false not satisfied");
+
 		checkInvariant();
 		super.devientBuilder();
 		checkInvariant();
-		
+
 		// \post isBuilder() = true
 		if (!(super.isBuilder() == true)) 
 			throw new PostConditionError("devientBuilder : isBuilder() = true not satisfied");
@@ -346,7 +346,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 	@Override
 	public void devientMiner() {
 		// \pre getType() != MINER
-		if (!(super.getType() != Type.MINER)) 
+		if (super.getType() == Type.MINER) 
 			throw new PreConditionError("devientMiner: getType() != MINER not satisfied");
 		checkInvariant();
 		super.devientMiner();
@@ -359,12 +359,12 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 	@Override
 	public void devientBasher() {
 		// \pre getType() != BASHER
-		if (super.getType() == Type.BASHER)
+		if (!(super.getType() != Type.BASHER))
 			throw new PreConditionError("devientBasher: getType() != BASHER not satisfied");
 		checkInvariant();
 		super.devientBasher();
 		checkInvariant();
-		// \post getType() = BASHER
+//		// \post getType() = BASHER
 		if (!(super.getType() == Type.BASHER)) 
 			throw new PostConditionError("devientBasher: getType() == BASHER not satisfied");
 		// \post nbCreuseTunnel() = 0
@@ -426,6 +426,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		boolean isObstacleDroite1Haut2Pre = xPre+1<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+1, yPre-2):true;
 		boolean isObstacleDroite2Haut2Pre = xPre+2<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+2, yPre-2):true;
 		boolean isObstacleDroite3Haut2Pre = xPre+3<widthPre && yPre-2>0?super.getGameEng().isObstacle(xPre+3, yPre-2):true;
+		boolean isObstacle2Droite1Pre = xPre+1<widthPre?super.getGameEng().isObstacle2(xPre+1, yPre):true;
+		boolean isObstacle2Droite1Haut1Pre = xPre+1<widthPre && yPre-1>0?super.getGameEng().isObstacle2(xPre+1, yPre-1):true;
+		boolean isObstacle2Droite1Haut2Pre = xPre+1<widthPre && yPre-2>0?super.getGameEng().isObstacle2(xPre+1, yPre-1):true;
 
 		boolean isLibreGauche1Pre = xPre-1>0?super.getGameEng().isLibre(xPre-1, yPre):true;
 		boolean isLibreGauche2Pre = xPre-2>0?super.getGameEng().isLibre(xPre-2, yPre):true;
@@ -441,6 +444,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		boolean isObstacleGauche1Haut2Pre = xPre-1>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-1, yPre-2):true;
 		boolean isObstacleGauche2Haut2Pre = xPre-2>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-2, yPre-2):true;
 		boolean isObstacleGauche3Haut2Pre = xPre-3>0 && yPre-2>0?super.getGameEng().isObstacle(xPre-3, yPre-2):true;
+		boolean isObstacle2Gauche1Pre = xPre-1>0?super.getGameEng().isObstacle2(xPre-1, yPre):true;
+		boolean isObstacle2Gauche1Haut1Pre = xPre-1>0 && yPre-1>0?super.getGameEng().isObstacle2(xPre-1, yPre-1):true;
+		boolean isObstacle2Gauche1Haut2Pre = xPre-1>0 && yPre-2>0?super.getGameEng().isObstacle2(xPre-1, yPre-1):true;
 
 		int nombreDallesPoseesPre = super.getNombreDallesPosees();
 		int nombreToursBuilderPre = super.getNombreToursBuilder();
@@ -1626,24 +1632,33 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			 * 								AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre) != METAL
 			 * 								AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-1) != METAL
 			 *  							AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) != METAL
+			 * 	 							AND !getGameEng().isObstacle2(getX()@pre + 1, getY()@pre)
+			 * 								AND !getGameEng().isObstacle2(getX()@pre + 1, getY()@pre-1)
+			 *  							AND !getGameEng().isObstacle2(getX()@pre + 1, getY()@pre-2)
 			 *  							AND nbCreuseTunnel() < MAX_CREUSE_TUNNEL
 			 *     \implies getType() = getType@pre AND getDirection() = getDirection()@pre
 			 *     									AND getX() = getX()@pre + 1 AND getY() = getY()@pre
 			 *     									AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre)
 			 *     									AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-1)
 			 *         								AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
-			 *         								AND nbCreuseTunnel() = nbCreuseTunnel()@pre+1 
+			 *         								AND nbCreuseTunnel() = nbCreuseTunnel()@pre+1    	 
 			 */         
 			else if(directionPre == Direction.DROITIER && isObstacleCaseDessousPre
 					&& !isMetalCaseDroiteTunnel1Pre 
 					&& !isMetalCaseDroiteTunnel2Pre
 					&& !isMetalCaseDroiteTunnel3Pre
+					&& !isObstacle2Droite1Pre
+					&& !isObstacle2Droite1Haut1Pre
+					&& !isObstacle2Droite1Haut2Pre
 					&& nbCreuseTunnelPre < MAX_CREUSE_TUNNEL) {
 				String msg = "post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1) "
 						+ "AND getDirection() == DROITIER "
 						+ "AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre) != METAL "
 						+ "AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-1) != METAL "
 						+ "AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) != METAL	"
+						+ "AND !getGameEng().isObstacle2(getX()@pre + 1, getY()@pre)"
+						+ "AND !getGameEng().isObstacle2(getX()@pre + 1, getY()@pre - 1)"
+						+ "AND !getGameEng().isObstacle2(getX()@pre + 1, getY()@pre - 2)"
 						+ "AND nbCreuseTunnel() < MAX_CREUSE_TUNNEL";
 				if (!(super.getType() == typePre)) {
 					throw new PostConditionError(msg+" implies getType() = getType@pre not satisfied");
@@ -1676,6 +1691,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			 * 								AND (getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre) = METAL
 			 * 									OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-1) = METAL
 			 *  								OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) = METAL
+			 *									OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre)
+			 * 									OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre-1)
+			 *  								OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre-2)
 			 *  								OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)
 			 *     \implies getType() = MARCHEUR AND getX() = getX()@pre AND getY() = getY()@pre
 			 *     								 AND getDirection() = getDirection()@pre
@@ -1684,12 +1702,18 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 					&& (isMetalCaseDroiteTunnel1Pre 
 							|| isMetalCaseDroiteTunnel2Pre
 							|| isMetalCaseDroiteTunnel3Pre
+							|| isObstacle2Droite1Pre
+							|| isObstacle2Droite1Haut1Pre
+							|| isObstacle2Droite1Haut2Pre
 							|| nbCreuseTunnelPre >= MAX_CREUSE_TUNNEL)) {
 				String msg = "post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1) "
 						+ "AND getDirection() == DROITIER "
 						+ "AND (getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre) = METAL "
 						+ "OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-1) = METAL "
 						+ "OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) = METAL "
+						+ "OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre)"
+						+ "OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre - 1)"
+						+ "OR getGameEng().isObstacle2(getX()@pre + 1, getY()@pre - 2)"
 						+ "OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)";
 				if (!(super.getType() == Type.MARCHEUR)) {
 					//TODO pb ici
@@ -1706,29 +1730,37 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				}
 			}
 			/********** BASHEUR GAUCHER CREUSE *************/
-			/*\post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1)
+			/* \post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1)
 			 * 								AND getDirection() == GAUCHER
 			 * 								AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre) != METAL
 			 * 								AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-1) != METAL
 			 *  							AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) != METAL
+			 *  	 						AND !getGameEng().isObstacle2(getX()@pre - 1, getY()@pre)
+			 * 								AND !getGameEng().isObstacle2(getX()@pre - 1, getY()@pre-1)
+			 *  							AND !getGameEng().isObstacle2(getX()@pre - 1, getY()@pre-2)							
 			 *  							AND nbCreuseTunnel() < MAX_CREUSE_TUNNEL
 			 *     \implies getType() = getType@pre AND getDirection() = getDirection()@pre
-			 *     									AND getX() = getX()@pre + 1 AND getY() = getY()@pre
+			 *     									AND getX() = getX()@pre - 1 AND getY() = getY()@pre
 			 *     									AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre)
 			 *     									AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-1)
 			 *         								AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
-			 *         								AND nbCreuseTunnel() = nbCreuseTunnel()@pre+1 
 			 */         
 			else if(directionPre == Direction.GAUCHER && isObstacleCaseDessousPre
 					&& !isMetalCaseGaucheTunnel1Pre 
 					&& !isMetalCaseGaucheTunnel2Pre
 					&& !isMetalCaseGaucheTunnel3Pre
+					&& !isObstacle2Gauche1Pre
+					&& !isObstacle2Gauche1Haut1Pre
+					&& !isObstacle2Gauche1Haut2Pre
 					&& nbCreuseTunnelPre < MAX_CREUSE_TUNNEL) {
 				String msg = "post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1) "
 						+ "AND getDirection() == GAUCHER "
 						+ "AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre) != METAL "
 						+ "AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-1) != METAL "
 						+ "AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) != METAL	"
+						+ "AND !getGameEng().isObstacle2(getX()@pre - 1, getY()@pre)"
+						+ "AND !getGameEng().isObstacle2(getX()@pre - 1, getY()@pre - 1)"
+						+ "AND !getGameEng().isObstacle2(getX()@pre - 1, getY()@pre - 2)"
 						+ "AND nbCreuseTunnel() < MAX_CREUSE_TUNNEL";
 				if (!(super.getType() == typePre)) {
 					throw new PostConditionError(msg+" implies getType() = getType@pre not satisfied");
@@ -1761,6 +1793,9 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			 * 								AND (getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre) = METAL
 			 * 									OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-1) = METAL
 			 *  								OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) = METAL
+			 *    	 							OR getGameEng().isObstacle2(getX()@pre - 1, getY()@pre)
+			 * 									OR getGameEng().isObstacle2(getX()@pre - 1, getY()@pre-1)
+			 *  								OR getGameEng().isObstacle2(getX()@pre - 1, getY()@pre-2)
 			 *  								OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)
 			 *     \implies getType() = MARCHEUR AND getX() = getX()@pre AND getY() = getY()@pre
 			 *     								 AND getDirection() = getDirection()@pre
@@ -1769,15 +1804,20 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 					&& (isMetalCaseGaucheTunnel1Pre 
 							|| isMetalCaseGaucheTunnel2Pre
 							|| isMetalCaseGaucheTunnel3Pre
+							|| isObstacle2Gauche1Pre
+							|| isObstacle2Gauche1Haut1Pre
+							|| isObstacle2Gauche1Haut2Pre
 							|| nbCreuseTunnelPre >= MAX_CREUSE_TUNNEL)) {
 				String msg = "post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1) "
 						+ "AND getDirection() == GAUCHER "
 						+ "AND (getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre) = METAL "
 						+ "OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-1) = METAL "
 						+ "OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) = METAL "
+						+ "OR getGameEng().isObstacle2(getX()@pre - 1, getY()@pre)"
+						+ "OR getGameEng().isObstacle2(getX()@pre - 1, getY()@pre - 1)"
+						+ "OR getGameEng().isObstacle2(getX()@pre - 1, getY()@pre - 2)"
 						+ "OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)";
 				if (!(super.getType() == Type.MARCHEUR)) {
-					//TODO pb ici
 					throw new PostConditionError(msg+" implies getType() = MARCHEUR not satisfied");
 				}
 				if (!(super.getX() == xPre)) {
