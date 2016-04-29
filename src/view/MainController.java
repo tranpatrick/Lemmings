@@ -3,6 +3,7 @@ package view;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
@@ -13,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -124,6 +126,38 @@ public class MainController {
 	void handleSetExitButton(ActionEvent event) {
 		main.setSetEntranceClicked(false);
 		main.setSetExitClicked(true);
+	}
+
+	/* Permet de mettre en place la gestion de scroll sur la spawnSpeedTextField */
+	void initScrollOnSpawnSpeed(){
+		spawnSpeedTextField.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent se) {
+				try{
+					String s;
+					int ss;
+					s = spawnSpeedTextField.getText();
+					if(Outils.isNumber(s)){
+						ss = Integer.parseInt(s);
+						if(se.getDeltaY() > 0){
+							main.getJoueur().changeSpawnSpeed(ss+1);
+							spawnSpeedTextField.setText(""+(ss+1));
+						}
+						else if(se.getDeltaY() < 0){
+							if(ss == 1){
+								main.getJoueur().changeSpawnSpeed(1);
+								spawnSpeedTextField.setText(""+1);
+							}else{
+								main.getJoueur().changeSpawnSpeed(ss-1);
+								spawnSpeedTextField.setText(""+(ss-1));
+							}
+						}
+					}
+				}catch(Error e){
+					System.err.println(e.getMessage());
+				}
+			}
+		});
 	}
 
 	@FXML
@@ -259,6 +293,14 @@ public class MainController {
 			main.getGameEng().getLevel().goPlay();
 
 			/* Activer/Désactiver/Visible les boutons */
+			//hauteurTextField.setEditable(false);
+			hauteurTextField.setDisable(true);
+			//largeurTextField.setEditable(false);
+			largeurTextField.setDisable(true);
+			//sizeColonyTextField.setEditable(false);
+			sizeColonyTextField.setDisable(true);
+			setEntranceButton.setDisable(true);
+			setExitButton.setDisable(true);
 			goPlayButton.setDisable(true);
 			diggerButton.setVisible(true);
 			climberButton.setVisible(true);
@@ -271,7 +313,7 @@ public class MainController {
 
 			/* setLemming à NONE (aucune case de type n'est sélectionné) */
 			setLemming = SelectedType.NONE;
-			
+
 			/* Affichage du nombre de jetons pour chaque type */
 			labelDigger.setText(""+main.getJoueur().getNbJetons("DIGGER"));
 			labelClimber.setText(""+main.getJoueur().getNbJetons("CLIMBER"));
@@ -281,8 +323,10 @@ public class MainController {
 			labelStopper.setText(""+main.getJoueur().getNbJetons("STOPPER"));
 			labelBasher.setText(""+main.getJoueur().getNbJetons("BASHER"));
 			labelMiner.setText(""+main.getJoueur().getNbJetons("MINER"));
+			
+			/* Mise en place du handler pour le scroll sur le SpawnSpeedTextField */
+			initScrollOnSpawnSpeed();
 
-			//TODO masquer des zones de saisies ( colony, largeur hauteur) mais laisser qqch pour changer spawnspeed
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -311,16 +355,16 @@ public class MainController {
 		}
 	}
 
-	@FXML
-	void changeSpawnSpeed(ActionEvent event) {
-		if (!main.getGameEng().gameOver()) {
-			String vitesse = spawnSpeedTextField.getText();
-			if (Outils.isNumber(vitesse)) {
-				int spawnSpeed = Integer.parseInt(vitesse);
-				main.getGameEng().setSpawnSpeed(spawnSpeed);
-			}
-		}
-	}
+	//	@FXML
+	//	void changeSpawnSpeed(ActionEvent event) {
+	//		if (!main.getGameEng().gameOver()) {
+	//			String vitesse = spawnSpeedTextField.getText();
+	//			if (Outils.isNumber(vitesse)) {
+	//				int spawnSpeed = Integer.parseInt(vitesse);
+	//				main.getGameEng().setSpawnSpeed(spawnSpeed);
+	//			}
+	//		}
+	//	}
 
 
 	@FXML
@@ -347,7 +391,7 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-					creesLabel.setText(""+main.getGameEng().getNombreCrees());
+				creesLabel.setText(""+main.getGameEng().getNombreCrees());
 			}
 		});
 	}
@@ -357,7 +401,7 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-					mortsLabel.setText(""+main.getGameEng().getNombreMorts());
+				mortsLabel.setText(""+main.getGameEng().getNombreMorts());
 			}
 		});
 	}
@@ -366,7 +410,7 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-					sauvesLabel.setText(""+main.getGameEng().getNombreSauves());
+				sauvesLabel.setText(""+main.getGameEng().getNombreSauves());
 			}
 		});
 	}
@@ -375,7 +419,7 @@ public class MainController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-					tourLabel.setText(""+main.getGameEng().getNombreTours());
+				tourLabel.setText(""+main.getGameEng().getNombreTours());
 			}
 		});
 	}

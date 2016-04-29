@@ -134,9 +134,6 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	@Override
 	public int getNombreActifs() {
 		Set<Integer> lemmingActifs = getLemmingsActifs();
-		//		if (lemmingActifs == null) {
-		//			return 0;
-		//		}
 		return lemmingActifs.size();
 	}
 
@@ -228,7 +225,6 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 			
 		}
 	}
-
 
 	@Override
 	public void setSpawnSpeed(int s) {

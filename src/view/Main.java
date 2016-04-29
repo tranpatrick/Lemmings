@@ -157,6 +157,7 @@ public class Main extends Application implements IObserver{
 		joueurImpl.init();
 		joueurImpl.bindGameEngService(gameEng);
 		joueur = new JoueurContract(joueurImpl);
+		
 	}
 
 	/**
@@ -233,7 +234,7 @@ public class Main extends Application implements IObserver{
 	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
 	@Override
 	public void update() {
-		System.err.println("Mise a jour interface");
+		//System.err.println("Mise a jour interface");
 		loadImages();
 		if (plateauGridPane != null) {
 			plateauGridPane.setGridLinesVisible(false);

@@ -85,13 +85,17 @@ public class JoueurImpl implements Joueur, RequireGameEngService {
 	}
 
 	@Override
-	public void changeSpawnSpeed(GameEng g, int s) {
+	public void changeSpawnSpeed(int s) {
 		gameEng.setSpawnSpeed(s);
 	}
 
 	@Override
-	public void killThemAll(GameEng g) {
-		//TODO mode Anhilation
+	public void killThemAll() {
+		Set<Integer> lemmingsActifs = gameEng.getLemmingsActifs();
+		
+		for(int i : lemmingsActifs){
+			gameEng.getLemming(i).devientExploseur();
+		}
 	}
 
 	@Override
