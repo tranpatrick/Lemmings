@@ -5,6 +5,7 @@ import java.util.Set;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Joueur;
 import model.lemmings.services.Lemming;
+import model.lemmings.services.Lemming.Type;
 
 public class JoueurContract extends JoueurDecorator implements Joueur {
 
@@ -160,17 +161,20 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 		if(super.getNbJetons(type) != nbJetonsPre-1)
 			throw new PostConditionError("changeClasse : getNbJetons(type) = getNbJetons(type)@pre-1 not satisfied");
 
-		//TODO ca coince ici pour basher
 		if(!((type.equals("CLIMBER") && !l.isGrimpeur())
 				|| (type.equals("FLOATER") && !l.isFlotteur())
 				|| (type.equals("BUILDER") && !l.isBuilder())
 				|| (type.equals("BOMBER") && !l.isExploseur())
-				|| !l.getType().toString().equals(type)))
+				|| !(l.getType() == Type.CREUSEUR && type.equals("DIGGER"))
+				|| !(l.getType() == Type.STOPPEUR && type.equals("STOPPER"))
+				|| !(l.getType().toString().equals(type))
+				)){
 			throw new PostConditionError("changeClasse : type = \"CLIMBER\" implies l.isGrimpeur() = true "+
 					"|| type = \"FLOATER\" implies l.isFlotteur() = true "+
 					"|| type = \"BUILDER\" implies l.isBuilder() = true "+
 					"|| type = \"BOMBER\" implies l.isExploseur() = true "+
 					"|| l.getType() = type not satisfied");
+		}
 	}
 
 	// \pre s > 0 AND getGameEng.gameOver() == false

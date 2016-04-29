@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -209,8 +210,8 @@ public class MainController {
 						((Pane) pointNode.getNode()).setBackground(main.getBackground(Images.ENTREE));
 						entrancePane = (Pane) pointNode.getNode();
 					} catch (Error error) {
-						Outils.showAlert(AlertType.ERROR, "Set Entrance", "Emplacement case d'entree non valide, "
-								, "La case d'entree doit etre situee sur une case vide et sous une case vide");
+						Outils.showAlert(AlertType.ERROR, "Set Entrance", "Emplacement case d'entrée non valide, "
+								, "La case d'entrée doit être située sur une case vide et sous une case vide");
 					} finally {
 						main.setSetEntranceClicked(false);
 					}
@@ -225,7 +226,7 @@ public class MainController {
 						exitPane = (Pane) pointNode.getNode();
 					} catch( Error error) {
 						Outils.showAlert(AlertType.ERROR, "Set Exit", "Emplacement case de sortie non valide, "
-								, "La case de sortie doit etre situee sur une case Metal et sous une case vide");
+								, "La case de sortie doit être située sur une case metal et sous une case vide");
 					} finally {
 						main.setSetExitClicked(false);
 					}
@@ -293,60 +294,70 @@ public class MainController {
 	@FXML
 	void goPlay(ActionEvent event) {
 		try {
-			main.getGameEng().getLevel().goPlay();
+			/* On récupère le spawnSpeed */
+			String ss = spawnSpeedTextField.getText();
+			int speed;
+			if(Outils.isNumber(ss)){
+				speed = Integer.parseInt(ss);
+				main.getJoueur().changeSpawnSpeed(speed);
 
-			/* Activer/Désactiver/Visible les boutons */
-			//hauteurTextField.setEditable(false);
-			hauteurTextField.setDisable(true);
-			//largeurTextField.setEditable(false);
-			largeurTextField.setDisable(true);
-			//sizeColonyTextField.setEditable(false);
-			sizeColonyTextField.setDisable(true);
-			setEntranceButton.setDisable(true);
-			setExitButton.setDisable(true);
-			goPlayButton.setDisable(true);
-			diggerButton.setVisible(true);
-			climberButton.setVisible(true);
-			builderButton.setVisible(true);
-			floaterButton.setVisible(true);
-			bomberButton.setVisible(true);
-			stopperButton.setVisible(true);
-			basherButton.setVisible(true);
-			minerButton.setVisible(true);
+				main.getGameEng().getLevel().goPlay();
+				
+				/* Activer/Désactiver/Visible les boutons */
+				//hauteurTextField.setEditable(false);
+				hauteurTextField.setDisable(true);
+				//largeurTextField.setEditable(false);
+				largeurTextField.setDisable(true);
+				//sizeColonyTextField.setEditable(false);
+				sizeColonyTextField.setDisable(true);
+				setEntranceButton.setDisable(true);
+				setExitButton.setDisable(true);
+				goPlayButton.setDisable(true);
+				diggerButton.setVisible(true);
+				climberButton.setVisible(true);
+				builderButton.setVisible(true);
+				floaterButton.setVisible(true);
+				bomberButton.setVisible(true);
+				stopperButton.setVisible(true);
+				basherButton.setVisible(true);
+				minerButton.setVisible(true);
 
-			/* setLemming à NONE (aucune case de type n'est sélectionné) */
-			setLemming = SelectedType.NONE;
+				/* setLemming à NONE (aucune case de type n'est sélectionné) */
+				setLemming = SelectedType.NONE;
 
-			/* Affichage du nombre de jetons pour chaque type */
-			labelDigger.setText(""+main.getJoueur().getNbJetons("DIGGER"));
-			labelClimber.setText(""+main.getJoueur().getNbJetons("CLIMBER"));
-			labelBuilder.setText(""+main.getJoueur().getNbJetons("BUILDER"));
-			labelFloater.setText(""+main.getJoueur().getNbJetons("FLOATER"));
-			labelBomber.setText(""+main.getJoueur().getNbJetons("BOMBER"));
-			labelStopper.setText(""+main.getJoueur().getNbJetons("STOPPER"));
-			labelBasher.setText(""+main.getJoueur().getNbJetons("BASHER"));
-			labelMiner.setText(""+main.getJoueur().getNbJetons("MINER"));
+				/* Affichage du nombre de jetons pour chaque type */
+				labelDigger.setText(""+main.getJoueur().getNbJetons("DIGGER"));
+				labelClimber.setText(""+main.getJoueur().getNbJetons("CLIMBER"));
+				labelBuilder.setText(""+main.getJoueur().getNbJetons("BUILDER"));
+				labelFloater.setText(""+main.getJoueur().getNbJetons("FLOATER"));
+				labelBomber.setText(""+main.getJoueur().getNbJetons("BOMBER"));
+				labelStopper.setText(""+main.getJoueur().getNbJetons("STOPPER"));
+				labelBasher.setText(""+main.getJoueur().getNbJetons("BASHER"));
+				labelMiner.setText(""+main.getJoueur().getNbJetons("MINER"));
 
-			/* Mise en place du handler pour le scroll sur le SpawnSpeedTextField */
-			initScrollOnSpawnSpeed();
+				/* Mise en place du handler pour le scroll sur le SpawnSpeedTextField */
+				initScrollOnSpawnSpeed();
 
-			Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while (!main.getGameEng().gameOver()) {
-						main.getGameEng().step();
-						updateGameInfo();
-						try {
-							Thread.sleep(REFRESH_TIME);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}		
+				Thread t = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						while (!main.getGameEng().gameOver()) {
+							main.getGameEng().step();
+							updateGameInfo();
+							try {
+								Thread.sleep(REFRESH_TIME);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}		
+						}
+						updateScore();
+						goPlayButton.setDisable(false);
 					}
-					updateScore();
-					goPlayButton.setDisable(false);
-				}
-			});
-			t.start();
+				});
+				t.start();
+			}else{
+				Outils.showAlert(Alert.AlertType.ERROR, "Spawn Speed", "Spawn speed invalide", "Spawn speed doit être un nombre");
+			}
 		} catch (Error e) {
 			//TODO attention is editing est a true 
 			Outils.showAlert(AlertType.ERROR, 
@@ -357,18 +368,6 @@ public class MainController {
 			//							+ "une entree et une sortie");
 		}
 	}
-
-	//	@FXML
-	//	void changeSpawnSpeed(ActionEvent event) {
-	//		if (!main.getGameEng().gameOver()) {
-	//			String vitesse = spawnSpeedTextField.getText();
-	//			if (Outils.isNumber(vitesse)) {
-	//				int spawnSpeed = Integer.parseInt(vitesse);
-	//				main.getGameEng().setSpawnSpeed(spawnSpeed);
-	//			}
-	//		}
-	//	}
-
 
 	@FXML
 	void goEditing(ActionEvent event) {
@@ -383,7 +382,6 @@ public class MainController {
 	@FXML
 	void annihilation(ActionEvent event){
 		try{
-			System.out.println("HELLO");
 			main.getJoueur().annihilation();
 		}catch(Error e){
 			System.out.println(e.getMessage());
