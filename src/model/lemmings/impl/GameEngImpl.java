@@ -168,6 +168,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		this.nombreMorts = 0;
 		this.nombreCrees = 0;
 		this.nombreTours = 0;
+		this.nombreSauves = 0;
 		this.isAnnihilation = false;
 	}
 

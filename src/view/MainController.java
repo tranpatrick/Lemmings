@@ -32,7 +32,7 @@ public class MainController {
 	}
 
 	//TODO ajouter champs de saisie pour regler vitesse d'animation
-	private static final long REFRESH_TIME = 300;
+	private static long REFRESH_TIME = 300;
 
 	private Pane exitPane;
 	private Pane entrancePane;
@@ -40,6 +40,7 @@ public class MainController {
 	/* Booleens pour les types de lemmings */
 	private SelectedType setLemming;
 	private boolean stop = false;
+	private Thread t;
 
 	@FXML private Button dimensionButton;
 	@FXML private Button editingButton;
@@ -58,6 +59,7 @@ public class MainController {
 	@FXML private Button annihilationButton;
 	@FXML private GridPane plateauGridPane;
 	@FXML private HBox scoreHBox;
+	@FXML private HBox vitesseHBox;
 	@FXML private Label creesLabel;
 	@FXML private Label mortsLabel;
 	@FXML private Label sauvesLabel;
@@ -75,6 +77,7 @@ public class MainController {
 	@FXML private TextField largeurTextField;
 	@FXML private TextField sizeColonyTextField;
 	@FXML private TextField spawnSpeedTextField;
+	@FXML private TextField vitesseTextField;
 	@FXML private VBox dimensionVBox;
 
 	private Main main;
@@ -163,6 +166,29 @@ public class MainController {
 				}
 			}
 		});
+	}
+
+	@FXML
+	void updateSpeed(ScrollEvent event) {
+		try{
+			if(!main.getGameEng().gameOver()){
+					if(event.getDeltaY() > 0){
+						if (REFRESH_TIME < 1000) {
+						REFRESH_TIME += 50;
+						//vitesseTextField.setText(""+(double) REFRESH_TIME/1000+"s");
+						}
+					}
+					else if(event.getDeltaY() < 0){
+						if (REFRESH_TIME > 50) {
+							REFRESH_TIME -= 50;
+							//vitesseTextField.setText(""+(double) REFRESH_TIME/1000+"s");
+						}
+					}
+					vitesseTextField.setText(""+(double) REFRESH_TIME/1000+"s");
+			}
+		}catch(Error e){
+			System.err.println(e.getMessage());
+		}
 	}
 
 	@FXML
@@ -303,7 +329,7 @@ public class MainController {
 				main.getJoueur().changeSpawnSpeed(speed);
 
 				main.getGameEng().getLevel().goPlay();
-				
+
 				/* Activer/Désactiver/Visible les boutons */
 				//hauteurTextField.setEditable(false);
 				hauteurTextField.setDisable(true);
@@ -338,8 +364,8 @@ public class MainController {
 
 				/* Mise en place du handler pour le scroll sur le SpawnSpeedTextField */
 				initScrollOnSpawnSpeed();
-
-				Thread t = new Thread(new Runnable() {
+				vitesseHBox.setVisible(true);
+				t = new Thread(new Runnable() {
 					@Override
 					public void run() {
 						while (!main.getGameEng().gameOver() && !stop) {
@@ -353,6 +379,7 @@ public class MainController {
 						}
 						updateScore();
 						goPlayButton.setDisable(false);
+						vitesseHBox.setVisible(false);
 					}
 				});
 				t.start();
@@ -364,9 +391,9 @@ public class MainController {
 			Outils.showAlert(AlertType.ERROR, 
 					"Erreur", 
 					"Terrain de jeu non valide", 
-										"La partie ne peut pas commencer : le bord du terrrain "
-										+ "doit etre en metal, et le terrain doit avoir "
-										+ "une entree et une sortie");
+					"La partie ne peut pas commencer : le bord du terrrain "
+							+ "doit etre en metal, et le terrain doit avoir "
+							+ "une entree et une sortie");
 		}
 	}
 
@@ -377,7 +404,32 @@ public class MainController {
 		main.getGameEng().getLevel().reset();
 		spawnSpeedTextField.setText("10");
 		main.getGameEng().init(main.getGameEng().getSizeColony(), 10);
+		main.getJoueur().init();
+		for(SelectedType s : SelectedType.values())
+			updateJetons(s);
 		stop = false;
+		if (!t.isAlive()) {
+			scoreHBox.setVisible(false);
+			vitesseHBox.setVisible(true);
+			t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (!main.getGameEng().gameOver() && !stop) {
+						main.getGameEng().step();
+						updateGameInfo();
+						try {
+							Thread.sleep(REFRESH_TIME);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}		
+					}
+					vitesseHBox.setVisible(false);
+					updateScore();
+					goPlayButton.setDisable(false);
+				}
+			});
+			t.start();
+		}
 	}
 
 	@FXML
@@ -485,7 +537,6 @@ public class MainController {
 				}
 			}
 		}
-		System.err.println("getCoordonneesClic : Je ne dois jamais passer ici !");
 		return null;
 	}
 

@@ -179,7 +179,24 @@
                         </Label>
                         <TextField fx:id="spawnSpeedTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="5">
                            <HBox.margin>
-                              <Insets left="5.0" />
+                              <Insets left="4.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="vitesseHBox" alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="300.0" spacing="20.0" visible="false">
+                     <children>
+                        <Label minWidth="-Infinity" text="Vitesse">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="vitesseTextField" editable="false" onScroll="#updateSpeed" prefHeight="25.0" prefWidth="80.0" text="300">
+                           <HBox.margin>
+                              <Insets left="61.0" />
                            </HBox.margin>
                         </TextField>
                      </children>
