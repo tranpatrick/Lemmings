@@ -31,7 +31,7 @@ public class MainController {
 	}
 
 	//TODO ajouter champs de saisie pour regler vitesse d'animation
-	private static final long REFRESH_TIME = 350;
+	private static final long REFRESH_TIME = 300;
 
 	private Pane exitPane;
 	private Pane entrancePane;

@@ -1,8 +1,5 @@
 package model.lemmings.services;
 
-import java.awt.event.MouseEvent;
-
-
 public interface Joueur {
 	
 	/** Observators **/

@@ -12,6 +12,11 @@ public class GameEngContract extends GameEngDecorator{
 	public GameEngContract(GameEng gameEng) {
 		super(gameEng);
 	}
+	
+	@Override
+	public boolean isObstacle2(int x, int y) {
+		return super.isObstacle2(x, y);
+	}
 
 
 	public void checkInvariant() {
