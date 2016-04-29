@@ -103,7 +103,7 @@ public class Main extends Application implements IObserver{
 			String filename = "";
 			int cpt = (cptImage%4)+1;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY 
-					|| v == Images.ENTREE|| v == Images.SORTIE 
+					|| v == Images.ENTREE
 					|| v == Images.BUILDER_STEP1_D || v == Images.BUILDER_STEP2_D
 					|| v == Images.BUILDER_STEP3_D || v == Images.BUILDER_STEP1_G
 					|| v == Images.BUILDER_STEP2_G || v == Images.BUILDER_STEP3_G
