@@ -62,16 +62,16 @@ public class JoueurDecorator implements Joueur{
 	 * @param s
 	 * @see model.lemmings.services.Joueur#changeSpawnSpeed(model.lemmings.services.GameEng, int)
 	 */
-	public void changeSpawnSpeed(GameEng g, int s) {
-		joueur.changeSpawnSpeed(g, s);
+	public void changeSpawnSpeed(int s) {
+		joueur.changeSpawnSpeed(s);
 	}
 
 	/**
 	 * @param g
 	 * @see model.lemmings.services.Joueur#killThemAll(model.lemmings.services.GameEng)
 	 */
-	public void killThemAll(GameEng g) {
-		joueur.killThemAll(g);
+	public void killThemAll() {
+		joueur.killThemAll();
 	}
 
 	/**

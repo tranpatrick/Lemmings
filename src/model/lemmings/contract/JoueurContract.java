@@ -171,15 +171,23 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 	}
 
 	// \pre s > 0 AND getGameEng.gameOver() == false
-	// \post getSpawnSpeed() = s;
-	public void changeSpawnSpeed(GameEng g, int s){
-
+	// \post getGameEng().getSpawnSpeed() = s;
+	public void changeSpawnSpeed(int s){
+		// \pre s > 0 AND getGameEng.gameOver() == false
+		if(s<=0 || super.getGameEng().gameOver())
+			throw new PreConditionError("changeSpawnSpeed : s > 0 AND getGameEng.gameOver() == false not satisfied");
+		checkInvariant();
+		super.changeSpawnSpeed(s);
+		checkInvariant();
+		// \post getGameEng().getSpawnSpeed() = s;
+		if(super.getGameEng().getSpawnSpeed() != s)
+			throw new PostConditionError("changeSpawnSpeed : getGameEng().getSpawnSpeed() = s not satisfied");
 	}
 
 	// \pre getGameEng.gameOver() == false
 	// \post getGameEng.gameOver() == true
 	// \post getGameEng.getSpawnSpeed() = + l'infini
-	public void killThemAll(GameEng g){
+	public void killThemAll(){
 
 	}
 

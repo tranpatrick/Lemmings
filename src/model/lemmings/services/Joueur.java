@@ -55,13 +55,12 @@ public interface Joueur {
 	public void changeClasse(Lemming l, String type);
 	
 	// \pre s > 0 AND getGameEng.gameOver() == false
-	// \post getSpawnSpeed() = s;
-	public void changeSpawnSpeed(GameEng g, int s);
+	// \post getGameEng().getSpawnSpeed() = s;
+	public void changeSpawnSpeed(int s);
 	
 	// \pre getGameEng.gameOver() == false
 	// \post getGameEng.gameOver() == true
-	// \post getGameEng.getSpawnSpeed() = + l'infini
-	public void killThemAll(GameEng g);
+	public void killThemAll();
 	
 	// \pre getGameEng.gameOver() == false
 	// \post getGameEng.gameOver() == true
