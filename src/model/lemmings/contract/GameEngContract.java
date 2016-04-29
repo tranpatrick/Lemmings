@@ -44,6 +44,7 @@ public class GameEngContract extends GameEngDecorator{
 			}
 		}
 
+		//TODO attention soucis ici apres annihilation, j'arrive pas a recreer le bug
 		// \invMin getNombreCrees() == getNombreActifs() + getNombreSauves() + getNombreMorts()
 		if (!(super.getNombreCrees() == (super.getNombreActifs() + 
 				super.getNombreSauves() + super.getNombreMorts()))) {

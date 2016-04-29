@@ -228,14 +228,18 @@
                   <Insets />
                </opaqueInsets>
             </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Button fx:id="editingButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goEditing" prefHeight="60.0" prefWidth="250.0" text="Editing" />
-               </children>
-            </HBox>
             <HBox alignment="CENTER" spacing="30.0">
                <children>
                   <Button fx:id="rejouerButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#relancerNiveau" prefHeight="60.0" prefWidth="250.0" text="Rejouer" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="annihilationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annihilation" prefHeight="60.0" prefWidth="250.0" text="ANNIHILATION">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
                </children>
             </HBox>
 			</children>
@@ -402,14 +406,6 @@
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="annihilationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annihilation" prefHeight="60.0" prefWidth="250.0" text="ANNIHILATION">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="25.0" />
-               </HBox.margin>
-            </Button>
          </children></HBox>
 	</bottom>
 </BorderPane>

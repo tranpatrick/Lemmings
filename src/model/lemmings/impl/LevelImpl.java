@@ -5,7 +5,7 @@ import java.awt.Point;
 import model.lemmings.services.Level;
 
 public class LevelImpl implements Level{
-	
+
 	/* NOTES pour les tableaux
 	 * dans tab[v1][v2] v1 est la hauteur et v2 est la largeur
 	 * lorsque l'on veut accéder à la case [x,y] faire tab[y][x]
@@ -15,13 +15,16 @@ public class LevelImpl implements Level{
 	private int width;
 	private boolean editing;
 	private Nature[][] terrain;
+	private Nature[][] backup;
 	private Point entree;
 	private Point sortie;
-	
+
 	public LevelImpl(){
 		super();
 	}
-	
+
+
+
 	/** Observators **/
 	@Override
 	public int getHeight() {
@@ -47,7 +50,7 @@ public class LevelImpl implements Level{
 	public Point getEntrance() {
 		return entree;
 	}
-	
+
 	@Override
 	public Point getExit() {
 		return sortie;
@@ -60,6 +63,7 @@ public class LevelImpl implements Level{
 		width = w;
 		editing = true;
 		terrain = new Nature[h][w];
+		backup = new Nature[h][w];
 		for (int x = 0; x<getWidth(); x++) {
 			for (int y = 0; y<getHeight(); y++) {
 				setNature(x, y, Nature.EMPTY);
@@ -73,8 +77,22 @@ public class LevelImpl implements Level{
 	@Override
 	public void setNature(int x, int y, Nature n) {
 		terrain[y][x] = n;
+		if (isEditing() == true)
+			backup[y][x] = n;
 	}
 
+	@Override
+	public void reset() {
+		for (int x = 0; x<getWidth(); x++) 
+			for (int y = 0; y<getHeight(); y++) 
+				terrain[y][x] = backup[y][x];
+	}
+
+	@Override
+	public void goEditing() {
+		editing = true;
+	}
+	
 	@Override
 	public void goPlay() {
 		editing = false;

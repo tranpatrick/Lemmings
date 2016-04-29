@@ -130,6 +130,16 @@ public class LevelDecorator implements Level{
 	public void build(int x, int y) {
 		level.build(x, y);
 	}
+
+	@Override
+	public void reset() {
+		level.reset();
+	}
+	
+	@Override
+	public void goEditing() {
+		level.goEditing();
+	}
 	
 	
 	

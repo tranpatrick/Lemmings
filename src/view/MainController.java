@@ -38,6 +38,7 @@ public class MainController {
 
 	/* Booleens pour les types de lemmings */
 	private SelectedType setLemming;
+	private boolean stop = false;
 
 	@FXML private Button dimensionButton;
 	@FXML private Button editingButton;
@@ -333,7 +334,7 @@ public class MainController {
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					while (!main.getGameEng().gameOver()) {
+					while (!main.getGameEng().gameOver() && !stop) {
 						main.getGameEng().step();
 						updateGameInfo();
 						try {
@@ -348,36 +349,24 @@ public class MainController {
 			});
 			t.start();
 		} catch (Error e) {
+			main.getGameEng().getLevel().goEditing();
 			//TODO attention is editing est a true 
 			Outils.showAlert(AlertType.ERROR, 
 					"Erreur", 
-					"Terrain de jeu non valide", e.getMessage());
-			//							"La partie ne peut pas commencer : le bord du terrrain "
-			//							+ "doit etre en metal, et le terrain doit avoir "
-			//							+ "une entree et une sortie");
+					"Terrain de jeu non valide", 
+										"La partie ne peut pas commencer : le bord du terrrain "
+										+ "doit etre en metal, et le terrain doit avoir "
+										+ "une entree et une sortie");
 		}
-	}
-
-	//	@FXML
-	//	void changeSpawnSpeed(ActionEvent event) {
-	//		if (!main.getGameEng().gameOver()) {
-	//			String vitesse = spawnSpeedTextField.getText();
-	//			if (Outils.isNumber(vitesse)) {
-	//				int spawnSpeed = Integer.parseInt(vitesse);
-	//				main.getGameEng().setSpawnSpeed(spawnSpeed);
-	//			}
-	//		}
-	//	}
-
-
-	@FXML
-	void goEditing(ActionEvent event) {
-		// TODO reset proprement
 	}
 
 	@FXML
 	void relancerNiveau(ActionEvent event) {
-
+		stop = true;
+		main.getGameEng().getLevel().reset();
+		spawnSpeedTextField.setText("10");
+		main.getGameEng().init(main.getGameEng().getSizeColony(), 10);
+		stop = false;
 	}
 
 	@FXML

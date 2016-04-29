@@ -39,7 +39,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 
 	@Override
 	public void bindLevelService(Level levelService) {
-		this.level = levelService;		
+		this.level = levelService;	
 	}
 
 	/** Observators **/
@@ -67,7 +67,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 
 		return isObstacle;
 	}
-	
+
 	@Override
 	public boolean isObstacle2(int x, int y) {
 		for (int i : getLemmingsActifs()) {
@@ -153,7 +153,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	public int getNombreCrees() {
 		return nombreCrees;
 	}
-	
+
 	@Override
 	public boolean isAnnihilation() {
 		return isAnnihilation;
@@ -162,6 +162,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	/** Constructors **/
 	@Override
 	public void init(int sizeColony, int spawnSpeed) {
+		lemmingsActifs.clear();
 		this.sizeColony = sizeColony;
 		this.spawnSpeed = spawnSpeed;
 		this.nombreMorts = 0;
@@ -185,7 +186,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 			lemming.init(nombreCrees);
 			lemmingsActifs.put(nombreCrees, lemming);
 		}
-		
+
 		/* On notifie les abonnes */
 		notifierObservateurs();
 	}
@@ -225,13 +226,13 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		while (iterator.hasNext()) {
 			IObserver obs = iterator.next();
 			Platform.runLater(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					obs.update();		
 				}
 			});
-			
+
 		}
 	}
 

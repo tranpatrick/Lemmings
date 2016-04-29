@@ -28,6 +28,7 @@ public interface Level {
 	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
 	public boolean isExit(int x, int y);
 	
+	public void reset();
 	
 	/** Constructors **/
 	// \pre h > 0 AND w > 0
@@ -84,4 +85,8 @@ public interface Level {
 	// \pre !isEntrance(x,y) AND !isExit(x,y);
  	// \post getNature(x,y) = DIRT;
 	public void build(int x, int y);
+
+	// \pre !isEditing()
+	// \post isEditing()
+	public void goEditing();
 }
