@@ -1,5 +1,7 @@
 package model.lemmings.contract;
 
+import java.util.Set;
+
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Joueur;
 import model.lemmings.services.Lemming;
@@ -185,10 +187,22 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 	}
 
 	// \pre getGameEng.gameOver() == false
-	// \post getGameEng.gameOver() == true
-	// \post getGameEng.getSpawnSpeed() = + l'infini
-	public void killThemAll(){
-
+	// \post forall i in getGameEng().getLEmmingsActifs(), getGameEng().getLemming(i).isExploseur() = true
+	public void annihilation(){
+		if(super.getGameEng().gameOver())
+			throw new PreConditionError("annihilation : getGameEng.gameOver() = false not satisfied");
+		
+		checkInvariant();
+		super.annihilation();
+		checkInvariant();
+		
+		GameEng g = super.getGameEng();
+		Set<Integer> set = g.getLemmingsActifs();
+		for(int i : set){
+			if(g.getLemming(i).isExploseur() == false)
+				throw new PostConditionError("annihilation : forall i in getGameEng().getLEmmingsActifs(), "+
+						"getGameEng().getLemming(i).isExploseur() = true not satisfied");
+		}
 	}
 
 	// \pre getGameEng.gameOver() == false

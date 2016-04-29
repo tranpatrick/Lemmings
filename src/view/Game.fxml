@@ -9,7 +9,7 @@
 
 <BorderPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
 	<right>
-		<VBox prefHeight="900.0" prefWidth="300.0" spacing="20.0" BorderPane.alignment="CENTER">
+		<VBox prefHeight="800.0" prefWidth="300.0" spacing="20.0" BorderPane.alignment="CENTER">
 			<children>
 				<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
 					<children>
@@ -253,7 +253,7 @@
 		<VBox prefHeight="719.0" prefWidth="14.0" BorderPane.alignment="CENTER" />
 	</left>
 	<bottom>
-		<HBox alignment="CENTER" prefHeight="80.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+		<HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="80.0" prefWidth="900.0">
                <children>
@@ -266,7 +266,7 @@
                         </Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="diggerButton" mnemonicParsing="false" onAction="#setDigger" text="Creuseur" textAlignment="CENTER" visible="false">
+                              <Button fx:id="diggerButton" mnemonicParsing="false" onAction="#setDigger" text="Creuseur" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -289,7 +289,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="climberButton" mnemonicParsing="false" onAction="#setClimber" text="Grimpeur" textAlignment="CENTER" visible="false">
+                              <Button fx:id="climberButton" mnemonicParsing="false" onAction="#setClimber" text="Grimpeur" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -306,7 +306,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="builderButton" mnemonicParsing="false" onAction="#setBuilder" text="Builder" textAlignment="CENTER" visible="false">
+                              <Button fx:id="builderButton" mnemonicParsing="false" onAction="#setBuilder" text="Builder" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -323,7 +323,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="floaterButton" mnemonicParsing="false" onAction="#setFloater" text="Floater" textAlignment="CENTER" visible="false">
+                              <Button fx:id="floaterButton" mnemonicParsing="false" onAction="#setFloater" text="Floater" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -340,7 +340,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="bomberButton" mnemonicParsing="false" onAction="#setBomber" text="Bomber" textAlignment="CENTER" visible="false">
+                              <Button fx:id="bomberButton" mnemonicParsing="false" onAction="#setBomber" text="Bomber" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -357,7 +357,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="stopperButton" mnemonicParsing="false" onAction="#setStopper" text="Stopper" textAlignment="CENTER" visible="false">
+                              <Button fx:id="stopperButton" mnemonicParsing="false" onAction="#setStopper" text="Stopper" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -374,7 +374,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="basherButton" mnemonicParsing="false" onAction="#setBasher" text="Basher" textAlignment="CENTER" visible="false">
+                              <Button fx:id="basherButton" mnemonicParsing="false" onAction="#setBasher" text="Basher" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -391,7 +391,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="minerButton" mnemonicParsing="false" onAction="#setMiner" text="Miner" textAlignment="CENTER" visible="false">
+                              <Button fx:id="minerButton" mnemonicParsing="false" onAction="#setMiner" text="Miner" textAlignment="CENTER" visible="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -402,6 +402,14 @@
                   </VBox>
                </children>
             </HBox>
+            <Button fx:id="annihilationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annihilation" prefHeight="60.0" prefWidth="250.0" text="ANNIHILATION">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="25.0" />
+               </HBox.margin>
+            </Button>
          </children></HBox>
 	</bottom>
 </BorderPane>

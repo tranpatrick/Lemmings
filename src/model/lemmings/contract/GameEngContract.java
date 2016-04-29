@@ -15,12 +15,15 @@ public class GameEngContract extends GameEngDecorator{
 
 
 	public void checkInvariant() {
-		// inv: gameOver() == ( getNombreActifs() == 0 AND getNombreCrees() == getSizeColony() )
-		if (!(super.gameOver() == (super.getNombreActifs() == 0 && 
-				super.getNombreCrees() == super.getSizeColony()))) {
-			throw new InvariantError("gameOver() == ( getNombreActifs() == 0 AND"
-					+ " getNombreCrees() == getSizeColony() not satisfied");
-		}
+		//TODO pas un invariant
+		// inv: !isAnnihilation() \implies gameOver() == (getNombreActifs() == 0 AND getNombreCrees() == getSizeColony())
+//		if(!super.isAnnihilation()){
+//			if (!(super.gameOver() == (super.getNombreActifs() == 0 && 
+//					super.getNombreCrees() == super.getSizeColony()))) {
+//				throw new InvariantError("gameOver() == ( getNombreActifs() == 0 AND"
+//						+ " getNombreCrees() == getSizeColony() not satisfied");
+//			}
+//		}
 
 		// \invMin getNombreActifs() == | getLemmingActifs() |
 		if (!(super.getNombreActifs() == super.getLemmingsActifs().size())) {
@@ -268,6 +271,14 @@ public class GameEngContract extends GameEngDecorator{
 		return nombreCrees;
 	}
 
+	@Override
+	public boolean isAnnihilation(){
+		checkInvariant();
+		boolean res = super.isAnnihilation();
+		checkInvariant();
+		return res;
+	}
+
 	/** Constructors **/
 	public void init(int sizeColony, int spawnSpeed) {
 		// \pre sizeColony > 0
@@ -310,6 +321,9 @@ public class GameEngContract extends GameEngDecorator{
 		if (!(super.getNombreTours() == 0)) {
 			throw new PostConditionError("init : getNombreTours() = 0 not satisfied");
 		}
+		//\post isAnnihilation = false
+		if (super.isAnnihilation())
+			throw new PostConditionError("init : isAnnihilation = false not satisfied");
 	}
 
 	/** Operateurs **/
@@ -341,11 +355,8 @@ public class GameEngContract extends GameEngDecorator{
 		 * 				 AND getLemming(getNombreCrees()).getY() = y
 		 * 				 AND isEntrance(x,y)
 		 */
-		if (super.getNombreTours() % super.getSpawnSpeed() == 0 && 
+		if (!super.isAnnihilation() && super.getNombreTours() % super.getSpawnSpeed() == 0 && 
 				super.getNombreCrees() < super.getSizeColony()) {
-
-			System.out.println("size@pre "+nombreActifsPre);
-			System.out.println("super size "+super.getNombreActifs());
 			if (!(super.getLemmingsActifs().contains(super.getNombreCrees()))) {
 				throw new PostConditionError("step : "
 						+ "getNombreCrees() \\in getLemmingsActifs() not satisfied");
@@ -363,6 +374,17 @@ public class GameEngContract extends GameEngDecorator{
 			if (!(getLevel().isEntrance(x, y))) {
 				throw new PostConditionError("step : new Lemming did not "
 						+ "appear from the entrance");
+			}
+		}
+		
+		/* \post isAnnihilation && getNombresTours mod getSpawnSpeed() = 0 AND getNombresCrees() < getSizeColony()
+		 * 		\implies getNombreCrees() = getNombreCrees()@pre
+		 */
+		if(super.isAnnihilation() && super.getNombreTours() % super.getSpawnSpeed() == 0 && 
+				super.getNombreCrees() < super.getSizeColony()){
+			if (!(super.getNombreCrees() == nombreCreePre)) {
+				throw new PostConditionError("step : getNombreCrees() = "
+						+ "getNombreCrees()@pre not satisfied");
 			}
 		}
 	}
@@ -471,6 +493,18 @@ public class GameEngContract extends GameEngDecorator{
 		checkInvariant();
 		if(super.getSpawnSpeed() != s)
 			throw new PostConditionError("setSpawnSpeed : post setSpawnSpeed(s) implies getSpawnSpeed() = s not satisfied");
+	}
+
+	// \pre !gameOver()
+	// \post isAnnihilation() = true
+	public void goAnnihilation() {
+		if(super.gameOver())
+			throw new PreConditionError("goAnnihilation : gameOver() = false not satisfied");
+		checkInvariant();
+		super.goAnnihilation();
+		checkInvariant();
+		if(!super.isAnnihilation())
+			throw new PostConditionError("goAnnihilation : isAnnihilation() not satisfied"); 
 	}
 
 	@Override

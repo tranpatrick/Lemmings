@@ -26,6 +26,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	private int nombreSauves;
 	private int nombreMorts;
 	private int nombreCrees;
+	private boolean isAnnihilation;
 	private Map<Integer, Lemming> lemmingsActifs;
 	private LinkedList<IObserver> observers;
 
@@ -92,7 +93,8 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 
 	@Override
 	public boolean gameOver() {
-		boolean gameOver = getNombreActifs() == 0 && getNombreCrees() == getSizeColony();
+		boolean gameOver = (getNombreActifs() == 0 && getNombreCrees() == getSizeColony()) 
+				|| (getNombreActifs() == 0 && isAnnihilation) ;
 		return gameOver;
 	}
 
@@ -141,6 +143,11 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 	public int getNombreCrees() {
 		return nombreCrees;
 	}
+	
+	@Override
+	public boolean isAnnihilation() {
+		return isAnnihilation;
+	}
 
 	/** Constructors **/
 	@Override
@@ -150,6 +157,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		this.nombreMorts = 0;
 		this.nombreCrees = 0;
 		this.nombreTours = 0;
+		this.isAnnihilation = false;
 	}
 
 	/** Operators **/
@@ -159,8 +167,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		ArrayList<Lemming> copy = new ArrayList<Lemming>(lemmingsActifs.values());
 		for(Lemming l : copy)
 			l.step();
-//		System.out.println("nbTours = "+nombreTours+" spawnSpeed== " + spawnSpeed);
-		if (nombreTours % spawnSpeed == 0 && nombreCrees < sizeColony ) {
+		if (nombreTours % spawnSpeed == 0 && nombreCrees < sizeColony && !isAnnihilation) {
 			nombreCrees = nombreCrees + 1;
 			LemmingImpl lemmingImpl = new LemmingImpl();
 			lemmingImpl.bindGameEngService(this);
@@ -171,17 +178,6 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		
 		/* On notifie les abonnes */
 		notifierObservateurs();
-
-		//TODO penser a tej les sysout du coup
-//		System.out.print("liste ");
-//		for (int i : lemmingsActifs.keySet()){
-//			System.out.print(i+" ");
-//		}
-		System.out.println();
-//		System.out.println("nombre cree "+nombreCrees);
-//		System.out.println("nombre actifs "+getNombreActifs());
-//		System.out.println("nombre morts "+getNombreMorts());
-//		System.out.println("nombre sauves "+getNombreSauves());
 	}
 
 	@Override
@@ -196,6 +192,10 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 		nombreSauves = nombreSauves + 1;
 	}
 
+	@Override
+	public void goAnnihilation() {
+		isAnnihilation = true;
+	}
 
 	@Override
 	public void addObserver(IObserver obs) {

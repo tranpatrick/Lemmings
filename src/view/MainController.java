@@ -53,6 +53,7 @@ public class MainController {
 	@FXML private Button basherButton;
 	@FXML private Button bomberButton;
 	@FXML private Button minerButton;
+	@FXML private Button annihilationButton;
 	@FXML private GridPane plateauGridPane;
 	@FXML private HBox scoreHBox;
 	@FXML private Label creesLabel;
@@ -134,22 +135,24 @@ public class MainController {
 			@Override
 			public void handle(ScrollEvent se) {
 				try{
-					String s;
-					int ss;
-					s = spawnSpeedTextField.getText();
-					if(Outils.isNumber(s)){
-						ss = Integer.parseInt(s);
-						if(se.getDeltaY() > 0){
-							main.getJoueur().changeSpawnSpeed(ss+1);
-							spawnSpeedTextField.setText(""+(ss+1));
-						}
-						else if(se.getDeltaY() < 0){
-							if(ss == 1){
-								main.getJoueur().changeSpawnSpeed(1);
-								spawnSpeedTextField.setText(""+1);
-							}else{
-								main.getJoueur().changeSpawnSpeed(ss-1);
-								spawnSpeedTextField.setText(""+(ss-1));
+					if(!main.getGameEng().gameOver()){
+						String s;
+						int ss;
+						s = spawnSpeedTextField.getText();
+						if(Outils.isNumber(s)){
+							ss = Integer.parseInt(s);
+							if(se.getDeltaY() > 0){
+								main.getJoueur().changeSpawnSpeed(ss+1);
+								spawnSpeedTextField.setText(""+(ss+1));
+							}
+							else if(se.getDeltaY() < 0){
+								if(ss == 1){
+									main.getJoueur().changeSpawnSpeed(1);
+									spawnSpeedTextField.setText(""+1);
+								}else{
+									main.getJoueur().changeSpawnSpeed(ss-1);
+									spawnSpeedTextField.setText(""+(ss-1));
+								}
 							}
 						}
 					}
@@ -323,7 +326,7 @@ public class MainController {
 			labelStopper.setText(""+main.getJoueur().getNbJetons("STOPPER"));
 			labelBasher.setText(""+main.getJoueur().getNbJetons("BASHER"));
 			labelMiner.setText(""+main.getJoueur().getNbJetons("MINER"));
-			
+
 			/* Mise en place du handler pour le scroll sur le SpawnSpeedTextField */
 			initScrollOnSpawnSpeed();
 
@@ -375,6 +378,16 @@ public class MainController {
 	@FXML
 	void relancerNiveau(ActionEvent event) {
 
+	}
+
+	@FXML
+	void annihilation(ActionEvent event){
+		try{
+			System.out.println("HELLO");
+			main.getJoueur().annihilation();
+		}catch(Error e){
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void updateScore() {
