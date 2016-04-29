@@ -90,9 +90,9 @@ public class JoueurImpl implements Joueur, RequireGameEngService {
 	}
 
 	@Override
-	public void killThemAll() {
+	public void annihilation() {
 		Set<Integer> lemmingsActifs = gameEng.getLemmingsActifs();
-		
+		gameEng.goAnnihilation();
 		for(int i : lemmingsActifs){
 			gameEng.getLemming(i).devientExploseur();
 		}

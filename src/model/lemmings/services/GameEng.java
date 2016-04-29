@@ -52,6 +52,8 @@ public interface GameEng extends IObservable{
 	
 	public int getNombreCrees();
 	
+	public boolean isAnnihilation();
+	
 	/** Constructors **/
 	// \pre sizeColony > 0
 	// \pre spawnSpeed > 0
@@ -62,16 +64,20 @@ public interface GameEng extends IObservable{
 	// \post getNombreActifs() = 0;
 	// \post getNombreCrees() = 0;
 	// \post getNombreTours() = 0
+	// \post isAnnihilation = false;
 	public void init(int sizeColony, int spawnSpeed);
 	
 	/** Opérateurs **/
 	// \pre !gameOver()
-	/* \post getNombresTours mod getSpawnSpeed() = 0 AND getNombresCrees() < getSizeColony()
+	/* \post !isAnnihilation && getNombresTours mod getSpawnSpeed() = 0 AND getNombresCrees() < getSizeColony()
 	 * 		\implies getNombreCrees() = getNombreCrees()@pre+1
 	 * 				 AND getNombreCrees() \in getLemmingsActifs()
 	 * 				 AND getLemming(getNombreCrees()).getX() = x
 	 * 				 AND getLemming(getNombreCrees()).getY() = y
 	 * 				 AND isEntrance(x,y)
+	 */
+	/* \post isAnnihilation && getNombresTours mod getSpawnSpeed() = 0 AND getNombresCrees() < getSizeColony()
+	 * 		\implies getNombreCrees() = getNombreCrees()@pre
 	 */
 	// \post getNombreTours() = getNombreTours()@pre + 1
 	public void step();
@@ -92,9 +98,16 @@ public interface GameEng extends IObservable{
 	 *						  AND getLemmingsActifs() = getLemmingsActifs()@pre - {i}					  
 	 */
 	public void sauverLemming(int i);
+
+	
+	// \pre !gameOver()
+	// \post isAnnihilation() = true
+	public void goAnnihilation();
 	
 	/** Invariants **/
-	// \invMin gameOver() == ( getNombreActifs() == 0 AND getNombreCrees() == getSizeColony() )  
+	//TODO pas un invariant
+	// \invMin !isAnnihilation() \implies gameOver() == ( getNombreActifs() == 0 AND getNombreCrees() == getSizeColony() )  
+	
 	// \invMin getNombreActifs() == | getLemmingActifs() |
 	// \invMin score() == getNombreSauves / getSizeColony()
 	// \invMin getNombreCrees() == getNombreActifs() + getNombreSauves() + getNombreMorts()
@@ -105,5 +118,4 @@ public interface GameEng extends IObservable{
 	// \inv getNombreMorts() >= 0 AND getNombreMorts() <= getNombreCrees()
 	// \inv getNombreActifs() >= 0 AND getActifs() <= getNombreCrees()
 	// \inv getNombreCrees() >= 0 AND getNombreCrees() <= getNombreCrees()
-	
-}
+}	

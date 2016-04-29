@@ -20,6 +20,7 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 	private int nombreSauves;
 	private int nombreMorts;
 	private int nombreCrees;
+	private boolean isAnnihilation;
 	private Map<Integer, Lemming> lemmingsActifs;
 	
 	public GameEngImplBug() {
@@ -105,7 +106,12 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 	public int getNombreCrees() {
 		return nombreCrees+2;
 	}
-
+	
+	@Override
+	public boolean isAnnihilation() {
+		return !isAnnihilation;
+	}
+	
 	/** Constructors **/
 	@Override
 	public void init(int sizeColony, int spawnSpeed) {
@@ -114,6 +120,7 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 		this.nombreMorts = 0;
 		this.nombreCrees = 0;
 		lemmingsActifs = new HashMap<Integer, Lemming>();
+		isAnnihilation = true;
 	}
 
 	/** Operators **/
@@ -134,9 +141,12 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 	public void sauverLemming(int i) {
 		lemmingsActifs.remove(i);
 		nombreSauves = nombreSauves - 2;
-		
 	}
 
+	@Override
+	public void goAnnihilation() {
+		isAnnihilation = false;
+	};
 
 	@Override
 	public boolean isLibre(int x, int y) {

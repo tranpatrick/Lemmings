@@ -135,6 +135,10 @@ public class GameEngDecorator implements GameEng{
 	public int getNombreCrees() {
 		return gameEng.getNombreCrees();
 	}
+	
+	public boolean isAnnihilation(){
+		return gameEng.isAnnihilation();
+	}
 
 	/**
 	 * @param sizeColony
@@ -167,6 +171,10 @@ public class GameEngDecorator implements GameEng{
 	 */
 	public void sauverLemming(int i) {
 		gameEng.sauverLemming(i);
+	}
+	
+	public void goAnnihilation() {
+		gameEng.goAnnihilation();
 	}
 
 	@Override

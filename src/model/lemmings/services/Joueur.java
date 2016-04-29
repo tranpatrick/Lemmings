@@ -59,8 +59,8 @@ public interface Joueur {
 	public void changeSpawnSpeed(int s);
 	
 	// \pre getGameEng.gameOver() == false
-	// \post getGameEng.gameOver() == true
-	public void killThemAll();
+	// \post forall i in getGameEng().getLEmmingsActifs(), getGameEng().getLemming(i).isExploseur() = true
+	public void annihilation();
 	
 	// \pre getGameEng.gameOver() == false
 	// \post getGameEng.gameOver() == true

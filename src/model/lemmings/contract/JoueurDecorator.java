@@ -70,8 +70,8 @@ public class JoueurDecorator implements Joueur{
 	 * @param g
 	 * @see model.lemmings.services.Joueur#killThemAll(model.lemmings.services.GameEng)
 	 */
-	public void killThemAll() {
-		joueur.killThemAll();
+	public void annihilation() {
+		joueur.annihilation();
 	}
 
 	/**
