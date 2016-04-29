@@ -44,7 +44,7 @@ public class GameEngContract extends GameEngDecorator{
 			}
 		}
 
-		//TODO attention soucis ici apres annihilation, j'arrive pas a recreer le bug
+		//TODO attention soucis ici, j'arrive pas a recreer le bug bug quand je veux relancer, qu'il y a un sauves et un mort
 		// \invMin getNombreCrees() == getNombreActifs() + getNombreSauves() + getNombreMorts()
 		if (!(super.getNombreCrees() == (super.getNombreActifs() + 
 				super.getNombreSauves() + super.getNombreMorts()))) {
