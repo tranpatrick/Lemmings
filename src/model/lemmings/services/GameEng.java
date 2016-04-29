@@ -12,6 +12,10 @@ public interface GameEng extends IObservable{
 	//�\pre 0 <= x < getLevel().getWidth() AND 0 <= y < getLevel().getHeight()
 	public boolean isObstacle(int x, int y);
 
+	//TODO rajouter contrat 
+	/* fonction pour basheur qui creuse quand il rencontre stopper */
+	public boolean isObstacle2(int x, int y);
+	
 	//�\pre 0 <= x < getLevel().getWidth() AND 0 <= y < getLevel().getHeight()
 	/* \post getLevel().isExit(x,y) || getLevel().isEntrance(x,y)
 		\implies isLibre(x,y) = false */
@@ -111,8 +115,6 @@ public interface GameEng extends IObservable{
 	// \invMin getNombreActifs() == | getLemmingActifs() |
 	// \invMin score() == getNombreSauves / getSizeColony()
 	// \invMin getNombreCrees() == getNombreActifs() + getNombreSauves() + getNombreMorts()
-	//TODO enlever isObstacle
-	// \invMin isObstacle(x,y) == getLevel().getNature(x,y) != EMPTY
 	// \inv getNombreTours() >= 0
 	// \inv getNombreSauves() >= 0 AND getNombreSauves() <= getNombreCrees() 
 	// \inv getNombreMorts() >= 0 AND getNombreMorts() <= getNombreCrees()

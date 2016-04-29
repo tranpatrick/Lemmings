@@ -118,7 +118,6 @@ public interface Lemming {
 
 	// TODO revoir les preconditon des devient
 	// TODO le stoppeur peut aussi être basher, creuseur, grimpeur etc.......
-	// TODO le builder ne peut pas build sur l'entrée ou la sortie
 	// \pre !getGameEng().gameOver()
 	// \pre getId() \in getGameEng().getLemmingActifs()
 
@@ -134,6 +133,9 @@ public interface Lemming {
 	 * 								AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre) != METAL
 	 * 								AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-1) != METAL
 	 *  							AND getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) != METAL
+	 * 	 							AND !getGameEng().isObstacle(getX()@pre + 1, getY()@pre)
+	 * 								AND !getGameEng().isObstacle(getX()@pre + 1, getY()@pre-1)
+	 *  							AND !getGameEng().isObstacle(getX()@pre + 1, getY()@pre-2)
 	 *  							AND nbCreuseTunnel() < MAX_CREUSE_TUNNEL
 	 *     \implies getType() = getType@pre AND getDirection() = getDirection()@pre
 	 *     									AND getX() = getX()@pre + 1 AND getY() = getY()@pre
@@ -147,6 +149,9 @@ public interface Lemming {
 	 * 								AND (getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre) = METAL
 	 * 									OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-1) = METAL
 	 *  								OR getGameEng().getLevel().getNature(getX()@pre + 1, getY()@pre-2) = METAL
+	 *									OR getGameEng().isObstacle(getX()@pre + 1, getY()@pre)
+	 * 									OR getGameEng().isObstacle(getX()@pre + 1, getY()@pre-1)
+	 *  								OR getGameEng().isObstacle(getX()@pre + 1, getY()@pre-2)
 	 *  								OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)
 	 *     \implies getType() = MARCHEUR AND getX() = getX()@pre AND getY() = getY()@pre
 	 *     								 AND getDirection() = getDirection()@pre	
@@ -158,12 +163,16 @@ public interface Lemming {
 	 * 								AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre) != METAL
 	 * 								AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-1) != METAL
 	 *  							AND getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) != METAL
+	 *  	 						AND !getGameEng().isObstacle(getX()@pre - 1, getY()@pre)
+	 * 								AND !getGameEng().isObstacle(getX()@pre - 1, getY()@pre-1)
+	 *  							AND !getGameEng().isObstacle(getX()@pre - 1, getY()@pre-2)							
 	 *  							AND nbCreuseTunnel() < MAX_CREUSE_TUNNEL
 	 *     \implies getType() = getType@pre AND getDirection() = getDirection()@pre
 	 *     									AND getX() = getX()@pre - 1 AND getY() = getY()@pre
 	 *     									AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre)
 	 *     									AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-1)
 	 *         								AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
+
 	 *         								AND nbCreuseTunnel() = nbCreuseTunnel()@pre+1    	
 	 * ******** BASHEUR GAUCHER S'ARRETE ***********         
 	 * \post getType()@pre = BASHER AND getGameEng().isObstacle(getX()@pre, getY()@pre+1)
@@ -171,6 +180,9 @@ public interface Lemming {
 	 * 								AND (getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre) = METAL
 	 * 									OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-1) = METAL
 	 *  								OR getGameEng().getLevel().getNature(getX()@pre - 1, getY()@pre-2) = METAL
+	 *    	 							OR getGameEng().isObstacle(getX()@pre - 1, getY()@pre)
+	 * 									OR getGameEng().isObstacle(getX()@pre - 1, getY()@pre-1)
+	 *  								OR getGameEng().isObstacle(getX()@pre - 1, getY()@pre-2)
 	 *  								OR nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)
 	 *     \implies getType() = MARCHEUR AND getX() = getX()@pre AND getY() = getY()@pre
 	 *     								 AND getDirection() = getDirection()@pre	
@@ -316,16 +328,15 @@ public interface Lemming {
 	 * 					AND getY() = getY()@pre	
 	 * 					AND getDirection() = getDirection()@pre
 	 *  
-	 *  //TODO Builder
 	 *  ****** BUILDER DROITIER OK ********
 	 * \post isBuilder() AND getDirection() == DROITIER AND isCurrentlyBuilding() = true 
 	 * 			AND getNombreToursBuilder()@pre = INTERVALLE_POSE_DALLE
 	 * 			AND getGameEng().isLibre(getX()@pre+1, getY()@pre)
 	 * 			AND getGameEng().isLibre(getX()@pre+2 getY()@pre)
 	 * 			AND getGameEng().isLibre(getX()@pre+3, getY()@pre)
-	 * 			AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
-	 * 			AND !getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)
-	 * 			AND !getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle2(getX()@pre+1, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle2(getX()@pre+2, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle2(getX()@pre+3, getY()@pre-2)
 	 * 			AND getNombreDallesPosees()@pre < 12
 	 * 		 \implies getGameEng().getLevel().getNature(getX()+1, getY()) = DIRT
 	 * 				  	AND getGameEng().getLevel().getNature(getX()+2, getY()) = DIRT
@@ -342,9 +353,9 @@ public interface Lemming {
 	 * 	 		AND (getGameEng().isLibre(getX()@pre+1, getY()@pre)
 	 * 				OR getGameEng().isLibre(getX()@pre+2 getY()@pre)
 	 * 				OR getGameEng().isLibre(getX()@pre+3, getY()@pre)
-	 * 				OR getGameEng().isObstacle(getX()@pre+1, getY()@pre-2)
-	 * 				OR getGameEng().isObstacle(getX()@pre+2, getY()@pre-2)
-	 * 				OR getGameEng().isObstacle(getX()@pre+3, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle2(getX()@pre+1, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle2(getX()@pre+2, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle2(getX()@pre+3, getY()@pre-2)
 	 * 				OR getNombreDallesPosees()@pre >= 12)
 	 * 		 \implies	AND getNombreDallesPosees() = getNombreDallesPosees()@pre
 	 * 					AND getX() = getX()@pre
@@ -423,7 +434,6 @@ public interface Lemming {
 	 * 
 	 * *********** FIN GRIMPEUR ***********
 	 * *********** DEBUT BUILDER *************
-	 *    //TODO builder
 	 *  ******** BUILDER GAUCHER START ********
 	 *  	
 	 *  \post isBuilder() AND getDirection() == GAUCHER AND isCurrentlyBuilding() = true
@@ -440,9 +450,9 @@ public interface Lemming {
 	 * 			AND getGameEng().isLibre(getX()@pre-1, getY()@pre)
 	 * 			AND getGameEng().isLibre(getX()@pre-2 getY()@pre)
 	 * 			AND getGameEng().isLibre(getX()@pre-3, getY()@pre)
-	 * 			AND !getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
-	 * 			AND !getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)
-	 * 			AND !getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle2(getX()@pre-1, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle2(getX()@pre-2, getY()@pre-2)
+	 * 			AND !getGameEng().isObstacle2(getX()@pre-3, getY()@pre-2)
 	 * 			AND getNombreDallesPosees()@pre < 12
 	 * 		 \implies getGameEng().getLevel().getNature(getX()-1, getY()) = DIRT
 	 * 				  	AND getGameEng().getLevel().getNature(getX()-2, getY()) = DIRT
@@ -459,9 +469,9 @@ public interface Lemming {
 	 * 	 		AND ( !getGameEng().isLibre(getX()@pre-1, getY()@pre)
 	 * 				OR !getGameEng().isLibre(getX()@pre-2 getY()@pre)
 	 * 				OR !getGameEng().isLibre(getX()@pre-3, getY()@pre)
-	 * 	 			OR getGameEng().isObstacle(getX()@pre-1, getY()@pre-2)
-	 * 				OR getGameEng().isObstacle(getX()@pre-2, getY()@pre-2)
-	 * 				OR getGameEng().isObstacle(getX()@pre-3, getY()@pre-2)
+	 * 	 			OR getGameEng().isObstacle2(getX()@pre-1, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle2(getX()@pre-2, getY()@pre-2)
+	 * 				OR getGameEng().isObstacle2(getX()@pre-3, getY()@pre-2)
 	 * 				OR getNombreDallesPosees()@pre >= 12)
 	 * 		 \implies   AND getNombreDallesPosees() = getNombreDallesPosees()@pre
 	 * 					AND getX() = getX()@pre

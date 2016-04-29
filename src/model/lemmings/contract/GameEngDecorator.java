@@ -32,6 +32,10 @@ public class GameEngDecorator implements GameEng{
 	public boolean isObstacle(int x, int y) {
 		return gameEng.isObstacle(x, y);
 	}
+	
+	public boolean isObstacle2(int x, int y) {
+		return gameEng.isObstacle2(x, y);
+	}
 
 	@Override
 	public boolean isLibre(int x, int y) {

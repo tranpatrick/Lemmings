@@ -67,6 +67,16 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 
 		return isObstacle;
 	}
+	
+	@Override
+	public boolean isObstacle2(int x, int y) {
+		for (int i : getLemmingsActifs()) {
+			Lemming l = getLemming(i);
+			if (l.getX() == x && l.getY() == y)
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public boolean isLibre(int x, int y) {
@@ -218,7 +228,6 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					obs.update();		
 				}
 			});

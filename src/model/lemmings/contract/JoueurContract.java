@@ -160,6 +160,7 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 		if(super.getNbJetons(type) != nbJetonsPre-1)
 			throw new PostConditionError("changeClasse : getNbJetons(type) = getNbJetons(type)@pre-1 not satisfied");
 
+		//TODO ca coince ici pour basher
 		if(!((type.equals("CLIMBER") && !l.isGrimpeur())
 				|| (type.equals("FLOATER") && !l.isFlotteur())
 				|| (type.equals("BUILDER") && !l.isBuilder())

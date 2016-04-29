@@ -181,4 +181,11 @@ public class GameEngImplBug implements GameEng, RequireLevelService{
 		spawnSpeed = s-1;
 	}
 
+
+	@Override
+	public boolean isObstacle2(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

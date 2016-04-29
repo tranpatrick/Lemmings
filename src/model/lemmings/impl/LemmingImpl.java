@@ -123,7 +123,6 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		return gameEng;
 	}
 
-	//TODO ne pas oublier de bien remettre init apres les test
 	@Override
 	public void init(int id) {
 		this.id = id;
@@ -195,6 +194,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	@Override
 	public void devientBasher() {
 		this.type = Type.BASHER;
+		nbCreuseTunnel = 0;
 	}
 
 	@Override
@@ -246,6 +246,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					&& getGameEng().getLevel().getNature(x+1, y) != Nature.METAL
 					&& getGameEng().getLevel().getNature(x+1, y-1) != Nature.METAL
 					&& getGameEng().getLevel().getNature(x+1, y-2) != Nature.METAL
+					&& !getGameEng().isObstacle2(x+1, y)
+					&& !getGameEng().isObstacle2(x+1, y-1)
+					&& !getGameEng().isObstacle2(x+1, y-2)
 					&& nbCreuseTunnel() < MAX_CREUSE_TUNNEL) {
 				if (getGameEng().getLevel().getNature(x+1, y) != Nature.EMPTY)
 					getGameEng().getLevel().remove(x+1, y);
@@ -262,6 +265,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					&& (getGameEng().getLevel().getNature(x+1, y) == Nature.METAL
 					|| getGameEng().getLevel().getNature(x+1, y-1) == Nature.METAL
 					|| getGameEng().getLevel().getNature(x+1, y-2) == Nature.METAL
+					|| getGameEng().isObstacle2(x+1, y)
+					|| getGameEng().isObstacle2(x+1, y-1)
+					|| getGameEng().isObstacle2(x+1, y-2)
 					|| nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)) {
 				devientMarcheur();
 			}
@@ -271,6 +277,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					&& getGameEng().getLevel().getNature(x-1, y) != Nature.METAL
 					&& getGameEng().getLevel().getNature(x-1, y-1) != Nature.METAL
 					&& getGameEng().getLevel().getNature(x-1, y-2) != Nature.METAL
+					&& !getGameEng().isObstacle2(x-1, y)
+					&& !getGameEng().isObstacle2(x-1, y-1)
+					&& !getGameEng().isObstacle2(x-1, y-2)
 					&& nbCreuseTunnel() < MAX_CREUSE_TUNNEL) {
 				if (getGameEng().getLevel().getNature(x-1, y) != Nature.EMPTY)
 					getGameEng().getLevel().remove(x-1, y);
@@ -287,6 +296,9 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					&& (getGameEng().getLevel().getNature(x-1, y) == Nature.METAL
 					|| getGameEng().getLevel().getNature(x-1, y-1) == Nature.METAL
 					|| getGameEng().getLevel().getNature(x-1, y-2) == Nature.METAL
+					|| getGameEng().isObstacle2(x-1, y)
+					|| getGameEng().isObstacle2(x-1, y-1)
+					|| getGameEng().isObstacle2(x-1, y-2)
 					|| nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)) {
 				devientMarcheur();
 			}

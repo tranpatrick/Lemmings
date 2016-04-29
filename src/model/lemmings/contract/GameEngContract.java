@@ -12,6 +12,12 @@ public class GameEngContract extends GameEngDecorator{
 	public GameEngContract(GameEng gameEng) {
 		super(gameEng);
 	}
+	
+	@Override
+	public boolean isObstacle2(int x, int y) {
+		//TODO contrat
+		return super.isObstacle2(x, y);
+	}
 
 
 	public void checkInvariant() {
@@ -45,7 +51,7 @@ public class GameEngContract extends GameEngDecorator{
 					+ "getNombreSauves() + getNombreMorts() not satisfied");
 		}
 
-		//TODO A voir si on doit vraiment l'enlever
+		//TODO A enlever a cause de modif isObstacle
 		// \invMin isObstacle(x,y) == getLevel().getNature(x,y) != EMPTY
 		//		for (int x = 0; x < super.getLevel().getWidth() ; x++) {
 		//			for (int y = 0; y < super.getLevel().getHeight() ; y++) {
