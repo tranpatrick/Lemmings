@@ -108,4 +108,16 @@ public class LevelImplBug implements Level{
 		return null;
 	}
 
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void goEditing() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

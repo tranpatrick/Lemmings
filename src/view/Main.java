@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.lemmings.contract.GameEngContract;
 import model.lemmings.contract.JoueurContract;
 import model.lemmings.contract.LevelContract;
@@ -114,7 +116,6 @@ public class Main extends Application implements IObserver{
 			else { 
 				filename = "images/"+v.toString().toLowerCase()+cpt+".png";
 			}
-			//System.out.println(filename);
 			Image tmpImage = new Image(new File(filename).toURI().toString());
 			Background tmpBackground = null;
 			if (v == Images.DIRT || v == Images.METAL || v == Images.EMPTY) {
@@ -176,6 +177,11 @@ public class Main extends Application implements IObserver{
 			Scene scene = new Scene(root);			
 			primaryStage.setTitle("Lemmings");
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				@Override public void handle(WindowEvent t) {
+					System.exit(0);
+				}
+			});
 
 			primaryStage.show();
 		} catch (IOException e) {
@@ -234,7 +240,6 @@ public class Main extends Application implements IObserver{
 	/* Fonction appelee par Observer, dans game engine, appeler a la fin de step */
 	@Override
 	public void update() {
-		//System.err.println("Mise a jour interface");
 		loadImages();
 		if (plateauGridPane != null) {
 			plateauGridPane.setGridLinesVisible(false);

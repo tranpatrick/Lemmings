@@ -164,6 +164,15 @@ public class LevelContract extends LevelDecorator {
 		}
 	}
 
+	@Override
+	public void goEditing() {
+		if(super.isEditing() == true)
+			throw new PreConditionError("goEditing : !isEditing() not satisfied");
+		super.goEditing();
+		if(super.isEditing() != true)
+			throw new PostConditionError("goEditing : isEditing() not satisfied");
+	}
+	
 	public void goPlay(){
 		// \pre isEditing()
 		if(super.isEditing() == false)
@@ -331,6 +340,11 @@ public class LevelContract extends LevelDecorator {
 			throw new PostConditionError("setExit : isExit(x,y) not satisfied");
 	}
 
+	@Override
+	public void reset() {
+		super.reset();
+	}
+	
 	private void checkInvariant(){
 
 	}

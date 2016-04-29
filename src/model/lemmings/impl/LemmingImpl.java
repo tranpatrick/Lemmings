@@ -269,6 +269,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					|| getGameEng().isObstacle2(x+1, y-1)
 					|| getGameEng().isObstacle2(x+1, y-2)
 					|| nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)) {
+				nbCreuseTunnel = 0;
 				devientMarcheur();
 			}
 			/** BASHEUR GAUCHER CREUSE **/
@@ -300,6 +301,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 					|| getGameEng().isObstacle2(x-1, y-1)
 					|| getGameEng().isObstacle2(x-1, y-2)
 					|| nbCreuseTunnel() >= MAX_CREUSE_TUNNEL)) {
+				nbCreuseTunnel = 0;
 				devientMarcheur();
 			}
 			break;
