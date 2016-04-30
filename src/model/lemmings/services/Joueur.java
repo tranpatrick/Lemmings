@@ -1,6 +1,6 @@
 package model.lemmings.services;
 
-public interface Joueur {
+public interface Joueur extends RequireGameEngService {
 	
 	/** Observators **/
 	/* \pre type = "DIGGER"

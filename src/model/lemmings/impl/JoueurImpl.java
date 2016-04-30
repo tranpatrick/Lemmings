@@ -8,7 +8,7 @@ import model.lemmings.services.Joueur;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.RequireGameEngService;
 
-public class JoueurImpl implements Joueur, RequireGameEngService {
+public class JoueurImpl implements Joueur {
 
 	private HashMap<String, Integer> jetons;
 	GameEng gameEng;

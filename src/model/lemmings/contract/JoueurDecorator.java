@@ -81,5 +81,11 @@ public class JoueurDecorator implements Joueur{
 	public void reset(GameEng g) {
 		joueur.reset(g);
 	}
+
+	@Override
+	public void bindGameEngService(GameEng service) {
+		joueur.bindGameEngService(service);
+		
+	}
 	
 }

@@ -7,11 +7,10 @@ import java.util.Set;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Level;
-import model.lemmings.services.RequireLevelService;
-import view.IObserver;
 import model.lemmings.services.Level.Nature;
+import view.IObserver;
 
-public class GameEngImplBug implements GameEng, RequireLevelService{
+public class GameEngImplBug implements GameEng{
 	
 	private Level level;
 	private int sizeColony;

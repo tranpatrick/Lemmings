@@ -4,7 +4,7 @@ import java.util.Set;
 
 import view.IObservable;
 
-public interface GameEng extends IObservable{
+public interface GameEng extends IObservable, RequireLevelService{
 	
 	/** Observators **/
 	public Level getLevel();
