@@ -221,10 +221,10 @@ public class Main extends Application implements IObserver{
 					gameEng.getLevel().setNature(i, j, Nature.METAL);
 					pane.setBackground(getBackground(Images.METAL));
 				}
-				else if (i > 5 && j > 5 && j < height - 10) {
-					gameEng.getLevel().setNature(i, j, Nature.DIRT);
-					pane.setBackground(getBackground(Images.DIRT));
-				}
+//				else if (i > 5 && j > 5 && j < height - 10) {
+//					gameEng.getLevel().setNature(i, j, Nature.DIRT);
+//					pane.setBackground(getBackground(Images.DIRT));
+//				}
 				else {
 					gameEng.getLevel().setNature(i, j, Nature.EMPTY);
 					pane.setBackground(getBackground(Images.EMPTY));

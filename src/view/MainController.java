@@ -82,7 +82,6 @@ public class MainController {
 
 	private Main main;
 
-
 	public void setMainApp(Main main) {
 		this.main = main;
 	}
@@ -119,7 +118,7 @@ public class MainController {
 			}
 		}
 		goPlayButton.setDisable(false);
-		//TODO attendtion platform runLater
+		//TODO attendtion platform runLaterœœ
 	}
 
 	@FXML
@@ -331,15 +330,14 @@ public class MainController {
 				main.getGameEng().getLevel().goPlay();
 
 				/* Activer/Désactiver/Visible les boutons */
-				//hauteurTextField.setEditable(false);
 				hauteurTextField.setDisable(true);
-				//largeurTextField.setEditable(false);
 				largeurTextField.setDisable(true);
-				//sizeColonyTextField.setEditable(false);
 				sizeColonyTextField.setDisable(true);
 				setEntranceButton.setDisable(true);
 				setExitButton.setDisable(true);
 				goPlayButton.setDisable(true);
+				annihilationButton.setDisable(false);
+				rejouerButton.setDisable(false);
 				diggerButton.setVisible(true);
 				climberButton.setVisible(true);
 				builderButton.setVisible(true);
@@ -348,6 +346,7 @@ public class MainController {
 				stopperButton.setVisible(true);
 				basherButton.setVisible(true);
 				minerButton.setVisible(true);
+				dimensionButton.setDisable(true);
 
 				/* setLemming à NONE (aucune case de type n'est sélectionné) */
 				setLemming = SelectedType.NONE;
@@ -375,10 +374,10 @@ public class MainController {
 								Thread.sleep(REFRESH_TIME);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
-							}		
+							}
 						}
 						updateScore();
-						goPlayButton.setDisable(false);
+						//goPlayButton.setDisable(false);
 						vitesseHBox.setVisible(false);
 					}
 				});
@@ -401,6 +400,12 @@ public class MainController {
 	@FXML
 	void relancerNiveau(ActionEvent event) {
 		stop = true;
+		
+		/* Désactiver le bouton goPlay, activer le bouton annihilation*/
+		goPlayButton.setDisable(true);
+		annihilationButton.setDisable(false);
+		
+		
 		main.getGameEng().getLevel().reset();
 		spawnSpeedTextField.setText("10");
 		main.getGameEng().init(main.getGameEng().getSizeColony(), 10);
@@ -425,7 +430,7 @@ public class MainController {
 					}
 					vitesseHBox.setVisible(false);
 					updateScore();
-					goPlayButton.setDisable(false);
+					//goPlayButton.setDisable(false);
 				}
 			});
 			t.start();
@@ -436,6 +441,7 @@ public class MainController {
 	void annihilation(ActionEvent event){
 		try{
 			main.getJoueur().annihilation();
+			annihilationButton.setDisable(true);			
 		}catch(Error e){
 			System.out.println(e.getMessage());
 		}
