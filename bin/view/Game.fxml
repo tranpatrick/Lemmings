@@ -30,7 +30,7 @@
 				</HBox>
 				<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="5.0">
 					<children>
-						<Label text="Crées">
+						<Label text="Créés">
 							<font>
 								<Font size="20.0" />
 							</font>

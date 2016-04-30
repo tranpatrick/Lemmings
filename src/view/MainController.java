@@ -97,12 +97,20 @@ public class MainController {
 			int height = Integer.parseInt(hauteur);
 			int sizeColony = Integer.parseInt(taille);
 			int spawnSpeed = Integer.parseInt(vitesse);
-			main.initGameEng(width, height, sizeColony, spawnSpeed);
-			main.initialiserLevel(width, height);
+			if ( width > 0 && height > 0 && sizeColony > 0 && spawnSpeed > 0) { 
+				main.initGameEng(width, height, sizeColony, spawnSpeed);
+				main.initialiserLevel(width, height);
+			}
+			else {
+				Outils.showAlert(AlertType.ERROR, "Probleme", 
+						"Parametres incorrects", "Hauteur, largeur, spawnSpeed"
+								+ " et sizeColony doivent strictement positifs");
+			}
 		}
 		else {
-			System.err.println("sfsdf");
-			//TODO alert
+			Outils.showAlert(AlertType.ERROR, "Probleme", 
+					"Parametres incorrects", "Hauteur, largeur, spawnSpeed"
+							+ " et sizeColony doivent etre des nombres ");
 		}
 	}
 
