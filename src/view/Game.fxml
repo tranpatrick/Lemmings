@@ -66,7 +66,7 @@
 								<Font size="20.0" />
 							</font>
 							<HBox.margin>
-								<Insets left="112.0" />
+								<Insets left="117.0" />
 							</HBox.margin>
 						</Label>
 					</children>
@@ -86,7 +86,7 @@
 								<Font size="20.0" />
 							</font>
 							<HBox.margin>
-								<Insets left="102.0" />
+								<Insets left="100.0" />
 							</HBox.margin>
 						</Label>
 					</children>
@@ -125,7 +125,7 @@
 								</Label>
 								<TextField fx:id="hauteurTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="25">
 									<HBox.margin>
-										<Insets left="50.0" />
+										<Insets left="54.0" />
 									</HBox.margin>
 								</TextField>
 							</children>
@@ -145,7 +145,7 @@
 								</Label>
 								<TextField fx:id="largeurTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="25">
 									<HBox.margin>
-										<Insets left="55.0" />
+										<Insets left="58.0" />
 									</HBox.margin>
 								</TextField>
 							</children>
@@ -179,7 +179,7 @@
                         </Label>
                         <TextField fx:id="spawnSpeedTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="5">
                            <HBox.margin>
-                              <Insets left="4.0" />
+                              <Insets />
                            </HBox.margin>
                         </TextField>
                      </children>
@@ -247,12 +247,12 @@
             </HBox>
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Button fx:id="rejouerButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#relancerNiveau" prefHeight="60.0" prefWidth="250.0" text="Rejouer" />
+                  <Button fx:id="rejouerButton" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#relancerNiveau" prefHeight="60.0" prefWidth="250.0" text="Rejouer" />
                </children>
             </HBox>
             <HBox alignment="CENTER">
                <children>
-                  <Button fx:id="annihilationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annihilation" prefHeight="60.0" prefWidth="250.0" text="ANNIHILATION">
+                  <Button fx:id="annihilationButton" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annihilation" prefHeight="60.0" prefWidth="250.0" text="ANNIHILATION">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -287,7 +287,7 @@
                         </Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="diggerButton" mnemonicParsing="false" onAction="#setDigger" text="Creuseur" textAlignment="CENTER" visible="true">
+                              <Button fx:id="diggerButton" mnemonicParsing="false" onAction="#setDigger" text="Creuseur" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -310,7 +310,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="climberButton" mnemonicParsing="false" onAction="#setClimber" text="Grimpeur" textAlignment="CENTER" visible="true">
+                              <Button fx:id="climberButton" mnemonicParsing="false" onAction="#setClimber" text="Grimpeur" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -327,7 +327,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="builderButton" mnemonicParsing="false" onAction="#setBuilder" text="Builder" textAlignment="CENTER" visible="true">
+                              <Button fx:id="builderButton" mnemonicParsing="false" onAction="#setBuilder" text="Builder" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -344,7 +344,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="floaterButton" mnemonicParsing="false" onAction="#setFloater" text="Floater" textAlignment="CENTER" visible="true">
+                              <Button fx:id="floaterButton" mnemonicParsing="false" onAction="#setFloater" text="Floater" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -361,7 +361,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="bomberButton" mnemonicParsing="false" onAction="#setBomber" text="Bomber" textAlignment="CENTER" visible="true">
+                              <Button fx:id="bomberButton" mnemonicParsing="false" onAction="#setBomber" text="Bomber" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -378,7 +378,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="stopperButton" mnemonicParsing="false" onAction="#setStopper" text="Stopper" textAlignment="CENTER" visible="true">
+                              <Button fx:id="stopperButton" mnemonicParsing="false" onAction="#setStopper" text="Stopper" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -395,7 +395,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="basherButton" mnemonicParsing="false" onAction="#setBasher" text="Basher" textAlignment="CENTER" visible="true">
+                              <Button fx:id="basherButton" mnemonicParsing="false" onAction="#setBasher" text="Basher" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -412,7 +412,7 @@
                            </VBox.margin></Label>
                         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="minerButton" mnemonicParsing="false" onAction="#setMiner" text="Miner" textAlignment="CENTER" visible="true">
+                              <Button fx:id="minerButton" mnemonicParsing="false" onAction="#setMiner" text="Miner" textAlignment="CENTER" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
