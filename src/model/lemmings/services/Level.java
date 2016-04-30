@@ -28,8 +28,6 @@ public interface Level {
 	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
 	public boolean isExit(int x, int y);
 	
-	public void reset();
-	
 	/** Constructors **/
 	// \pre h > 0 AND w > 0
 	// \post getHeight() = h
@@ -89,4 +87,6 @@ public interface Level {
 	// \pre !isEditing()
 	// \post isEditing()
 	public void goEditing();
+	
+	public void reset();
 }
