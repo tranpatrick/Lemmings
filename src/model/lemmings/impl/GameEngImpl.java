@@ -14,10 +14,9 @@ import model.lemmings.services.Lemming;
 import model.lemmings.services.Lemming.Type;
 import model.lemmings.services.Level;
 import model.lemmings.services.Level.Nature;
-import model.lemmings.services.RequireLevelService;
 import view.IObserver;
 
-public class GameEngImpl implements GameEng, RequireLevelService{
+public class GameEngImpl implements GameEng{
 
 	private Level level;
 	private int sizeColony;
@@ -38,9 +37,7 @@ public class GameEngImpl implements GameEng, RequireLevelService{
 
 
 	@Override
-	public void bindLevelService(Level levelService) {
-		this.level = levelService;	
-	}
+	public void bindLevelService(Level levelService) {};
 
 	/** Observators **/
 	@Override

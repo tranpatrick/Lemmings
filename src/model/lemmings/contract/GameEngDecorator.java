@@ -201,4 +201,9 @@ public class GameEngDecorator implements GameEng{
 		gameEng.setSpawnSpeed(s);
 	}
 
+	@Override
+	public void bindLevelService(Level levelService) {
+		gameEng.bindLevelService(levelService);
+	}
+	
 }
