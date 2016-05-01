@@ -98,8 +98,9 @@ public class MainController {
 			int sizeColony = Integer.parseInt(taille);
 			int spawnSpeed = Integer.parseInt(vitesse);
 			if ( width > 0 && height > 0 && sizeColony > 0 && spawnSpeed > 0) { 
+
 				main.initGameEng(width, height, sizeColony, spawnSpeed);
-				main.initialiserLevel(width, height);
+				main.initialiserLevel(width, height);				
 			}
 			else {
 				Outils.showAlert(AlertType.ERROR, "Probleme", 

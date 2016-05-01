@@ -37,7 +37,9 @@ public class GameEngImpl implements GameEng{
 
 
 	@Override
-	public void bindLevelService(Level levelService) {};
+	public void bindLevelService(Level levelService) {
+		this.level = levelService;
+	}
 
 	/** Observators **/
 	@Override
