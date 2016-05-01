@@ -16,20 +16,20 @@ public class TestGameEng extends TestGameEngAbstract {
 		setGameEng(new GameEngContract(new GameEngImpl()));
 		setLevel(new LevelContract(new LevelImpl()));
 		setGameEng(new GameEngContract(new GameEngImplBug()));
-		getLevel().init(10, 10);
-		for (int x = 0; x<getLevel().getWidth(); x++) {
-			for (int y = 0; y<getLevel().getHeight(); y++) {
-				if (x == 0 || x == getLevel().getWidth()-1 
-						|| y == 0 || y == getLevel().getHeight()-1) {
-					getLevel().setNature(x, y, Nature.METAL);
+		getGameEng().bindLevelService(getLevel());
+		getGameEng().getLevel().init(10, 10);
+		for (int x = 0; x<getGameEng().getLevel().getWidth(); x++) {
+			for (int y = 0; y<getGameEng().getLevel().getHeight(); y++) {
+				if (x == 0 || x == getGameEng().getLevel().getWidth()-1 
+						|| y == 0 || y == getGameEng().getLevel().getHeight()-1) {
+					getGameEng().getLevel().setNature(x, y, Nature.METAL);
 				}
 			}
 		}
-		getLevel().setEntrance(8, 5);
-		getLevel().setNature(5, 6, Nature.METAL);
-		getLevel().setExit(5, 5);
-		getLevel().goPlay();
-		getGameEng().bindLevelService(getLevel());
+		getGameEng().getLevel().setEntrance(8, 5);
+		getGameEng().getLevel().setNature(5, 6, Nature.METAL);
+		getGameEng().getLevel().setExit(5, 5);
+		getGameEng().getLevel().goPlay();
 	}
 
 }
