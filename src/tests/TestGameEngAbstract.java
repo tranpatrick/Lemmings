@@ -10,7 +10,7 @@ import model.lemmings.contract.ContractError;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Level;
 
-public abstract class TestGameEngAbstract {
+public abstract class TestGameEngAbstract extends AssertionTests{
 
 	private GameEng gameEng;
 	private Level level;

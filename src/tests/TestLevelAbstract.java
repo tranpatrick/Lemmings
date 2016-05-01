@@ -12,8 +12,8 @@ import model.lemmings.services.Level.Nature;
 
 
 
-public abstract class TestLevelAbstract {
-	
+public abstract class TestLevelAbstract extends AssertionTests{
+
 	private Level level;
 
 	protected TestLevelAbstract() {
@@ -36,74 +36,129 @@ public abstract class TestLevelAbstract {
 		level= null;
 	}
 
+	/**
+	 * Objectif 1: init
+	 * 
+	 * Cas 1_0: init: positif
+	 * 
+	 * Condition initial:
+	 * aucune
+	 * 
+	 * Operation:
+	 *  init(25,20)
+	 *  
+	 *  Oracle:
+	 *  Pas d'exception &&
+	 *  getWidth() == 20 &&
+	 *  getHeight() == 25 &&
+	 *  isEditing() == true &&
+	 *  \forall (x,y) getNature(x,y) == Nature.EMPTY
+	 */
 	@Test
-	public void testInit() {
+	public void testInit1_0() {
+		String test = "Level Test Objectif 1.0";
 		try {
-			level.init(25, 20);
-			assertTrue(level.getHeight() == 20);
-			assertTrue(level.getWidth()  == 25);
-			assertTrue(level.isEditing() == true);
+			int height = 20;
+			int width = 25;
+			level.init(width, height);
+			assertion(test+" :\\post level.getHeight() == height", level.getHeight() == height);
+			assertion(test+" :\\post level.getWidth()  == width", level.getWidth()  == width);
+			assertion(test+" :\\post level.isEditing() == true", level.isEditing() == true);
 			for (int x = 0; x < level.getWidth() ; x++)
 				for (int y = 0; y < level.getHeight() ; y++)
-					assertTrue(level.getNature(x, y) == Nature.EMPTY);
-			assertTrue(true);
+					assertion(test+" :\\post level.getNature("+x+", "+y+") == Nature.EMPTY", level.getNature(x, y) == Nature.EMPTY);
 		} catch (ContractError e) {
-			System.err.println(e.getMessage());
-			assertTrue(false);
+			assertion(test+" : "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 1: init
+	 * 
+	 * Cas 1_1: init: error width <=0
+	 * 
+	 * Condition initial:
+	 * aucune
+	 * 
+	 * Operation:
+	 *  init(0,25)
+	 *  
+	 *  Oracle:
+	 *  Exception pour init
+	 */
 	@Test
-	public void testInitFail1() {
+	public void testInit1_1() {
+		String test = "Level Test Objectif 1.1";
 		try {
 			level.init(0, 25);
-			assertTrue(false);
+			assertion(test+" : init doit echouer", false);
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test, true);
 		}
 	}
 
+	/**
+	 * Objectif 1: init
+	 * 
+	 * Cas 1_2: init: error height <=0
+	 * 
+	 * Condition initial:
+	 * aucune
+	 * 
+	 * Operation:
+	 *  init(25,0)
+	 *  
+	 *  Oracle:
+	 *  Exception pour init
+	 */
 	@Test
-	public void testInitFail2() {
-		try {
-			level.init(-5, 25);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testInitFail3() {
+	public void testInit1_2() {
+		String test = "Level Test Objectif 1.2";
 		try {
 			level.init(25, 0);
-			assertTrue(false);
+			assertion(test+" : init doit echouer", false);
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test, true);
 		}
 	}
 
-	@Test
-	public void testInitFail4() {
-		try {
-			level.init(25, -5);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
 
+
+	/**
+	 * Objectif 2: getNature
+	 * 
+	 * Cas 2_0: getNature positif
+	 * 
+	 * Condition initial:
+	 * init(20,20)
+	 * 
+	 * Operation:
+	 * getNature(2,3)
+	 * getNature(3,3)
+	 *  
+	 *  Oracle:
+	 *  Pas d'exception
+	 */
 	@Test
-	public void testGetNature() {
+	public void testGetNature2_0() {
+		String test = "Level Test Objectif 2.0";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.getNature(2, 3);
-			level.getNature(3, 3);
-			level.getNature(7, 3);
-			assertTrue(true);
-		} catch (ContractError e) {
-			System.err.println(e.getMessage());
-			assertTrue(false);
+
+			try {
+				//Operation
+				level.getNature(2, 3);
+				level.getNature(3, 3);
+				
+				//oracle
+				assertion(test, true);
+			} catch (ContractError e) {
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
@@ -413,7 +468,7 @@ public abstract class TestLevelAbstract {
 			assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testGoPlayFail1() {
 		try {
@@ -436,7 +491,7 @@ public abstract class TestLevelAbstract {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testGoPlayFail2() {
 		try {
@@ -458,8 +513,8 @@ public abstract class TestLevelAbstract {
 			assertTrue(true);
 		}
 	}
-	
-	
+
+
 	@Test
 	public void testGoPlayFail3() {
 		try {
@@ -480,11 +535,11 @@ public abstract class TestLevelAbstract {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testRemove() {
 		try {
-			
+
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
@@ -507,7 +562,7 @@ public abstract class TestLevelAbstract {
 			assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testRemoveFail1() {
 		try {
@@ -529,11 +584,11 @@ public abstract class TestLevelAbstract {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testBuild() {
 		try {
-			
+
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
@@ -556,11 +611,11 @@ public abstract class TestLevelAbstract {
 			assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testBuildFail1() {
 		try {
-			testInit();
+			testInit1_0();
 			level.setNature(7, 7, Nature.DIRT);
 			level.build(7, 7);
 			assertTrue(false);
@@ -592,8 +647,8 @@ public abstract class TestLevelAbstract {
 			assertTrue(true);
 		}
 	}
-	
-	
+
+
 
 
 
