@@ -166,7 +166,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			throw new PostConditionError("init : getDirection() = DROITIER not statisfied");
 		// \post getType() = MARCHEUR 
 		if(super.getType() != Type.TOMBEUR) 
-			throw new PostConditionError("init : getType() = MARCHEUR not statisfied");
+			throw new PostConditionError("init : getType() = TOMBEUR not statisfied");
 		// \post getId() = id		
 		if(super.getId() != id)
 			throw new PostConditionError("init : getId() = id not statisfied");
@@ -182,9 +182,24 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		// \post isFlotteur = false
 		if(super.isFlotteur())
 			throw new PostConditionError("init : isFlotteur() = false not statisfied");
-		// \post exploseurDepuis = 0
-		if(super.exploseurDepuis() != 0)
-			throw new PostConditionError("init : exploseurDepuis() = 0 not statisfied");
+		// \post isBuilder() = false
+		if(super.isBuilder())
+			throw new PostConditionError("init : isBuilder() = false not statisfied");
+		// \post isCurrentlyBuilding() = false
+		if(super.isCurrentlyBuilding())
+			throw new PostConditionError("init : isCurrentlyBuilding() = false not statisfied");
+		// \post isCurrentlyClimbing() = false
+		if(super.isCurrentlyClimbing())
+			throw new PostConditionError("init : isCurrentlyClimbing() = false not statisfied");
+		// \post nbCreuseTunnel() = 0
+		if(super.nbCreuseTunnel() != 0)
+			throw new PostConditionError("init : nbCreuseTunnel() = 0 not statisfied");
+		// \post getNombreToursBuilder() = 0
+		if(super.getNombreToursBuilder() != 0)
+			throw new PostConditionError("init : getNombreToursBuilder() = 0 not statisfied");
+		// \post getNombreDallesPosees() = 0
+		if(super.getNombreDallesPosees() != 0)
+			throw new PostConditionError("init : getNombreDallesPosees() = 0 not statisfied");
 	}
 
 

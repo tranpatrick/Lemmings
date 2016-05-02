@@ -204,4 +204,9 @@ public class LemmingDecorator implements Lemming{
 	public void step() {
 		lemming.step();
 	}
+	
+	@Override
+	public void bindGameEngService(GameEng service) {
+		lemming.bindGameEngService(service);;
+	}
 }

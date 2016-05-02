@@ -7,7 +7,6 @@ import org.junit.Test;
 import model.lemmings.contract.ContractError;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Joueur;
-import model.lemmings.services.Lemming;
 import model.lemmings.services.Lemming.Type;
 import model.lemmings.services.Level;
 
@@ -66,17 +65,17 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * aucune
 	 * 
 	 * Operation:
-	 *  init(10)
+	 * init(10)
 	 *  
 	 * Oracle:
-	 *  Pas d'exception &&
-	 *  getNbJetons("DIGGER") = 10
-	 *  getNbJetons("CLIMBER") = 10
-	 *  getNbJetons("BUILDER") = 10
-	 *  getNbJetons("FLOATER") = 10
-	 *  getNbJetons("BOMBER") = 10
-	 *  getNbJetons("STOPPER") = 10
-	 *  getNbJetons("BASHER") = 10
+	 *  Pas de ContractError &&
+	 *  getNbJetons("DIGGER") = 10 &&
+	 *  getNbJetons("CLIMBER") = 10 &&
+	 *  getNbJetons("BUILDER") = 10 &&
+	 *  getNbJetons("FLOATER") = 10 &&
+	 *  getNbJetons("BOMBER") = 10 && 
+	 *  getNbJetons("STOPPER") = 10 &&
+	 *  getNbJetons("BASHER") = 10 &&
 	 *  getNbJetons("MINER") = 10
 	 */
 	@Test
@@ -111,7 +110,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * select(2,3)
 	 *  
 	 *  Oracle:
-	 *  Pas d'exception
+	 *  Pas de ContractError
 	 */
 	@Test
 	public void testSelect2_0(){
@@ -142,16 +141,16 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 2_1: error x < 0
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
 	 * 
 	 * 
 	 * Operation:
 	 * select(-2,3)
 	 *  
 	 * Oracle:
-	 * Exception à l'exécution de select
+	 * ContractError à l'exécution de select
 	 */
 	@Test
 	public void testSelect2_1(){
@@ -160,6 +159,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 		//Condition initiale
 		try{
 			joueur.init(10);
+			/* faits dans beforeTests */
 			//gameEng.init(10, 5);
 			//level.init(25, 25);
 			try{
@@ -182,15 +182,15 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 2_2: error x >= getGameEng().getLevel().getHeight()
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
 	 * 
 	 * Operation:
 	 * select(26,3)
 	 *  
 	 * Oracle:
-	 * Exception à l'exécution de select
+	 * ContractError à l'exécution de select
 	 */
 	@Test
 	public void testSelect2_2(){
@@ -199,6 +199,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 		//Condition initiale
 		try{
 			joueur.init(10);
+			/* faits dans beforeTests */
 			//gameEng.init(10, 5);
 			//level.init(25, 25);
 			try{
@@ -221,15 +222,15 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 2_3: error y < 0
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
 	 * 
 	 * Operation:
 	 * select(2,-3)
 	 *  
 	 * Oracle:
-	 * Exception à l'exécution de select
+	 * ContractError à l'exécution de select
 	 */
 	@Test
 	public void testSelect2_3(){
@@ -238,6 +239,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 		//Condition initiale
 		try{
 			joueur.init(10);
+			/* faits dans beforeTests */
 			//gameEng.init(10, 5);
 			//level.init(25, 25);
 			try{
@@ -260,15 +262,15 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 2_4: error y >= getGameEng().getLevel().getWidth()
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
 	 * 
 	 * Operation:
 	 * select(2,26)
 	 *  
 	 * Oracle:
-	 * Exception à l'exécution de select
+	 * ContractError à l'exécution de select
 	 */
 	@Test
 	public void testSelect2_4(){
@@ -277,6 +279,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 		//Condition initiale
 		try{
 			joueur.init(10);
+			/* faits dans beforeTests */
 			//gameEng.init(10, 5);
 			//level.init(25, 25);
 			try{
@@ -299,16 +302,18 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 3_0: changeClasse valide
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
-	 * gameEng.step() (6 fois)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
+	 * getGameEng().step() (6 fois)
 	 * 
 	 * Operation:
-	 * changeClasse(gameEng.getLemming(1), "DIGGER");
+	 * changeClasse(getGameEng().getLemming(1), "DIGGER");
 	 *  
 	 * Oracle:
-	 * Pas d'exception
+	 * Pas de ContractError && 
+	 * getNbJetons("DIGGER") == 9 &&
+	 * getGameEng().getLemming(1).getType() == Type.CREUSEUR
 	 */
 	@Test
 	public void testChangeClasse3_0(){
@@ -327,7 +332,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 
 				//Oracle
 				assertion("\\post getNbJetons(t) = getNbJetons(t)@pre-1", joueur.getNbJetons("DIGGER") == 9);
-				assertion("\\post gameEng().getLemming(1).getType() = CREUSEUR", gameEng.getLemming(1).getType() == Type.CREUSEUR);
+				assertion("\\post getGameEng().getLemming(1).getType() = CREUSEUR", gameEng.getLemming(1).getType() == Type.CREUSEUR);
 			}catch(ContractError e){
 				assertion(test+": "+e.getMessage(), false);
 			}
@@ -349,16 +354,16 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * 				|| type = "MINER"
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
-	 * gameEng.step() (6 fois)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
+	 * getGameEng().step() (6 fois)
 	 * 
 	 * Operation:
-	 * changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+	 * changeClasse(getGameEng().getLemming(1), "NIMPORTEQUOI");
 	 *  
 	 * Oracle:
-	 * Exception pour changeClasse
+	 * ContractError pour changeClasse
 	 */
 	@Test
 	public void testChangeClasse3_1(){
@@ -391,17 +396,17 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 3_2: erreur joueur.getNbJetons("type") <= 0
 	 * 
 	 * Condition initiale:
-	 * joueur.init(0)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
-	 * gameEng.step() (6 fois)
+	 * init(0)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
+	 * getGameEng().step() (6 fois)
 	 * 
 	 * 
 	 * Operation:
-	 * changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+	 * changeClasse(getGameEng().getLemming(1), "NIMPORTEQUOI");
 	 *  
 	 * Oracle:
-	 * Exception pour changeClasse
+	 * ContractError pour changeClasse
 	 */
 	@Test
 	public void testChangeClasse3_2(){
@@ -434,15 +439,16 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 4_0: changeSpawnSpeed valide
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
+	 * init(10)
+	 * getGameEng().init(10,5) 
 	 * 
 	 * 
 	 * Operation:
 	 * changeSpawnSpeed(10)
 	 *  
 	 * Oracle:
-	 * Pas d'exception
+	 * Pas de ContractError &&
+	 * getGameEng().getSpawnSpeed() == 10
 	 */
 	@Test
 	public void testChangeSpawnSpeed4_0(){
@@ -472,15 +478,15 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 4_1: erreur x <= 0
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
+	 * init(10)
+	 * getGameEng().init(10,5) 
 	 * 
 	 * 
 	 * Operation:
 	 * changeSpawnSpeed(-1)
 	 *  
 	 * Oracle:
-	 * Exception pour changeSpawnSpeed 
+	 * ContractError pour changeSpawnSpeed 
 	 */
 	@Test
 	public void testChangeSpawnSpeed4_1(){
@@ -510,17 +516,18 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 5_0: annihilation valide
 	 * 
 	 * Condition initiale:
-	 * joueur.init(10)
-	 * gameEng.init(10,5) 
-	 * level.init(25,25)
-	 * gameEng.step() (6 fois)
+	 * init(10)
+	 * getGameEng().init(10,5) 
+	 * getGameEng().getLevel().init(25,25)
+	 * getGameEng().step() (6 fois)
 	 * 
 	 * 
 	 * Operation:
 	 * annihilation()
 	 *  
 	 * Oracle:
-	 * Pas d'exception 
+	 * Pas de ContractError &&
+	 * forall i in getGameEng().getLemmingsActifs(), getGameEng().getLemming(i).isExploseur() == true
 	 */
 	@Test
 	public void testAnihilation5_0(){
@@ -539,7 +546,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 
 				//Oracle
 				for(int i : gameEng.getLemmingsActifs())
-					assertion("\\post forall i in getGameEng().getLEmmingsActifs(), getGameEng().getLemming(i).isExploseur() == true",
+					assertion("\\post forall i in getGameEng().getLemmingsActifs(), getGameEng().getLemming(i).isExploseur() == true",
 							gameEng.getLemming(i).isExploseur() == true);
 			}catch(ContractError e){
 				assertion(test+": "+e.getMessage(), false);
