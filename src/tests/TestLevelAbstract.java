@@ -1,7 +1,5 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,7 +96,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			assertion(test+" : init doit echouer", false);
 		} catch (ContractError e) {
 			//oracle
-			assertion(test, true);
+			assertion(test+": "+e.getMessage(), true);
 		}
 	}
 
@@ -125,7 +123,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			assertion(test+" : init doit echouer", false);
 		} catch (ContractError e) {
 			//oracle
-			assertion(test, true);
+			assertion(test+": "+e.getMessage(), true);
 		}
 	}
 
@@ -195,7 +193,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": getNature doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -229,7 +227,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": getNature doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -264,7 +262,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": getNature doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -298,7 +296,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": getNature doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -371,7 +369,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": isExit doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -405,8 +403,8 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": isExit doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
-			}
+				assertion(test+": "+e.getMessage(), true);
+				}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
@@ -440,7 +438,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": isExit doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -474,14 +472,277 @@ public abstract class TestLevelAbstract extends AssertionTests{
 				assertion(test+": isExit doit echouer", false);
 			} catch (ContractError e) {
 				//oracle
-				assertion(test, true);
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
-	//TODO faire isEntrance
+	/**
+	 * Objectif 4: isEntrance
+	 * 
+	 * Cas 4_0: isEntrance positif
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isEntrance(3,3)
+	 *  
+	 *  Oracle:
+	 *  Pas de ContractError
+	 */
+	@Test
+	public void testIsEntrance4_0() {
+		String test = "Level Test Objectif 4.0";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+
+			try {
+				//Operation
+				level.isEntrance(3, 3);
+
+				//oracle
+				assertion(test, true);
+			} catch (ContractError e) {
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+
+	/**
+	 * Objectif 4: isEntrance
+	 * 
+	 * Cas 4_1: isEntrance error x < 0
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isEntrance(-2,5)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour isEntrance
+	 */
+	@Test
+	public void testIsEntrance4_1() {
+		String test = "Level Test Objectif 4.1";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+			try {
+				//operation
+				level.isEntrance(-2, 5);
+				assertion(test+": isEntrance doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 4: isEntrance
+	 * 
+	 * Cas 4_2: isEntrance error x >= getWidth()
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isEntrance(15,5)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour isEntrance
+	 */
+	@Test
+	public void testIsEntrance4_2() {
+		String test = "Level Test Objectif 4.2";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+			try {
+				//operation
+				level.isEntrance(15, 5);
+				assertion(test+": isEntrance doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+
+	/**
+	 * Objectif 4: isEntrance
+	 * 
+	 * Cas 4_3: isEntrance error y < 0 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isEntrance(3,-2)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour isEntrance
+	 */
+	@Test
+	public void testIsEntrance4_3() {
+		String test = "Level Test Objectif 4.3";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+			try {
+				//operation
+				level.isEntrance(3, -2);
+				assertion(test+": isEntrance doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 4: isEntrance
+	 * 
+	 * Cas 4_4: isEntrance error y >= getHeight() 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isEntrance(3,12)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour isEntrance
+	 */
+	@Test
+	public void testIsEntrance4_4() {
+		String test = "Level Test Objectif 4.4";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+			try {
+				//operation
+				level.isEntrance(3, 12);
+				assertion(test+": isEntrance doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 5: goEditing
+	 * 
+	 * Cas 5_0: goEditing positif 
+	 * 
+	 * Condition initiale:
+	 * init(10,10)
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *						|| y == 0 || y == level.getHeight()-1) {
+	 *					level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.goPlay();
+	 * 
+	 * Operation:
+	 * goEditing()
+	 *  
+	 *  Oracle:
+	 *  Pas de ContractError && isEditing() == true
+	 */
+	@Test
+	public void testGoEditing5_0() {
+		String test = "Level Test Objectif 5.0";
+		try {
+			// condition initiale
+			level.init(10,10);
+			for (int x = 0; x<level.getWidth(); x++) {
+				for (int y = 0; y<level.getHeight(); y++) {
+					if (x == 0 || x == level.getWidth()-1 
+							|| y == 0 || y == level.getHeight()-1) {
+						level.setNature(x, y, Nature.METAL);
+					}
+				}
+			}
+			level.setEntrance(8, 5);
+			level.setNature(5, 6, Nature.METAL);
+			level.setExit(5, 5);
+			level.goPlay();
+
+			try {
+				//operation
+				level.goEditing();
+				// oracle
+				assertion(test, level.isEditing() == true);
+			} catch (ContractError e) {
+				assertion(test+": "+e.getMessage(), false);
+			} 
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+	
+	/**
+	 * Objectif 5: goEditing
+	 * 
+	 * Cas 5_1: goEditing error mode d'edition actif 
+	 * 
+	 * Condition initiale:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * goEditing()
+	 *  
+	 *  Oracle:
+	 *  ContractError pour goEditing
+	 */
+	@Test
+	public void testGoEditing5_1() {
+		String test = "Level Test Objectif 5.1";
+		try {
+			// condition initiale
+			level.init(10,10);
+			try {
+				//operation
+				level.goEditing();
+				assertion(test+" : goEditing doit echouer", false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
+			} 
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
 
 	/**
 	 * Objectif 6: setNature
@@ -540,10 +801,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				//operation
 				level.setNature(-2, 5, Nature.DIRT);
-				// oracle
 				assertion(test+": setNature doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			} 
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -573,10 +834,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				//operation
 				level.setNature(15, 5, Nature.DIRT);
-				// oracle
 				assertion(test+": setNature doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			} 
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -606,10 +867,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				//operation
 				level.setNature(5, -5, Nature.DIRT);
-				// oracle
 				assertion(test+": setNature doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			} 
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -639,10 +900,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				//operation
 				level.setNature(5, 15, Nature.DIRT);
-				// oracle
 				assertion(test+": setNature doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			} 
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -709,11 +970,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				// Operation
 				level.setEntrance(5, 5);
-
-				//oracle
 				assertion(test+": setEntrance doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -747,10 +1007,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				// Operation
 				level.setEntrance(5, 5);
-				//oracle
 				assertion(test+": setEntrance doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -819,10 +1079,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				// Operation
 				level.setExit(5, 5);
-				//oracle
 				assertion(test+": setExit doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -856,10 +1116,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			try {
 				// Operation
 				level.setExit(5, 5);
-				//oracle
 				assertion(test+": setExit doit echouer", false);
 			} catch (ContractError e) {
-				assertion(test, true);
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			}
 		} catch (ContractError e) {
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
@@ -893,9 +1153,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 *  Pas de ContractError && isEditing() == false
 	 */
 	@Test
-	public void testGoPlay() {
+	public void testGoPlay9_0() {
 		String test = "Test Level Objectif 9.0";
 		try {
+			//Condition initiale
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
@@ -909,8 +1170,22 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			level.setNature(5, 6, Nature.METAL);
 			level.setExit(5, 5);
 			try {
+				//Operation
 				level.goPlay();
+
+				//Oracle
 				assertion(test, level.isEditing() == false);
+				int nbEntrance = 0, nbExit = 0;
+				for (int x = 0; x<level.getWidth(); x++) {
+					for (int y = 0; y<level.getHeight(); y++) {
+						if (level.isExit(x, y))
+							nbExit++;
+						if (level.isEntrance(x, y))
+							nbEntrance++;
+					}
+				}
+				assertion(test,nbEntrance == 1);
+				assertion(test, nbExit == 1);
 			}
 			catch (ContractError e) {
 				assertion(test+" :"+e.getMessage(),false);
@@ -920,77 +1195,184 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		}
 	}
 
+	/**
+	 * Objectif 9: goPlay
+	 * 
+	 * Cas 9_1: goPlay error case d'entree non definie 
+	 * 
+	 * Condition initiale:
+	 * init(10,10)
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *						|| y == 0 || y == level.getHeight()-1) {
+	 *					level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 * 
+	 * Operation:
+	 * goPlay()
+	 *  
+	 *  Oracle:
+	 *  ContractError pour goPlay
+	 */
 	@Test
-	public void testGoPlayFail1() {
+	public void testGoPlay9_1() {
+		String test = "Test Level Objectif 9.1";
 		try {
+			//Condition initiale
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
-					if (x == level.getWidth()-1 
+					if (x == 0 || x == level.getWidth()-1 
+							|| y == 0 || y == level.getHeight()-1) {
+						level.setNature(x, y, Nature.METAL);
+					}
+				}
+			}
+			level.setNature(5, 6, Nature.METAL);
+			level.setExit(5, 5);
+			try {
+				//Operation
+				level.goPlay();
+				assertion(test+": goPlay doit echouer", false);
+			}
+			catch (ContractError e) {
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 9: goPlay
+	 * 
+	 * Cas 9_2: goPlay error case de sortie non definie 
+	 * 
+	 * Condition initiale:
+	 * init(10,10)
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *						|| y == 0 || y == level.getHeight()-1) {
+	 *					level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(5, 5);
+	 * 
+	 * Operation:
+	 * goPlay()
+	 *  
+	 *  Oracle:
+	 *  ContractError pour goPlay
+	 */
+	@Test
+	public void testGoPlay9_2() {
+		String test = "Test Level Objectif 9.2";
+		try {
+			//Condition initiale
+			level.init(10, 10);
+			for (int x = 0; x<level.getWidth(); x++) {
+				for (int y = 0; y<level.getHeight(); y++) {
+					if (x == 0 || x == level.getWidth()-1 
 							|| y == 0 || y == level.getHeight()-1) {
 						level.setNature(x, y, Nature.METAL);
 					}
 				}
 			}
 			level.setEntrance(5, 5);
+			try {
+				//Operation
+				level.goPlay();
+				assertion(test+": goPlay doit echouer", false);
+			}
+			catch (ContractError e) {
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 9: goPlay
+	 * 
+	 * Cas 9_3: goPlay error Les bords du Level ne sont pas en METAL 
+	 * 
+	 * Condition initiale:
+	 * init(10,10)
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 * 
+	 * Operation:
+	 * goPlay()
+	 *  
+	 *  Oracle:
+	 *  ContractError pour goPlay
+	 */
+	@Test
+	public void testGoPlay9_3() {
+		String test = "Test Level Objectif 9.3";
+		try {
+			//Condition initiale
+			level.init(10, 10);
+			level.setEntrance(8, 5);
 			level.setNature(5, 6, Nature.METAL);
 			level.setExit(5, 5);
-			level.goPlay();
-			assertTrue(false);
-		}
-		catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testGoPlayFail2() {
-		try {
-			level.init(10, 10);
-			for (int x = 0; x<level.getWidth(); x++) {
-				for (int y = 0; y<level.getHeight(); y++) {
-					if (x == 0 || x == level.getWidth()-1 
-							|| y == 0 || y == level.getHeight()-1) {
-						level.setNature(x, y, Nature.METAL);
-					}
-				}
+			try {
+				//Operation
+				level.goPlay();
+				assertion(test+": goPlay doit echouer", false);
 			}
-			level.setNature(5, 6, Nature.METAL);
-			level.setExit(5, 5);
-			level.goPlay();
-			assertTrue(false);
-		}
-		catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-
-	@Test
-	public void testGoPlayFail3() {
-		try {
-			level.init(10, 10);
-			for (int x = 0; x<level.getWidth(); x++) {
-				for (int y = 0; y<level.getHeight(); y++) {
-					if (x == 0 || x == level.getWidth()-1 
-							|| y == 0 || y == level.getHeight()-1) {
-						level.setNature(x, y, Nature.METAL);
-					}
-				}
+			catch (ContractError e) {
+				// Oracle
+				assertion(test+": "+e.getMessage(), true);
 			}
-			level.setEntrance(5, 5);
-			level.goPlay();
-			assertTrue(false);
-		}
-		catch (ContractError e) {
-			assertTrue(true);
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
-	@Test
-	public void testRemove() {
-		try {
 
+	/**
+	 * Objectif 10: remove
+	 * 
+	 * Cas 10_0: remove positif 
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *					|| y == 0 || y == level.getHeight()-1) {
+	 *				level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.setNature(7, 7, Nature.DIRT);
+	 *	level.goPlay();
+	 * Operation:
+	 * remove(7, 7)
+	 *  
+	 *  Oracle:
+	 *  Pas de ContractError&& getNature(7, 7) == EMPTY
+	 */
+	@Test
+	public void testRemove10_0() {
+		String test = "Test Level Objectif 10.0";
+		try {
+			//Condition initiale
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
@@ -1005,41 +1387,85 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			level.setExit(5, 5);
 			level.setNature(7, 7, Nature.DIRT);
 			level.goPlay();
-			level.remove(7, 7);
-			assertTrue(level.getNature(7, 7) == Nature.EMPTY);
-			assertTrue(true);
+			try {
+				// Operation
+				level.remove(7, 7);
+
+				// Oracle
+				assertion(test, level.getNature(7, 7) == Nature.EMPTY);
+			} catch (ContractError e) {
+				assertion(test+" :"+e.getMessage(),false);
+			} 
 		} catch (ContractError e) {
-			System.err.println(e.getMessage());
-			assertTrue(false);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 10: remove
+	 * 
+	 * Cas 10_1: remove error, mode d'edition actif 
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * level.setNature(7, 7, Nature.DIRT);
+	 * Operation:
+	 * remove(7, 7)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour remove
+	 */
 	@Test
-	public void testRemoveFail1() {
+	public void testRemove10_1() {
+		String test = "Test Level Objectif 10.1";
 		try {
+			//Condition initiale
+			level.init(10, 10);
 			level.setNature(7, 7, Nature.DIRT);
-			level.remove(7, 7);
-			assertTrue(false);
+			try {
+				// Operation
+				level.remove(7, 7);
+				assertion(test+" : remove doit echouer",false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+" :"+e.getMessage(),true);
+			} 
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 10: remove
+	 * 
+	 * Cas 10_2: remove error, la case a remove n'est pas DIRT
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *					|| y == 0 || y == level.getHeight()-1) {
+	 *				level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.setNature(7, 7, Nature.METAL);
+	 *	level.goPlay();
+	 * Operation:
+	 * remove(7, 7)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour remove
+	 */
 	@Test
-	public void testRemoveFail2() {
+	public void testRemove10_2() {
+		String test = "Test Level Objectif 10.2";
 		try {
-			level.setNature(7, 7, Nature.DIRT);
-			level.remove(15, 7);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testBuild() {
-		try {
-
+			//Condition initiale
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
@@ -1052,32 +1478,51 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			level.setEntrance(8, 5);
 			level.setNature(5, 6, Nature.METAL);
 			level.setExit(5, 5);
-			level.setNature(7, 7, Nature.EMPTY);
+			level.setNature(7, 7, Nature.METAL);
 			level.goPlay();
-			level.build(7, 7);
-			assertTrue(level.getNature(7, 7) == Nature.DIRT);
-			assertTrue(true);
+			try {
+				// Operation
+				level.remove(7, 7);
+				assertion(test+" : remove doit echouer",false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+" :"+e.getMessage(),true);
+			} 
 		} catch (ContractError e) {
-			System.err.println(e.getMessage());
-			assertTrue(false);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 11: build
+	 * 
+	 * Cas 10_0: build positif 
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *					|| y == 0 || y == level.getHeight()-1) {
+	 *				level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.goPlay();
+	 * Operation:
+	 * build(7, 7)
+	 *  
+	 *  Oracle:
+	 *  Pas de ContractError&& getNature(7, 7) == DIRT
+	 */
 	@Test
-	public void testBuildFail1() {
+	public void testBuild11_0() {
+		String test = "Test Level Objectif 11.0";
 		try {
-			testInit1_0();
-			level.setNature(7, 7, Nature.DIRT);
-			level.build(7, 7);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testBuildFail2() {
-		try {
+			//Condition initiale
 			level.init(10, 10);
 			for (int x = 0; x<level.getWidth(); x++) {
 				for (int y = 0; y<level.getHeight(); y++) {
@@ -1090,16 +1535,221 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			level.setEntrance(8, 5);
 			level.setNature(5, 6, Nature.METAL);
 			level.setExit(5, 5);
-			level.setNature(7, 7, Nature.EMPTY);
 			level.goPlay();
-			level.build(8,5);
-			assertTrue(false);
+			try {
+				// Operation
+				level.build(7, 7);
+				// Oracle
+				assertion(test, level.getNature(7, 7) == Nature.DIRT);
+			} catch (ContractError e) {
+				assertion(test+" :"+e.getMessage(),false);
+			} 
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 11: build
+	 * 
+	 * Cas 10_1: build error, mode d'edition actif 
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * Operation:
+	 * build(7, 7)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour build
+	 */
+	@Test
+	public void testBuild11_1() {
+		String test = "Test Level Objectif 11.1";
+		try {
+			//Condition initiale
+			level.init(10, 10);
+			try {
+				// Operation
+				level.build(7, 7);
+				assertion(test+" : build doit echouer",false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+" :"+e.getMessage(),true);
+			} 
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
 
+	/**
+	 * Objectif 11: build
+	 * 
+	 * Cas 10_2: build error, la case a build n'est pas EMPTY
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *					|| y == 0 || y == level.getHeight()-1) {
+	 *				level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.setNature(7, 7, Nature.METAL);
+	 *	level.goPlay();
+	 * Operation:
+	 * build(7, 7)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour build
+	 */
+	@Test
+	public void testBuild11_2() {
+		String test = "Test Level Objectif 11.2";
+		try {
+			//Condition initiale
+			level.init(10, 10);
+			for (int x = 0; x<level.getWidth(); x++) {
+				for (int y = 0; y<level.getHeight(); y++) {
+					if (x == 0 || x == level.getWidth()-1 
+							|| y == 0 || y == level.getHeight()-1) {
+						level.setNature(x, y, Nature.METAL);
+					}
+				}
+			}
+			level.setEntrance(8, 5);
+			level.setNature(5, 6, Nature.METAL);
+			level.setExit(5, 5);
+			level.setNature(7, 7, Nature.METAL);
+			level.goPlay();
+			try {
+				// Operation
+				level.build(7, 7);
+				assertion(test+" : build doit echouer",false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+" :"+e.getMessage(),true);
+			} 
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 11: build
+	 * 
+	 * Cas 10_3: build error, la case a build est la case d'entree
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *					|| y == 0 || y == level.getHeight()-1) {
+	 *				level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.goPlay();
+	 * Operation:
+	 * build(8, 5)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour build
+	 */
+	@Test
+	public void testBuild11_3() {
+		String test = "Test Level Objectif 11.3";
+		try {
+			//Condition initiale
+			level.init(10, 10);
+			for (int x = 0; x<level.getWidth(); x++) {
+				for (int y = 0; y<level.getHeight(); y++) {
+					if (x == 0 || x == level.getWidth()-1 
+							|| y == 0 || y == level.getHeight()-1) {
+						level.setNature(x, y, Nature.METAL);
+					}
+				}
+			}
+			level.setEntrance(8, 5);
+			level.setNature(5, 6, Nature.METAL);
+			level.setExit(5, 5);
+			level.goPlay();
+			try {
+				// Operation
+				level.build(8, 5);
+				assertion(test+" : build doit echouer",false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+" :"+e.getMessage(),true);
+			} 
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 11: build
+	 * 
+	 * Cas 10_4: build error, la case a build est la case de sortie
+	 * 
+	 * Condition initiale:
+	 * level.init(10, 10);
+	 * for (int x = 0; x<level.getWidth(); x++) {
+	 * 		for (int y = 0; y<level.getHeight(); y++) {
+	 *			if (x == 0 || x == level.getWidth()-1 
+	 *					|| y == 0 || y == level.getHeight()-1) {
+	 *				level.setNature(x, y, Nature.METAL);
+	 *			}
+	 *		}
+	 *	}
+	 *	level.setEntrance(8, 5);
+	 *	level.setNature(5, 6, Nature.METAL);
+	 *	level.setExit(5, 5);
+	 *	level.goPlay();
+	 * Operation:
+	 * build(5, 5)
+	 *  
+	 *  Oracle:
+	 *  ContractError pour build
+	 */
+	@Test
+	public void testBuild11_4() {
+		String test = "Test Level Objectif 11.4";
+		try {
+			//Condition initiale
+			level.init(10, 10);
+			for (int x = 0; x<level.getWidth(); x++) {
+				for (int y = 0; y<level.getHeight(); y++) {
+					if (x == 0 || x == level.getWidth()-1 
+							|| y == 0 || y == level.getHeight()-1) {
+						level.setNature(x, y, Nature.METAL);
+					}
+				}
+			}
+			level.setEntrance(8, 5);
+			level.setNature(5, 6, Nature.METAL);
+			level.setExit(5, 5);
+			level.goPlay();
+			try {
+				// Operation
+				level.build(5, 5);
+				assertion(test+" : build doit echouer",false);
+			} catch (ContractError e) {
+				// Oracle
+				assertion(test+" :"+e.getMessage(),true);
+			} 
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
 
 
 
