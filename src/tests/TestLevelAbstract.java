@@ -60,7 +60,10 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		try {
 			int height = 20;
 			int width = 25;
+			// operation
 			level.init(width, height);
+			
+			// oracle
 			assertion(test+" :\\post level.getHeight() == height", level.getHeight() == height);
 			assertion(test+" :\\post level.getWidth()  == width", level.getWidth()  == width);
 			assertion(test+" :\\post level.isEditing() == true", level.isEditing() == true);
@@ -90,9 +93,11 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	public void testInit1_1() {
 		String test = "Level Test Objectif 1.1";
 		try {
+			//operation
 			level.init(0, 25);
 			assertion(test+" : init doit echouer", false);
 		} catch (ContractError e) {
+			//oracle
 			assertion(test, true);
 		}
 	}
@@ -115,9 +120,11 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	public void testInit1_2() {
 		String test = "Level Test Objectif 1.2";
 		try {
+			//operation
 			level.init(25, 0);
 			assertion(test+" : init doit echouer", false);
 		} catch (ContractError e) {
+			//oracle
 			assertion(test, true);
 		}
 	}
@@ -130,10 +137,9 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 2_0: getNature positif
 	 * 
 	 * Condition initial:
-	 * init(20,20)
+	 * init(10,10)
 	 * 
 	 * Operation:
-	 * getNature(2,3)
 	 * getNature(3,3)
 	 *  
 	 *  Oracle:
@@ -149,9 +155,8 @@ public abstract class TestLevelAbstract extends AssertionTests{
 
 			try {
 				//Operation
-				level.getNature(2, 3);
 				level.getNature(3, 3);
-				
+
 				//oracle
 				assertion(test, true);
 			} catch (ContractError e) {
@@ -162,173 +167,317 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		}
 	}
 
+	
+	/**
+	 * Objectif 2: getNature
+	 * 
+	 * Cas 2_1: getNature error width < 0
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * getNature(-2,5)
+	 *  
+	 *  Oracle:
+	 *  Exception pour getNature
+	 */
 	@Test
-	public void testGetNatureFail1() {
+	public void testGetNature2_1() {
+		String test = "Level Test Objectif 2.1";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.getNature(-2, 0);
-			assertTrue(false);
+			try {
+				//operation
+				level.getNature(-2, 5);
+				assertion(test+": getNature doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 2: getNature
+	 * 
+	 * Cas 2_2: getNature error width >= getWidth()
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * getNature(15,5)
+	 *  
+	 *  Oracle:
+	 *  Exception pour getNature
+	 */
 	@Test
-	public void testGetNatureFail2() {
+	public void testGetNature2_2() {
+		String test = "Level Test Objectif 2.2";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.getNature(15, 0);
-			assertTrue(false);
+			try {
+				//operation
+				level.getNature(15, 5);
+				assertion(test+": getNature doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
 		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-
-	@Test
-	public void testGetNatureFail3() {
-		try {
-			level.init(10, 10);
-			level.getNature(0, 15);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testGetNatureFail4() {
-		try {
-			level.init(10, 10);
-			level.getNature(15, 15);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testGetNatureFail5() {
-		try {
-			level.init(10, 10);
-			level.getNature(-5, 0);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testGetNatureFail6() {
-		try {
-			level.init(10, 10);
-			level.getNature(0, -5);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testGetNatureFail7() {
-		try {
-			level.init(10, 10);
-			level.getNature(-5, -5);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testIsExit() {
-		try {
-			level.init(10, 10);
-			level.isExit(2, 3);
-			level.isExit(3, 3);
-			level.isExit(7, 3);
-			assertTrue(true);
-		} catch (ContractError e) {
-			System.err.println(e.getMessage());
-			assertTrue(false);
-		}
-	}
-
-	@Test
-	public void testIsExitFail1() {
-		try {
-			level.init(10, 10);
-			level.isExit(-2, 0);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testIsExitFail2() {
-		try {
-			level.init(10, 10);
-			level.isExit(15, 0);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
 
+	/**
+	 * Objectif 2: getNature
+	 * 
+	 * Cas 2_3: getNature error height < 0 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * getNature(3,-2)
+	 *  
+	 *  Oracle:
+	 *  Exception pour getNature
+	 */
 	@Test
-	public void testIsExitFail3() {
+	public void testGetNature2_3() {
+		String test = "Level Test Objectif 2.3";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.isExit(0, 15);
-			assertTrue(false);
+			try {
+				//operation
+				level.getNature(3, -2);
+				assertion(test+": getNature doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 2: getNature
+	 * 
+	 * Cas 2_4: getNature error height >= getHeight() 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * getNature(3,12)
+	 *  
+	 *  Oracle:
+	 *  Exception pour getNature
+	 */
 	@Test
-	public void testIsExitFail4() {
+	public void testGetNature2_4() {
+		String test = "Level Test Objectif 2.4";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.isExit(15, 15);
-			assertTrue(false);
+			try {
+				//operation
+				level.getNature(3, 12);
+				assertion(test+": getNature doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+
+
+	/**
+	 * Objectif 3: isExit
+	 * 
+	 * Cas 3_0: isExit positif
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isExit(3,3)
+	 *  
+	 *  Oracle:
+	 *  Pas d'exception
+	 */
 	@Test
-	public void testIsExitFail5() {
+	public void testIsExit3_0() {
+		String test = "Level Test Objectif 3.0";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.isExit(-5, 0);
-			assertTrue(false);
-		} catch (ContractError e) {
-			assertTrue(true);
+
+			try {
+				//Operation
+				level.isExit(3, 3);
+
+				//oracle
+				assertion(test, true);
+			} catch (ContractError e) {
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	
+	/**
+	 * Objectif 3: isExit
+	 * 
+	 * Cas 3_1: isExit error width < 0
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isExit(-2,5)
+	 *  
+	 *  Oracle:
+	 *  Exception pour isExit
+	 */
 	@Test
-	public void testIsExitFail6() {
+	public void testIsExit3_1() {
+		String test = "Level Test Objectif 3.1";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.isExit(0, -5);
-			assertTrue(false);
+			try {
+				//operation
+				level.isExit(-2, 5);
+				assertion(test+": isExit doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	/**
+	 * Objectif 3: isExit
+	 * 
+	 * Cas 3_2: isExit error width >= getWidth()
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isExit(15,5)
+	 *  
+	 *  Oracle:
+	 *  Exception pour isExit
+	 */
 	@Test
-	public void testIsExitFail7() {
+	public void testIsExit3_2() {
+		String test = "Level Test Objectif 3.2";
+
+		//Condition initiale
 		try {
 			level.init(10, 10);
-			level.isExit(-5, -5);
-			assertTrue(false);
+			try {
+				//operation
+				level.isExit(15, 5);
+				assertion(test+": isExit doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
 		} catch (ContractError e) {
-			assertTrue(true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+
+	/**
+	 * Objectif 3: isExit
+	 * 
+	 * Cas 3_3: isExit error height < 0 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isExit(3,-2)
+	 *  
+	 *  Oracle:
+	 *  Exception pour isExit
+	 */
+	@Test
+	public void testIsExit3_3() {
+		String test = "Level Test Objectif 3.3";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+			try {
+				//operation
+				level.isExit(3, -2);
+				assertion(test+": isExit doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 3: isExit
+	 * 
+	 * Cas 3_4: isExit error height >= getHeight() 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * isExit(3,12)
+	 *  
+	 *  Oracle:
+	 *  Exception pour isExit
+	 */
+	@Test
+	public void testIsExit3_4() {
+		String test = "Level Test Objectif 3.4";
+
+		//Condition initiale
+		try {
+			level.init(10, 10);
+			try {
+				//operation
+				level.isExit(3, 12);
+				assertion(test+": isExit doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
