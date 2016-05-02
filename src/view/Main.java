@@ -139,7 +139,7 @@ public class Main extends Application implements IObserver{
 		cptImage++;
 	}
 
-	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed){
+	public void initGameEng(int width, int height, int sizeColony, int spawnSpeed, int nbJetons){
 		if (gameEng != null) {
 			gameEng.deleteObserver(this);
 		}
@@ -155,9 +155,9 @@ public class Main extends Application implements IObserver{
 		
 		/* Initialisation du service joueur */
 		JoueurImpl joueurImpl = new JoueurImpl();
-		joueurImpl.init();
 		joueurImpl.bindGameEngService(gameEng);
 		joueur = new JoueurContract(joueurImpl);
+		joueur.init(nbJetons);
 		
 	}
 

@@ -16,17 +16,29 @@ public interface Joueur extends RequireGameEngService {
 	public GameEng getGameEng();
 	
 	/** Constructors **/ 
-	// \post getNbJetons("DIGGER") = 10
-	// \post getNbJetons("CLIMBER") = 10
-	// \post getNbJetons("BUILDER") = 10
-	// \post getNbJetons("FLOATER") = 10
-	// \post getNbJetons("BOMBER") = 10
-	// \post getNbJetons("STOPPER") = 10
-	// \post getNbJetons("BASHER") = 10
-	// \post getNbJetons("MINER") = 10
-	public void init();
+	// \pre nbJetons > 0
+	// \post getNbJetons("DIGGER") = nbJetons
+	// \post getNbJetons("CLIMBER") = nbJetons
+	// \post getNbJetons("BUILDER") = nbJetons
+	// \post getNbJetons("FLOATER") = nbJetons
+	// \post getNbJetons("BOMBER") = nbJetons
+	// \post getNbJetons("STOPPER") = nbJetons
+	// \post getNbJetons("BASHER") = nbJetons
+	// \post getNbJetons("MINER") = nbJetons
+	public void init(int nbJetons);
 	
 	/** Operators **/
+	
+	// \pre nbJetons > 0
+	// \post getNbJetons("DIGGER") = nbJetons
+	// \post getNbJetons("CLIMBER") = nbJetons
+	// \post getNbJetons("BUILDER") = nbJetons
+	// \post getNbJetons("FLOATER") = nbJetons
+	// \post getNbJetons("BOMBER") = nbJetons
+	// \post getNbJetons("STOPPER") = nbJetons
+	// \post getNbJetons("BASHER") = nbJetons
+	// \post getNbJetons("MINER") = nbJetons
+	
 	// \pre !getGameEng().gameOver()
 	// \pre x >= 0 && x < getGameEng().getLevel().getHeight()
 	// \pre y >= 0 && y < getGameEng().getLevel().getWidth()
@@ -58,15 +70,5 @@ public interface Joueur extends RequireGameEngService {
 	// \pre getGameEng.gameOver() == false
 	// \post forall i in getGameEng().getLEmmingsActifs(), getGameEng().getLemming(i).isExploseur() = true
 	public void annihilation();
-	
-	// \pre getGameEng.gameOver() == false
-	// \post getGameEng.gameOver() == true
-	// \post getGameEng().getSpawnSpeed() = spawnSpeed@init;
-	// \post getGameEng().getSizeColony() = sizeColony@init;
-	// \post getGameEng().getNombreSauves() = 0;
-	// \post getGameEng().getNombreMorts() = 0;
-	// \post getGameEng().getNombreActifs() = 0;
-	// \post getGameEng().getNombreCrees() = 0;
-	public void reset(GameEng g);
 	
 }

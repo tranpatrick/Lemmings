@@ -77,10 +77,13 @@ public class MainController {
 	@FXML private TextField largeurTextField;
 	@FXML private TextField sizeColonyTextField;
 	@FXML private TextField spawnSpeedTextField;
+	@FXML private TextField jetonsTextField;
 	@FXML private TextField vitesseTextField;
 	@FXML private VBox dimensionVBox;
 
 	private Main main;
+	
+	private int nbJetons;
 
 	public void setMainApp(Main main) {
 		this.main = main;
@@ -91,15 +94,17 @@ public class MainController {
 		String hauteur = hauteurTextField.getText();
 		String taille = sizeColonyTextField.getText();
 		String vitesse = spawnSpeedTextField.getText();
+		String jetons = jetonsTextField.getText();
 		if (Outils.isNumber(largeur) && Outils.isNumber(hauteur)
-				&& Outils.isNumber(taille) && Outils.isNumber(vitesse)) {
+				&& Outils.isNumber(taille) && Outils.isNumber(vitesse)
+				&& Outils.isNumber(jetons)) {
 			int width = Integer.parseInt(largeur);
 			int height = Integer.parseInt(hauteur);
 			int sizeColony = Integer.parseInt(taille);
 			int spawnSpeed = Integer.parseInt(vitesse);
+			nbJetons = Integer.parseInt(jetons);
 			if ( width > 0 && height > 0 && sizeColony > 0 && spawnSpeed > 0) { 
-
-				main.initGameEng(width, height, sizeColony, spawnSpeed);
+				main.initGameEng(width, height, sizeColony, spawnSpeed, nbJetons);
 				main.initialiserLevel(width, height);				
 			}
 			else {
@@ -356,6 +361,7 @@ public class MainController {
 				basherButton.setVisible(true);
 				minerButton.setVisible(true);
 				dimensionButton.setDisable(true);
+				jetonsTextField.setDisable(true);
 
 				/* setLemming à NONE (aucune case de type n'est sélectionné) */
 				setLemming = SelectedType.NONE;
@@ -418,7 +424,7 @@ public class MainController {
 		main.getGameEng().getLevel().reset();
 		spawnSpeedTextField.setText("10");
 		main.getGameEng().init(main.getGameEng().getSizeColony(), 10);
-		main.getJoueur().init();
+		main.getJoueur().init(nbJetons);
 		for(SelectedType s : SelectedType.values())
 			updateJetons(s);
 		stop = false;

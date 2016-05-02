@@ -33,8 +33,8 @@ public class JoueurDecorator implements Joueur{
 	 * 
 	 * @see model.lemmings.services.Joueur#init()
 	 */
-	public void init() {
-		joueur.init();
+	public void init(int nbJetons) {
+		joueur.init(nbJetons);
 	}
 
 	/**
@@ -72,14 +72,6 @@ public class JoueurDecorator implements Joueur{
 	 */
 	public void annihilation() {
 		joueur.annihilation();
-	}
-
-	/**
-	 * @param g
-	 * @see model.lemmings.services.Joueur#reset(model.lemmings.services.GameEng)
-	 */
-	public void reset(GameEng g) {
-		joueur.reset(g);
 	}
 
 	@Override
