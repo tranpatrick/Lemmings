@@ -76,10 +76,7 @@ public class LevelImplBug implements Level{
 	/** Operators **/
 	@Override
 	public void setNature(int x, int y, Nature n) {
-		if (x%2 == 1)
 		terrain[y][x] = n;
-		else 
-			terrain[0][x] = n;
 		if (isEditing() == true)
 			backup[y][x] = n;
 	}

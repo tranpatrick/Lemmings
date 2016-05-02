@@ -12,8 +12,7 @@ public interface GameEng extends IObservable, RequireLevelService{
 	//�\pre 0 <= x < getLevel().getWidth() AND 0 <= y < getLevel().getHeight()
 	public boolean isObstacle(int x, int y);
 
-	//TODO rajouter contrat 
-	/* fonction pour basheur qui creuse quand il rencontre stopper */
+	//�\pre 0 <= x < getLevel().getWidth() AND 0 <= y < getLevel().getHeight()
 	public boolean isObstacle2(int x, int y);
 	
 	//�\pre 0 <= x < getLevel().getWidth() AND 0 <= y < getLevel().getHeight()
