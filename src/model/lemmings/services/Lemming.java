@@ -1,6 +1,6 @@
 package model.lemmings.services;
 
-public interface Lemming {
+public interface Lemming extends RequireGameEngService {
 
 	public enum Direction { 
 		DROITIER, GAUCHER;
@@ -55,13 +55,18 @@ public interface Lemming {
 
 	/** Constructeur **/
 	// \post getDirection() = DROITIER
-	// \post getType() = MARCHEUR 
+	// \post getType() = TOMBEUR
 	// \post getId() = id
-	// \post isGrimpeur = false
-	// \post isExploseur = false
-	// \post isFlotteur = false
+	// \post isGrimpeur() = false
+	// \post isExploseur() = false
+	// \post isFlotteur() = false
 	// \post tombeDepuis() = 0
-	// \post exploseurDepuis = 0
+	// \post isBuilder() = false
+	// \post isCurrentlyBuilding() = false
+	// \post isCurrentlyClimbing() = false
+	// \post nbCreuseTunnel() = 0
+	// \post getNombreToursBuilder() = 0
+	//Â \post getNombreDallesPosees() = 0
 	public void init(int id);
 
 	/** Operateurs **/
@@ -117,7 +122,7 @@ public interface Lemming {
 	public void devientStoppeur();
 
 	// TODO revoir les preconditon des devient
-	// TODO le stoppeur peut aussi être basher, creuseur, grimpeur etc.......
+	// TODO le stoppeur peut aussi ï¿½tre basher, creuseur, grimpeur etc.......
 	// \pre !getGameEng().gameOver()
 	// \pre getId() \in getGameEng().getLemmingActifs()
 

@@ -7,7 +7,7 @@ import model.lemmings.services.Lemming;
 import model.lemmings.services.RequireGameEngService;
 import model.lemmings.services.Level.Nature;
 
-public class LemmingImpl implements Lemming, RequireGameEngService{
+public class LemmingImpl implements Lemming{
 
 	private Type type;
 	private Direction direction;
@@ -36,7 +36,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 	public void bindGameEngService(GameEng service) {
 		this.gameEng = service;
 	}
-
+	
 	@Override
 	public Direction getDirection() {
 		return direction;
@@ -140,6 +140,8 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 		isExploseur = false;
 		tombeDepuis = 0;
 		exploseurDepuis = 0;
+		nbCreuseTunnel = 0;
+		nombreDallesPosees = 0;
 	}
 
 	@Override
@@ -232,6 +234,7 @@ public class LemmingImpl implements Lemming, RequireGameEngService{
 				}
 				/* faire mourir le lemming */
 				gameEng.tuerLemming(getId());
+				return;
 			}
 		}
 
