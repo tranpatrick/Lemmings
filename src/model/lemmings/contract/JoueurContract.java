@@ -48,33 +48,34 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 	}
 
 	/** Constructors **/ 
-	// \post getNbJetons("DIGGER") = 10
-	// \post getNbJetons("CLIMBER") = 10
-	// \post getNbJetons("BUILDER") = 10
-	// \post getNbJetons("FLOATER") = 10
-	// \post getNbJetons("BOMBER") = 10
-	// \post getNbJetons("STOPPER") = 10
-	// \post getNbJetons("BASHER") = 10
-	// \post getNbJetons("MINER") = 10
-	public void init(){
-		super.init();
+	// \pre nbJetons > 0
+	// \post getNbJetons("DIGGER") = nbJetons
+	// \post getNbJetons("CLIMBER") = nbJetons
+	// \post getNbJetons("BUILDER") = nbJetons
+	// \post getNbJetons("FLOATER") = nbJetons
+	// \post getNbJetons("BOMBER") = nbJetons
+	// \post getNbJetons("STOPPER") = nbJetons
+	// \post getNbJetons("BASHER") = nbJetons
+	// \post getNbJetons("MINER") = nbJetons
+	public void init(int nbJetons){
+		super.init(nbJetons);
 		checkInvariant();
-		if(super.getNbJetons("DIGGER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"DIGGER\") = 10 not satisfied");
-		if(super.getNbJetons("CLIMBER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"CLIMBER\") = 10 not satisfied");
-		if(super.getNbJetons("BUILDER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"BUILDER\") = 10 not satisfied");
-		if(super.getNbJetons("FLOATER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"FLOATER\") = 10 not satisfied");
-		if(super.getNbJetons("BOMBER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"BOMBER\") = 10 not satisfied");
-		if(super.getNbJetons("STOPPER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"STOPPER\") = 10 not satisfied");
-		if(super.getNbJetons("BASHER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"BASHER\") = 10 not satisfied");
-		if(super.getNbJetons("MINER") != 10)
-			throw new PostConditionError("init : getNbJetons(\"MINER\") = 10 not satisfied");
+		if(super.getNbJetons("DIGGER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"DIGGER\") = nbJetons not satisfied");
+		if(super.getNbJetons("CLIMBER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"CLIMBER\") = nbJetons not satisfied");
+		if(super.getNbJetons("BUILDER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"BUILDER\") = nbJetons not satisfied");
+		if(super.getNbJetons("FLOATER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"FLOATER\") = nbJetons not satisfied");
+		if(super.getNbJetons("BOMBER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"BOMBER\") = nbJetons not satisfied");
+		if(super.getNbJetons("STOPPER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"STOPPER\") = nbJetons not satisfied");
+		if(super.getNbJetons("BASHER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"BASHER\") = nbJetons not satisfied");
+		if(super.getNbJetons("MINER") != nbJetons)
+			throw new PostConditionError("init : getNbJetons(\"MINER\") = nbJetons not satisfied");
 	}
 
 	/** Invariants **/
@@ -196,11 +197,11 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 	public void annihilation(){
 		if(super.getGameEng().gameOver())
 			throw new PreConditionError("annihilation : getGameEng.gameOver() = false not satisfied");
-		
+
 		checkInvariant();
 		super.annihilation();
 		checkInvariant();
-		
+
 		GameEng g = super.getGameEng();
 		Set<Integer> set = g.getLemmingsActifs();
 		for(int i : set){
@@ -208,18 +209,6 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 				throw new PostConditionError("annihilation : forall i in getGameEng().getLEmmingsActifs(), "+
 						"getGameEng().getLemming(i).isExploseur() = true not satisfied");
 		}
-	}
-
-	// \pre getGameEng.gameOver() == false
-	// \post getGameEng.gameOver() == true
-	// \post getGameEng().getSpawnSpeed() = spawnSpeed@init;
-	// \post getGameEng().getSizeColony() = sizeColony@init;
-	// \post getGameEng().getNombreSauves() = 0;
-	// \post getGameEng().getNombreMorts() = 0;
-	// \post getGameEng().getNombreActifs() = 0;
-	// \post getGameEng().getNombreCrees() = 0;
-	public void reset(GameEng g){
-
 	}
 
 }

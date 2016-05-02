@@ -29,15 +29,15 @@ public class JoueurImpl implements Joueur {
 	}
 
 	@Override
-	public void init() {
-		jetons.put("DIGGER", 10);
-		jetons.put("CLIMBER", 10);
-		jetons.put("BUILDER", 10);
-		jetons.put("FLOATER", 10);
-		jetons.put("BOMBER", 10);
-		jetons.put("STOPPER", 10);
-		jetons.put("BASHER", 10);
-		jetons.put("MINER", 10);
+	public void init(int nbJetons) {
+		jetons.put("DIGGER", nbJetons);
+		jetons.put("CLIMBER", nbJetons);
+		jetons.put("BUILDER", nbJetons);
+		jetons.put("FLOATER", nbJetons);
+		jetons.put("BOMBER", nbJetons);
+		jetons.put("STOPPER", nbJetons);
+		jetons.put("BASHER", nbJetons);
+		jetons.put("MINER", nbJetons);
 	}
 
 	@Override
@@ -96,11 +96,6 @@ public class JoueurImpl implements Joueur {
 		for(int i : lemmingsActifs){
 			gameEng.getLemming(i).devientExploseur();
 		}
-	}
-
-	@Override
-	public void reset(GameEng g) {
-		//TODO reset
 	}
 
 	@Override

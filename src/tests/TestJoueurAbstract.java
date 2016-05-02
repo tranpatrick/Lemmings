@@ -7,16 +7,20 @@ import org.junit.Test;
 import model.lemmings.contract.ContractError;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Joueur;
-import model.lemmings.services.Level.Nature;
+import model.lemmings.services.Lemming;
+import model.lemmings.services.Lemming.Type;
+import model.lemmings.services.Level;
 
 public abstract class TestJoueurAbstract extends AssertionTests {
 
 	private Joueur joueur;
 	private GameEng gameEng;
+	private Level level;
 
 	protected TestJoueurAbstract(){
 		joueur = null;
 		gameEng = null;
+		level = null;
 	}
 
 	protected final Joueur getJoueur(){
@@ -27,6 +31,22 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 		return gameEng;
 	}
 
+	protected final Level getLevel(){
+		return level;
+	}
+
+	protected final void setJoueur(Joueur joueur){
+		this.joueur = joueur;
+	}
+
+	protected final void setGameEng(GameEng gameEng){
+		this.gameEng = gameEng;
+	}
+
+	protected final void setLevel(Level level){
+		this.level = level;
+	}
+
 	@Before
 	public abstract void beforeTests();
 
@@ -34,6 +54,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	public final void afterTests(){
 		joueur = null;
 		gameEng = null;
+		level = null;
 	}
 
 	/**
@@ -41,11 +62,11 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * 
 	 * Cas 1_0: init: positif
 	 * 
-	 * Condition initial:
+	 * Condition initiale:
 	 * aucune
 	 * 
 	 * Operation:
-	 *  init()
+	 *  init(10)
 	 *  
 	 * Oracle:
 	 *  Pas d'exception &&
@@ -62,7 +83,7 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	public void testInit1_0() {
 		String test = "Joueur Test Objectif 1.0";
 		try {
-			joueur.init();
+			joueur.init(10);
 			assertion(test+" :\\post getNbJetons(\"DIGGER\") == 10", joueur.getNbJetons("DIGGER") == 10);
 			assertion(test+" :\\post getNbJetons(\"CLIMBER\") == 10", joueur.getNbJetons("CLIMBER") == 10);
 			assertion(test+" :\\post getNbJetons(\"BUILDER\") == 10", joueur.getNbJetons("BUILDER") == 10);
@@ -76,5 +97,456 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 		}
 	}
 
+	/**
+	 * Objectif 2: select
+	 * 
+	 * Cas 2_0: select positif
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * 
+	 * Operation:
+	 * select(2,3)
+	 *  
+	 *  Oracle:
+	 *  Pas d'exception
+	 */
+	@Test
+	public void testSelect2_0(){
+		String test = "Joueur Test Objectif 2.0";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			try{
+				//Operation select
+				joueur.select(2, 3);
+
+				//Oracle
+				assertion(test, true);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 2: select
+	 * 
+	 * Cas 2_1: error x < 0
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * 
+	 * 
+	 * Operation:
+	 * select(-2,3)
+	 *  
+	 * Oracle:
+	 * Exception à l'exécution de select
+	 */
+	@Test
+	public void testSelect2_1(){
+		String test = "Joueur Test Objectif 2.1";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			try{
+				//Operation select
+				joueur.select(-2, 3);
+
+				//Oracle
+				assertion(test+" : select doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 2: select
+	 * 
+	 * Cas 2_2: error x >= getGameEng().getLevel().getHeight()
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * 
+	 * Operation:
+	 * select(26,3)
+	 *  
+	 * Oracle:
+	 * Exception à l'exécution de select
+	 */
+	@Test
+	public void testSelect2_2(){
+		String test = "Joueur Test Objectif 2.2";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			try{
+				//Operation select
+				joueur.select(26, 3);
+
+				//Oracle
+				assertion(test+" : select doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 2: select
+	 * 
+	 * Cas 2_3: error y < 0
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * 
+	 * Operation:
+	 * select(2,-3)
+	 *  
+	 * Oracle:
+	 * Exception à l'exécution de select
+	 */
+	@Test
+	public void testSelect2_3(){
+		String test = "Joueur Test Objectif 2.3";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			try{
+				//Operation select
+				joueur.select(2, -3);
+
+				//Oracle
+				assertion(test+" : select doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 2: select
+	 * 
+	 * Cas 2_4: error y >= getGameEng().getLevel().getWidth()
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * 
+	 * Operation:
+	 * select(2,26)
+	 *  
+	 * Oracle:
+	 * Exception à l'exécution de select
+	 */
+	@Test
+	public void testSelect2_4(){
+		String test = "Joueur Test Objectif 2.4";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			try{
+				//Operation select
+				joueur.select(2, 26);
+
+				//Oracle
+				assertion(test+" : select doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 3: changeClasse
+	 * 
+	 * Cas 3_0: changeClasse valide
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * gameEng.step() (6 fois)
+	 * 
+	 * Operation:
+	 * changeClasse(gameEng.getLemming(1), "DIGGER");
+	 *  
+	 * Oracle:
+	 * Pas d'exception
+	 */
+	@Test
+	public void testChangeClasse3_0(){
+		String test = "Joueur Test Objectif 3.0";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			for(int i=0; i<6; i++)
+				gameEng.step();
+			try{
+				//Operation select
+				joueur.changeClasse(gameEng.getLemming(1), "DIGGER");
+
+				//Oracle
+				assertion("\\post getNbJetons(t) = getNbJetons(t)@pre-1", joueur.getNbJetons("DIGGER") == 9);
+				assertion("\\post gameEng().getLemming(1).getType() = CREUSEUR", gameEng.getLemming(1).getType() == Type.CREUSEUR);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 3: changeClasse
+	 * 
+	 * Cas 3_1: erreur type != "DIGGER"
+	 * 				|| type = "CLIMBER"
+	 * 				|| type = "BUILDER"
+	 * 				|| type = "FLOATER"
+	 * 				|| type = "BOMBER"
+	 * 				|| type = "STOPPER"
+	 * 				|| type = "BASHER"
+	 * 				|| type = "MINER"
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * gameEng.step() (6 fois)
+	 * 
+	 * Operation:
+	 * changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+	 *  
+	 * Oracle:
+	 * Exception pour changeClasse
+	 */
+	@Test
+	public void testChangeClasse3_1(){
+		String test = "Joueur Test Objectif 3.1";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			for(int i=0; i<6; i++)
+				gameEng.step();
+			try{
+				//Operation select
+				joueur.changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+
+				//Oracle
+				assertion(test+" : changeClasse doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
+	/**
+	 * Objectif 3: changeClasse
+	 * 
+	 * Cas 3_2: erreur joueur.getNbJetons("type") <= 0
+	 * 
+	 * Condition initiale:
+	 * joueur.init(0)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * gameEng.step() (6 fois)
+	 * 
+	 * 
+	 * Operation:
+	 * changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+	 *  
+	 * Oracle:
+	 * Exception pour changeClasse
+	 */
+	@Test
+	public void testChangeClasse3_2(){
+		String test = "Joueur Test Objectif 3.2";
+
+		//Condition initiale
+		try{
+			joueur.init(0);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			for(int i=0; i<6; i++)
+				gameEng.step();
+			try{
+				//Operation select
+				joueur.changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+
+				//Oracle
+				assertion(test+" : changeClasse doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+	
+	/**
+	 * Objectif 4: changeSpawnSpeed
+	 * 
+	 * Cas 4_0: changeSpawnSpeed valide
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * 
+	 * 
+	 * Operation:
+	 * changeSpawnSpeed(10)
+	 *  
+	 * Oracle:
+	 * Pas d'exception
+	 */
+	@Test
+	public void testChangeSpawnSpeed4_0(){
+		String test = "Joueur Test Objectif 4.0";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			try{
+				//Operation select
+				joueur.changeSpawnSpeed(5);
+
+				//Oracle
+				assertion("\\post getGameEng().getSpawnSpeed() == s", gameEng.getSpawnSpeed() == 5);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+	
+	/**
+	 * Objectif 4: changeSpawnSpeed
+	 * 
+	 * Cas 4_1: erreur x <= 0
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * 
+	 * 
+	 * Operation:
+	 * changeSpawnSpeed(-1)
+	 *  
+	 * Oracle:
+	 * Exception pour changeSpawnSpeed 
+	 */
+	@Test
+	public void testChangeSpawnSpeed4_1(){
+		String test = "Joueur Test Objectif 4.1";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			try{
+				//Operation select
+				joueur.changeSpawnSpeed(-1);
+
+				//Oracle
+				assertion(test+": changeSpawnSpeed doit echouer", false);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), true);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+	
+	/**
+	 * Objectif 5: Annihilition 
+	 * 
+	 * Cas 5_0: annihilation valide
+	 * 
+	 * Condition initiale:
+	 * joueur.init(10)
+	 * gameEng.init(10,5) 
+	 * level.init(25,25)
+	 * gameEng.step() (6 fois)
+	 * 
+	 * 
+	 * Operation:
+	 * annihilation()
+	 *  
+	 * Oracle:
+	 * Pas d'exception 
+	 */
+	@Test
+	public void testAnihilation5_0(){
+		String test = "Joueur Test Objectif 5.0";
+
+		//Condition initiale
+		try{
+			joueur.init(10);
+			//gameEng.init(10, 5);
+			//level.init(25, 25);
+			for(int i=0; i<6; i++)
+				gameEng.step();
+			try{
+				//Operation select
+				joueur.annihilation();
+
+				//Oracle
+				for(int i : gameEng.getLemmingsActifs())
+					assertion("\\post forall i in getGameEng().getLEmmingsActifs(), getGameEng().getLemming(i).isExploseur() == true",
+							gameEng.getLemming(i).isExploseur() == true);
+			}catch(ContractError e){
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch(ContractError e){
+			assertion(test+": erreur à l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
 
 }

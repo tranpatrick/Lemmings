@@ -184,6 +184,23 @@
                         </TextField>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="300.0" spacing="20.0">
+                     <children>
+                        <Label minWidth="-Infinity" text="Jetons">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="jetonsTextField" onKeyPressed="#initLevelEvent" prefHeight="25.0" prefWidth="80.0" text="10">
+                           <HBox.margin>
+                              <Insets left="74.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
                   <HBox fx:id="vitesseHBox" alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="300.0" spacing="20.0" visible="false">
                      <children>
                         <Label minWidth="-Infinity" text="Vitesse">
