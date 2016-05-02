@@ -62,7 +62,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			int width = 25;
 			// operation
 			level.init(width, height);
-			
+
 			// oracle
 			assertion(test+" :\\post level.getHeight() == height", level.getHeight() == height);
 			assertion(test+" :\\post level.getWidth()  == width", level.getWidth()  == width);
@@ -167,7 +167,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		}
 	}
 
-	
+
 	/**
 	 * Objectif 2: getNature
 	 * 
@@ -343,7 +343,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		}
 	}
 
-	
+
 	/**
 	 * Objectif 3: isExit
 	 * 
@@ -481,25 +481,41 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		}
 	}
 
+	/**
+	 * Objectif 4: setNature
+	 * 
+	 * Cas 4_0: setNature positif 
+	 * 
+	 * Condition initial:
+	 * init(10,10)
+	 * 
+	 * Operation:
+	 * setNature(5, 5, Nature.DIRT)
+	 *  
+	 *  Oracle:
+	 *  Pas d'exception && getNature(5, 5) == Nature.DIRT
+	 */
 	@Test
 	public void testSetNature() {
+		String test = "Level Test Objectif 4.0";
 		try {
+			// condition initiale
 			level.init(10, 10);
-			level.setNature(5, 5, Nature.DIRT);
-			assertTrue(level.getNature(5, 5) == Nature.DIRT);
-			level.setNature(5, 5, Nature.METAL);
-			assertTrue(level.getNature(5, 5) == Nature.METAL);
-			level.setNature(5, 5, Nature.EMPTY);
-			assertTrue(level.getNature(5, 5) == Nature.EMPTY);
-			level.setNature(4, 2, Nature.METAL);
-			assertTrue(level.getNature(4, 2) == Nature.METAL);
-			assertTrue(true);
+			try {
+				//operation
+				level.setNature(5, 5, Nature.DIRT);
+				// oracle
+				assertion(test, level.getNature(5, 5) == Nature.DIRT);
+				assertion(test, true);
+			} catch (ContractError e) {
+				assertion(test+": "+e.getMessage(), false);
+			} 
 		} catch (ContractError e) {
-			System.err.println(e.getMessage());
-			assertTrue(false);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
+	//TODO continuer ici
 	@Test
 	public void testSetNatureFail1() {
 		try {
