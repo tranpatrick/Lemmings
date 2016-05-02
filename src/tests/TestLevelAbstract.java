@@ -1038,7 +1038,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 		try {
 			//Condition initiale 
 			level.init(10, 10);
-			level.setNature(5, 5, Nature.METAL);
+			level.setNature(5, 6, Nature.METAL);
 			try {
 				// Operation
 				level.setExit(5, 5);
