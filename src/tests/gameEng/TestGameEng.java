@@ -26,7 +26,6 @@ public class TestGameEng extends TestGameEngAbstract {
 		getGameEng().getLevel().setEntrance(8, 5);
 		getGameEng().getLevel().setNature(5, 6, Nature.METAL);
 		getGameEng().getLevel().setExit(5, 5);
-		getGameEng().getLevel().goPlay();
 	}
 
 }
