@@ -660,18 +660,18 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * 
 	 * Condition initiale:
 	 * init(10,10)
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *						|| y == 0 || y == level.getHeight()-1) {
-	 *					level.setNature(x, y, Nature.METAL);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *						|| y == 0 || y == getHeight()-1) {
+	 *					setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	goPlay();
 	 * 
 	 * Operation:
 	 * goEditing()
@@ -1134,17 +1134,17 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * 
 	 * Condition initiale:
 	 * init(10,10)
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *						|| y == 0 || y == level.getHeight()-1) {
-	 *					level.setNature(x, y, Nature.METAL);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *						|| y == 0 || y == getHeight()-1) {
+	 *					setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
 	 * 
 	 * Operation:
 	 * goPlay()
@@ -1202,16 +1202,16 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * 
 	 * Condition initiale:
 	 * init(10,10)
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *						|| y == 0 || y == level.getHeight()-1) {
-	 *					level.setNature(x, y, Nature.METAL);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *						|| y == 0 || y == getHeight()-1) {
+	 *					setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
 	 * 
 	 * Operation:
 	 * goPlay()
@@ -1256,15 +1256,15 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * 
 	 * Condition initiale:
 	 * init(10,10)
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *						|| y == 0 || y == level.getHeight()-1) {
-	 *					level.setNature(x, y, Nature.METAL);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *						|| y == 0 || y == getHeight()-1) {
+	 *					setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(5, 5);
+	 *	setEntrance(5, 5);
 	 * 
 	 * Operation:
 	 * goPlay()
@@ -1308,9 +1308,9 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * 
 	 * Condition initiale:
 	 * init(10,10)
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
 	 * 
 	 * Operation:
 	 * goPlay()
@@ -1348,20 +1348,20 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_0: remove positif 
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *					|| y == 0 || y == level.getHeight()-1) {
-	 *				level.setNature(x, y, Nature.METAL);
+	 * init(10, 10);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *					|| y == 0 || y == getHeight()-1) {
+	 *				setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.setNature(7, 7, Nature.DIRT);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	setNature(7, 7, Nature.DIRT);
+	 *	goPlay();
 	 * Operation:
 	 * remove(7, 7)
 	 *  
@@ -1407,8 +1407,8 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_1: remove error, mode d'edition actif 
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * level.setNature(7, 7, Nature.DIRT);
+	 * init(10, 10);
+	 * setNature(7, 7, Nature.DIRT);
 	 * Operation:
 	 * remove(7, 7)
 	 *  
@@ -1441,20 +1441,20 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_2: remove error, la case a remove n'est pas DIRT
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *					|| y == 0 || y == level.getHeight()-1) {
-	 *				level.setNature(x, y, Nature.METAL);
+	 * init(10, 10);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *					|| y == 0 || y == getHeight()-1) {
+	 *				setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.setNature(7, 7, Nature.METAL);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	setNature(7, 7, Nature.METAL);
+	 *	goPlay();
 	 * Operation:
 	 * remove(7, 7)
 	 *  
@@ -1499,19 +1499,19 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_0: build positif 
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *					|| y == 0 || y == level.getHeight()-1) {
-	 *				level.setNature(x, y, Nature.METAL);
+	 * init(10, 10);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *					|| y == 0 || y == getHeight()-1) {
+	 *				setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	goPlay();
 	 * Operation:
 	 * build(7, 7)
 	 *  
@@ -1555,7 +1555,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_1: build error, mode d'edition actif 
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
+	 * init(10, 10);
 	 * Operation:
 	 * build(7, 7)
 	 *  
@@ -1587,20 +1587,20 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_2: build error, la case a build n'est pas EMPTY
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *					|| y == 0 || y == level.getHeight()-1) {
-	 *				level.setNature(x, y, Nature.METAL);
+	 * init(10, 10);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *					|| y == 0 || y == getHeight()-1) {
+	 *				setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.setNature(7, 7, Nature.METAL);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	setNature(7, 7, Nature.METAL);
+	 *	goPlay();
 	 * Operation:
 	 * build(7, 7)
 	 *  
@@ -1645,19 +1645,19 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_3: build error, la case a build est la case d'entree
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *					|| y == 0 || y == level.getHeight()-1) {
-	 *				level.setNature(x, y, Nature.METAL);
+	 * init(10, 10);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *					|| y == 0 || y == getHeight()-1) {
+	 *				setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	goPlay();
 	 * Operation:
 	 * build(8, 5)
 	 *  
@@ -1701,19 +1701,19 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Cas 10_4: build error, la case a build est la case de sortie
 	 * 
 	 * Condition initiale:
-	 * level.init(10, 10);
-	 * for (int x = 0; x<level.getWidth(); x++) {
-	 * 		for (int y = 0; y<level.getHeight(); y++) {
-	 *			if (x == 0 || x == level.getWidth()-1 
-	 *					|| y == 0 || y == level.getHeight()-1) {
-	 *				level.setNature(x, y, Nature.METAL);
+	 * init(10, 10);
+	 * for (int x = 0; x<getWidth(); x++) {
+	 * 		for (int y = 0; y<getHeight(); y++) {
+	 *			if (x == 0 || x == getWidth()-1 
+	 *					|| y == 0 || y == getHeight()-1) {
+	 *				setNature(x, y, Nature.METAL);
 	 *			}
 	 *		}
 	 *	}
-	 *	level.setEntrance(8, 5);
-	 *	level.setNature(5, 6, Nature.METAL);
-	 *	level.setExit(5, 5);
-	 *	level.goPlay();
+	 *	setEntrance(8, 5);
+	 *	setNature(5, 6, Nature.METAL);
+	 *	setExit(5, 5);
+	 *	goPlay();
 	 * Operation:
 	 * build(5, 5)
 	 *  

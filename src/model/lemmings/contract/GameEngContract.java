@@ -13,11 +13,7 @@ public class GameEngContract extends GameEngDecorator{
 		super(gameEng);
 	}
 	
-	@Override
-	public boolean isObstacle2(int x, int y) {
-		//TODO contrat
-		return super.isObstacle2(x, y);
-	}
+
 
 
 	public void checkInvariant() {
@@ -118,6 +114,23 @@ public class GameEngContract extends GameEngDecorator{
 		return isObstacle;
 	}
 
+	@Override
+	public boolean isObstacle2(int x, int y) {
+		// \pre 0 <= x <= getLevel().getWidth() AND 0 <= y <= getLevel().getHeight()
+		if (!(x >= 0 && x < super.getLevel().getWidth())) {
+			throw new PreConditionError("isObstacle : "
+					+ "0 <= x <= getLevel().getWidth() not satisfied");
+		}
+		if (!(y >= 0 && y < super.getLevel().getHeight())) {
+			throw new PreConditionError("isObstacle : "
+					+ "0 <= y <= getLevel().getHeight() not satisfied");
+		}
+		checkInvariant();
+		boolean isObstacle2 = super.isObstacle2(x, y);
+		checkInvariant();
+		return isObstacle2;
+	}
+	
 	@Override
 	public boolean isLibre(int x, int y) {
 		// \pre 0 <= x <= getLevel().getWidth() AND 0 <= y <= getLevel().getHeight()
