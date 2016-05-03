@@ -16,17 +16,11 @@ public interface GameEng extends IObservable, RequireLevelService{
 	public boolean isObstacle2(int x, int y);
 	
 	//�\pre 0 <= x < getLevel().getWidth() AND 0 <= y < getLevel().getHeight()
-	/* \post getLevel().isExit(x,y) || getLevel().isEntrance(x,y)
-		\implies isLibre(x,y) = false */
 	public boolean isLibre(int x, int y);
 	
 	public int getSizeColony();
 	
 	public int getSpawnSpeed();
-	
-	// \pre !gameOver()
-	// \post setSpawnSpeed(s) \implies getSpawnSpeed() = s
-	public void setSpawnSpeed(int s);
 	
 	public boolean gameOver();
 	
@@ -72,6 +66,11 @@ public interface GameEng extends IObservable, RequireLevelService{
 	
 	/** Opérateurs **/
 	// \pre !gameOver()
+	// \pre s > 0
+	// \post setSpawnSpeed(s) \implies getSpawnSpeed() = s
+	public void setSpawnSpeed(int s);
+	
+	// \pre !gameOver()
 	/* \post !isAnnihilation && getNombresTours mod getSpawnSpeed() = 0 AND getNombresCrees() < getSizeColony()
 	 * 		\implies getNombreCrees() = getNombreCrees()@pre+1
 	 * 				 AND getNombreCrees() \in getLemmingsActifs()
@@ -96,7 +95,7 @@ public interface GameEng extends IObservable, RequireLevelService{
 	// \pre !gameOver()
 	// \pre i \in getLemmingsActifs
 	// \pre getLemming(i).getX() = x AND getLemming(i).getY() = y AND getLevel().isExit(x, y)
-	/* \post sauverLemming(i) \impliest getNombreActifs() = getNombreActifs()@pre-1
+	/* \post sauverLemming(i) \implies getNombreActifs() = getNombreActifs()@pre-1
 	 *						  AND getNombreSauves() = getNombreSauves()@pre+1
 	 *						  AND getLemmingsActifs() = getLemmingsActifs()@pre - {i}					  
 	 */
@@ -108,9 +107,6 @@ public interface GameEng extends IObservable, RequireLevelService{
 	public void goAnnihilation();
 	
 	/** Invariants **/
-	//TODO pas un invariant
-	// \invMin !isAnnihilation() \implies gameOver() == ( getNombreActifs() == 0 AND getNombreCrees() == getSizeColony() )  
-	
 	// \invMin getNombreActifs() == | getLemmingActifs() |
 	// \invMin score() == getNombreSauves / getSizeColony()
 	// \invMin getNombreCrees() == getNombreActifs() + getNombreSauves() + getNombreMorts()
@@ -118,5 +114,5 @@ public interface GameEng extends IObservable, RequireLevelService{
 	// \inv getNombreSauves() >= 0 AND getNombreSauves() <= getNombreCrees() 
 	// \inv getNombreMorts() >= 0 AND getNombreMorts() <= getNombreCrees()
 	// \inv getNombreActifs() >= 0 AND getActifs() <= getNombreCrees()
-	// \inv getNombreCrees() >= 0 AND getNombreCrees() <= getNombreCrees()
+	// \inv getNombreCrees() >= 0
 }	
