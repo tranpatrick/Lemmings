@@ -178,22 +178,22 @@ public class LevelContract extends LevelDecorator {
 		if(super.isEditing() == false)
 			throw new PreConditionError("goPlay : isEditing() not satisfied");
 
-		// \pre \forall j getNature(0,j) = METAL
+		// \pre \forall j in [0;getHeight()[, getNature(0,j) = METAL
 		for(int j=0; j<super.getHeight(); j++)
 			if(super.getNature(0, j) != Nature.METAL)
 				throw new PreConditionError("goPlay : \forall j getNature(0,j) = METAL not satisfied");
 
-		// \pre \forall j getNature(getWidth()-1,j) = METAL
+		// \pre \forall j in [0;getHeight()[, getNature(getWidth()-1,j) = METAL
 		for(int j=0; j<super.getHeight(); j++)
 			if(super.getNature(super.getWidth()-1, j) != Nature.METAL)
 				throw new PreConditionError("goPlay : \forall j getNature(getWidth()-1,j) = METAL not satisfied");
 
-		// \pre \forall i getNature(i,0) = METAL
+		// \pre \forall i in [0;getWidth()[, getNature(i,0) = METAL
 		for(int i=0; i<super.getWidth(); i++)
 			if(super.getNature(i, 0) != Nature.METAL)
 				throw new PreConditionError("goPlay : \forall j getNature(i,0) = METAL not satisfied");
 
-		// \pre \forall i getNature(i,getHeight()-1) = METAL
+		// \pre \forall i in in [0;getHeight()[, getNature(i,getHeight()-1) = METAL
 		for(int i=0; i<super.getWidth(); i++)
 			if(super.getNature(i, super.getHeight()-1) != Nature.METAL)
 				throw new PreConditionError("goPlay : \forall j getNature(i,getHeight()-1) = METAL not satisfied");
@@ -237,9 +237,10 @@ public class LevelContract extends LevelDecorator {
 	}
 
 	public void remove(int x, int y){
+		/** Pas besoin de vérifier cette pre car déjà vérifiée dans getNature **/
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
-		if(!(0 <= x && x < super.getWidth() && 0 <= y && 0 < super.getHeight()))
-			throw new PreConditionError("remove : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
+//		if(!(0 <= x && x < super.getWidth() && 0 <= y && 0 < super.getHeight()))
+//			throw new PreConditionError("remove : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
 
 		// \pre !isEditing()
 		if(super.isEditing())
@@ -268,9 +269,10 @@ public class LevelContract extends LevelDecorator {
 	}
 
 	public void build(int x, int y){
+		/** Pas besoin de vérifier cette pre car déjà vérifiée dans getNature **/
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
-		if(!(0 <= x && x <= super.getWidth() && 0 <= y && 0 <= super.getHeight()))
-			throw new PreConditionError("build : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
+//		if(!(0 <= x && x <= super.getWidth() && 0 <= y && 0 <= super.getHeight()))
+//			throw new PreConditionError("build : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
 
 		// \pre !isEditing()
 		if(super.isEditing())
