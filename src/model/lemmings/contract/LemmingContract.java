@@ -913,6 +913,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				 * 							  AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-1)
 				 * 							  \implies getX() = getX()@pre+1 AND getY() = getY()@pre AND getType() = MARCHEUR
 				 */
+				//TODO pose problème avec annihilation
 				else if(!super.getGameEng().isObstacle(xPre+1, yPre) && !super.getGameEng().isObstacle(xPre+1, yPre-1)
 						&& !(super.getX() == xPre+1 && y == yPre && super.getType() == Type.MARCHEUR))
 					throw new PostConditionError("step : getType()@pre = MARCHEUR AND getDirection()@pre = DROITIER AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre)"
