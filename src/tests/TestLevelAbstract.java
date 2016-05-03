@@ -56,18 +56,18 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	public void testInit1_0() {
 		String test = "Level Test Objectif 1.0";
 		try {
-			int height = 20;
-			int width = 25;
+			final int width = 25;
+			final int height = 20;
 			// operation
 			level.init(width, height);
 
 			// oracle
-			assertion(test+" :\\post level.getHeight() == height", level.getHeight() == height);
-			assertion(test+" :\\post level.getWidth()  == width", level.getWidth()  == width);
-			assertion(test+" :\\post level.isEditing() == true", level.isEditing() == true);
+			assertion(test+" : La hauteur est incorrecte", level.getHeight() == height);
+			assertion(test+" : La largeur est incorrecte", level.getWidth()  == width);
+			assertion(test+" : Le mode d'edition n'est pas actif", level.isEditing() == true);
 			for (int x = 0; x < level.getWidth() ; x++)
 				for (int y = 0; y < level.getHeight() ; y++)
-					assertion(test+" :\\post level.getNature("+x+", "+y+") == Nature.EMPTY", level.getNature(x, y) == Nature.EMPTY);
+					assertion(test+" : Une des cases n'est pas vide", level.getNature(x, y) == Nature.EMPTY);
 		} catch (ContractError e) {
 			assertion(test+" : "+e.getMessage(), false);
 		}
