@@ -139,7 +139,10 @@ public class JoueurContract extends JoueurDecorator implements Joueur {
 	 * || type = "FLOATER" \implies l.isFlotteur() = true
 	 * || type = "BUILDER" \implies l.isBuilder() = true
 	 * || type = "BOMBER" \implies l.isExploseur() = true
-	 * || l.getType() = type
+	 * || type = "DIGGER" \implies l.getType() = CREUSEUR
+	 * || type = "STOPPEUR" \implies l.getType() = STOPPEUR
+	 * || type = "BASHER" \implies l.getType() = BASHER
+	 * || type = "MINER" \implies l.getType() = MINER
 	 */
 	public void changeClasse(Lemming l, String type){
 		if(!type.equals("DIGGER") && !type.equals("CLIMBER") 
