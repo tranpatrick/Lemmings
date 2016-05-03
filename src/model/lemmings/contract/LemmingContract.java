@@ -483,8 +483,8 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 		/* \post isExploseur()@pre AND exploseurDepuis@pre = 4 
 		 * 			\implies getGameEng().getNombreActifs() = getGameEng().getNombreActifs()@pre-1 
 		 * 				AND getGameEng().getNombreMorts() = getGameEng().getNombreMorts()@pre-1
-		 * 				AND \forall i \in (i>getX()@pre-2 AND i<getX()@pre+2 AND i<getGameEng().getLevel.width AND i>0)
-		 * 			    AND \forall j \in (j>getY()@pre-2 && j<getY()@pre+1 AND i<getGameEng().getLevel.width AND i>0)
+		 * 				AND \forall i \in (i>=getX()@pre-2 AND i<getX()@pre+3 AND i<getGameEng().getLevel.width AND i>0)
+		 * 			    AND \forall j \in (j>=getY()@pre-2 && j<getY()@pre+2 AND i<getGameEng().getLevel.width AND i>0)
 		 * 					AND ((i!=getX()@pre-2 AND j!=getY()@pre-2) 
 													AND (i!=getX()@pre+2 AND j!=getY()@pre-2) 
 													AND (i!=getX()@pre-2 AND j!=getY()@pre+2)  
@@ -1332,6 +1332,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			 * 							 \implies getType() = TOMBEUR AND getX() = getX()@pre AND getY() = getY()@pre + 1
 			 * 									AND tombeDepuis() = tombeDepuis()@pre+1
 			 */
+			//TODO problème avec Bomber qui tombe
 			else if(!super.getGameEng().isObstacle(xPre, yPre+1) && tombePre < 8)  
 				if (!(super.getType() == Type.TOMBEUR && x == xPre && y == yPre+1 && super.tombeDepuis() == tombePre+1)) {
 					System.out.println("getX()@pre = "+xPre+" - getX() = "+x);

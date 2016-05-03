@@ -126,7 +126,21 @@ public interface Lemming extends RequireGameEngService {
 	// \pre !getGameEng().gameOver()
 	// \pre getId() \in getGameEng().getLemmingActifs()
 
-	/* ************ BASHEUR ***************
+	/* ********************** EXPLOSEUR **********************
+	 * \post isExploseur()@pre AND exploseurDepuis@pre = 4 
+	 * 			\implies getGameEng().getNombreActifs() = getGameEng().getNombreActifs()@pre-1 
+	 * 				AND getGameEng().getNombreMorts() = getGameEng().getNombreMorts()@pre-1
+	 * 				AND \forall i \in (i>=getX()@pre-2 AND i<getX()@pre+3) AND \forall j \in (j>=getY()@pre-2 && j<getY()@pre+2)
+	 * 					AND (!(i=getX()@pre-2 AND j=getY()@pre-2) 
+	 *									AND !(i=getX()@pre+2 AND j=getY()@pre-2) 
+	 * 									AND !(i=getX()@pre-2 AND j=getY()@pre+1)  
+	 *									AND !(i=getX()@pre+2 AND j=getY()@pre+1))
+	 * 	   				getGameEng().level(i,j)@pre = DIRT \implies getGameEng().level(i,j) = EMPTY 
+	 * 
+	 * 	 \post isExploseur()@pre AND exploseurDepuis@pre != 4
+	 * 		\implies exploseurDepuis() = exploseurDepuisPre+
+	 *	
+	 * ************ BASHEUR ***************
 	 * \post getType()@pre = BASHER AND !getGameEng().isObstacle(getX()@pre, getY()@pre+1)
 	 * 		\implies getType() = TOMBEUR AND getX() = getX()@pre
 	 * 								AND getY() = getY()@pre
@@ -260,20 +274,6 @@ public interface Lemming extends RequireGameEngService {
 	 * 					AND getGameEng().isObstacle(getX(), getY())
 	 * 					AND getGameEng().isObstacle(getX(), getY()-1)  
 	 * 
-	/* ********************** EXPLOSEUR **********************
-	 * \post isExploseur()@pre AND exploseurDepuis@pre = 4 
-	 * 			\implies getGameEng().getNombreActifs() = getGameEng().getNombreActifs()@pre-1 
-	 * 				AND getGameEng().getNombreMorts() = getGameEng().getNombreMorts()@pre-1
-	 * 				AND \forall i \in (i>getX()@pre-2 AND i<getX()@pre+3) AND \forall j \in (j>getY()@pre-2 && j<getY()@pre+2)
-	 * 					AND (!(i=getX()@pre-2 AND j=getY()@pre-2) 
-										AND !(i=getX()@pre+2 AND j=getY()@pre-2) 
-										AND !(i=getX()@pre-2 AND j=getY()@pre+1)  
-										AND !(i=getX()@pre+2 AND j=getY()@pre+1))
-	 * 	   				getGameEng().level(i,j)@pre = DIRT \implies getGameEng().level(i,j) = EMPTY 
-	 * 
-	 * 	 \post isExploseur()@pre AND exploseurDepuis@pre != 4
-	 * 		\implies exploseurDepuis() = exploseurDepuisPre+1
-	 *	
 	 * ********************** MARCHEUR **********************
 	 * 
 	 * \post getType()@pre = MARCHEUR AND !getGameEng().isObstacle(getX(), getY()+1) AND !isGrimpeur()
