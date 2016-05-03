@@ -515,6 +515,7 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 						}
 					}
 				}
+				return;
 			}
 		}
 
