@@ -56,10 +56,10 @@ public interface Level {
 	public void setExit(int x, int y);
 	
 	// \pre isEditing()
-	// \pre \forall j getNature(0,j) = METAL
-	// \pre \forall j getNature(getWidth()-1,j) = METAL
-	// \pre \forall i getNature(i,0) = METAL
-	// \pre \forall j getNature(i,getHeight()-1) = METAL
+	// \pre \forall j in [0;getHeight()[, getNature(0,j) = METAL
+	// \pre \forall j in [0;getHeight()[, getNature(getWidth()-1,j) = METAL
+	// \pre \forall i in [0;getWidth()[, getNature(i,0) = METAL
+	// \pre \forall i in [0;getWidth()[, getNature(i,getHeight()-1) = METAL
 	// \post isEditing() == false
 	/* \post \exists unique (x,y) tq isEntrance(x,y)
 	 *								 AND getNature(x, y-1) = EMPTY
@@ -71,13 +71,11 @@ public interface Level {
 	 */	
  	public void goPlay();
  	
- 	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
  	// \pre !isEditing()
  	// \pre getNature(x,y) = DIRT;
  	// \post getNature(x,y) = EMPTY;
 	public void remove(int x, int y);
 
- 	// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
  	// \pre !isEditing()
  	// \pre getNature(x,y) = EMPTY;
 	// \pre !isEntrance(x,y) AND !isExit(x,y);

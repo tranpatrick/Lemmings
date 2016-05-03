@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javafx.application.Platform;
 import model.lemmings.contract.LemmingContract;
+import model.lemmings.contract.PreConditionError;
 import model.lemmings.services.GameEng;
 import model.lemmings.services.Lemming;
 import model.lemmings.services.Lemming.Type;

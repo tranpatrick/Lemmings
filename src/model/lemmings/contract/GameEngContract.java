@@ -144,22 +144,6 @@ public class GameEngContract extends GameEngDecorator{
 		}
 		checkInvariant();
 		boolean isLibre = super.isLibre(x, y);
-		/* \post getLevel().isExit(x,y) || getLevel().isEntrance(x,y)
-		\implies isLibre(x,y) = false */
-		if (super.getLevel().isEntrance(x, y)) {
-			if (!isLibre == false) {
-				throw new PreConditionError("islibre: "
-						+ "getLevel().isEntrance(x,y) "
-						+ "implies isLibre(x,y) = false not satisfied");
-			}
-		}
-		if (super.getLevel().isExit(x, y)) {
-			if (!isLibre == false) {
-				throw new PreConditionError("islibre: "
-						+ "getLevel().isExit(x,y) "
-						+ "implies isLibre(x,y) = false not satisfied");
-			}
-		}
 		checkInvariant();
 		return isLibre;
 	}
@@ -503,10 +487,13 @@ public class GameEngContract extends GameEngDecorator{
 	}
 
 	// \pre !gameOver()
+	// \pre s > 0
 	// \post setSpawnSpeed(s) \implies getSpawnSpeed() = s
 	public void setSpawnSpeed(int s){
 		if(super.gameOver())
 			throw new PreConditionError("setSpawnSpeed : !gameOver() not satisfied");
+		if(s <= 0)
+			throw new PreConditionError("setSpawnSpeed : s > 0 not satisfied");
 		checkInvariant();
 		super.setSpawnSpeed(s);
 		checkInvariant();

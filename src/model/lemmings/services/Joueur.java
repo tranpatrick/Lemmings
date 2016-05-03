@@ -10,9 +10,10 @@ public interface Joueur extends RequireGameEngService {
 	 * || type = "BOMBER"
 	 * || type = "STOPPER"
 	 * || type = "BASHER"
-	 * || type = "MINERR"
+	 * || type = "MINER"
 	*/
 	public int getNbJetons(String type);
+	
 	public GameEng getGameEng();
 	
 	/** Constructors **/ 
@@ -29,15 +30,15 @@ public interface Joueur extends RequireGameEngService {
 	
 	/** Operators **/
 	
-	// \pre nbJetons > 0
-	// \post getNbJetons("DIGGER") = nbJetons
-	// \post getNbJetons("CLIMBER") = nbJetons
-	// \post getNbJetons("BUILDER") = nbJetons
-	// \post getNbJetons("FLOATER") = nbJetons
-	// \post getNbJetons("BOMBER") = nbJetons
-	// \post getNbJetons("STOPPER") = nbJetons
-	// \post getNbJetons("BASHER") = nbJetons
-	// \post getNbJetons("MINER") = nbJetons
+	/* Invariants */
+	// \inv getNbJetons("DIGGER") >= 0;
+	// \inv getNbJetons("CLIMBER") >= 0;
+	// \inv getNbJetons("BUILDER") >= 0;
+	// \inv getNbJetons("FLOATER") >= 0;
+	// \inv getNbJetons("BOMBER") >= 0;
+	// \inv getNbJetons("STOPPER") >= 0;
+	// \inv getNbJetons("BASHER") >= 0;
+	// \inv getNbJetons("MINER") > 0;
 	
 	// \pre !getGameEng().gameOver()
 	// \pre x >= 0 && x < getGameEng().getLevel().getHeight()
@@ -59,7 +60,10 @@ public interface Joueur extends RequireGameEngService {
 	 * || type = "FLOATER" \implies l.isFlotteur() = true
 	 * || type = "BUILDER" \implies l.isBuilder() = true
 	 * || type = "BOMBER" \implies l.isExploseur() = true
-	 * || l.getType() = type
+	 * || type = "DIGGER" \implies l.getType() = CREUSEUR
+	 * || type = "STOPPEUR" \implies l.getType() = STOPPEUR
+	 * || type = "BASHER" \implies l.getType() = BASHER
+	 * || type = "MINER" \implies l.getType() = MINER
 	 */
 	public void changeClasse(Lemming l, String type);
 	
@@ -68,7 +72,7 @@ public interface Joueur extends RequireGameEngService {
 	public void changeSpawnSpeed(int s);
 	
 	// \pre getGameEng.gameOver() == false
-	// \post forall i in getGameEng().getLEmmingsActifs(), getGameEng().getLemming(i).isExploseur() = true
+	// \post forall i in getGameEng().getLemmingsActifs(), getGameEng().getLemming(i).isExploseur() = true
 	public void annihilation();
 	
 }
