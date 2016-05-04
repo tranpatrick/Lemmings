@@ -5,9 +5,9 @@
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
   <property name="build" location="bin"/>
-  <property name="junit" location="jar/junit.jar"/>
+  <property name="junit" location="jars/junit-4.12.jar"/>
+	<property name="hamcrest" location="jars/hamcrest-all-1.3.jar"/>
   <property name="javaFX" location="jar/org.eclipse.fx.ide.css.jfx8_2.3.0.201603030809.jar:jar/jfxrt.jar"/>
-
 
   <!-- METTRE ICI LE NOM DU BINOME -->
   <property name="nom1" value="TRAN"/>
@@ -26,17 +26,23 @@
     <javac debug="true" srcdir="${src}" excludes="" destdir="${build}" includeantruntime="false" 
     	classpath="${junit}:${javaFX}"/>
   </target>
-
-
+	
   <target name="run" depends="compile"
           description="run application in test mode">
     <echo>================ Run Object Main ================</echo>
     <java classname="view.Main"
-          classpath="${build}">
+          classpath="${build}:${javaFX}">
     </java>
   </target>
   
   <!-- ajouter cible pout tester -->
+	<target name="test" depends="compile"
+		          description="run all tests">
+		    <echo>================ Run all tests ================</echo>
+		    <java classname="org.junit.runner.JUnitCore" classpath="${build}:${junit}:${hamcrest}">
+		        <arg value="tests.AllTests"/>
+		    </java>
+		  </target>
 
   <target name="dist" depends="init,clean"
         description="Generer la distribution" >
