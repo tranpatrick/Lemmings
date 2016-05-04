@@ -47,8 +47,8 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 *  
 	 *  Oracle:
 	 *  Pas de ContractError &&
-	 *  getWidth() == 20 &&
-	 *  getHeight() == 25 &&
+	 *  getWidth() == 25 &&
+	 *  getHeight() == 20 &&
 	 *  isEditing() == true &&
 	 *  \forall (x,y) getNature(x,y) == Nature.EMPTY
 	 */
@@ -1099,7 +1099,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	 * Condition initiale:
 	 * init(10,10)
 	 * setNature(5,4,Nature.METAL)
-	 * 
+	 * setNature(5,6,Nature.METAL)
 	 * Operation:
 	 * setExit(5, 5)
 	 *  
@@ -1113,6 +1113,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 			//Condition initiale
 			level.init(10, 10);
 			level.setNature(5, 4, Nature.METAL);
+			level.setNature(5, 6, Nature.METAL);
 			try {
 				// Operation
 				level.setExit(5, 5);
@@ -1584,7 +1585,7 @@ public abstract class TestLevelAbstract extends AssertionTests{
 	/**
 	 * Objectif 11: build
 	 * 
-	 * Cas 10_2: build error, la case a build n'est pas EMPTY
+	 * Cas 11_2: build error, la case a build n'est pas EMPTY
 	 * 
 	 * Condition initiale:
 	 * init(10, 10);

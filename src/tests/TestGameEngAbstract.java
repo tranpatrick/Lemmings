@@ -104,7 +104,7 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 	 * Cas 1_1: init: error sizeColony <= 0
 	 * 
 	 * Condition initial:
-	 * aucune
+	 * getLevel().goPlay()
 	 * 
 	 * Operation:
 	 *  init(0,5)
@@ -116,14 +116,20 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 	public void testInit1_1() {
 		String test = "Test GameEng Objectif 1.1";
 		try {
-			//operation
-			int sizeColony = 0;
-			int spawnSpeed = 5;
-			gameEng.init(sizeColony,spawnSpeed);
-			assertion(test+" : init doit echouer", false);
+			//condition initiale
+			gameEng.getLevel().goPlay();
+			try {
+				//operation
+				int sizeColony = 0;
+				int spawnSpeed = 5;
+				gameEng.init(sizeColony,spawnSpeed);
+				assertion(test+" : init doit echouer", false);
+			} catch (ContractError e) {
+				//oracle
+				assertion(test+": "+e.getMessage(), true);
+			}
 		} catch (ContractError e) {
-			//oracle
-			assertion(test+": "+e.getMessage(), true);
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
 
@@ -192,7 +198,7 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
-	
+
 	/**
 	 * Objectif 2: isObstacle
 	 * 
@@ -226,7 +232,7 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
-	
+
 	/**
 	 * Objectif 2: isObstacle
 	 * 
@@ -247,7 +253,7 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 		String test = "Test GameEng Objectif 2.2";
 		try {
 			//condition initiale
-			gameEng.init(15, 5);
+			gameEng.init(10, 5);
 			try {
 				//Operation
 				gameEng.isObstacle(15, 2);
@@ -260,7 +266,7 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
-	
+
 	/**
 	 * /**
 	 * Objectif 3: step
@@ -287,32 +293,32 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 	 *  
 	 */
 	@Test
-	 public void testStep3_0() {
-		 String test = "Test Step Objectif 3.0";
-		 try {
-			 //Condition initiale
-			 gameEng.init(10,5);
-			 gameEng.getLevel().goPlay();
-			 for(int i= 0; i<4; i++)
-				 gameEng.step();
-			 try {
-				 final int nbCrees = gameEng.getNombreCrees();
-				 //operation
-				 gameEng.step();
-				 // oracle
-				 assertion(test, gameEng.getNombreCrees() == nbCrees + 1);
-				 assertion(test, gameEng.getLemmingsActifs().contains(gameEng.getNombreCrees()));
-				 assertion(test, gameEng.getLemming(gameEng.getNombreCrees()).getX() == 8);
-				 assertion(test, gameEng.getLemming(gameEng.getNombreCrees()).getY() == 5);
-				 assertion(test, gameEng.getLevel().isEntrance(8, 5));
-			 }catch (ContractError e) {
-				 assertion(test+": "+e.getMessage(), false);
-			 }
-		 } catch (ContractError e) {
-				assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
-		 }
-	 }
-	
+	public void testStep3_0() {
+		String test = "Test Step Objectif 3.0";
+		try {
+			//Condition initiale
+			gameEng.init(10,5);
+			gameEng.getLevel().goPlay();
+			for(int i= 0; i<4; i++)
+				gameEng.step();
+			try {
+				final int nbCrees = gameEng.getNombreCrees();
+				//operation
+				gameEng.step();
+				// oracle
+				assertion(test, gameEng.getNombreCrees() == nbCrees + 1);
+				assertion(test, gameEng.getLemmingsActifs().contains(gameEng.getNombreCrees()));
+				assertion(test, gameEng.getLemming(gameEng.getNombreCrees()).getX() == 8);
+				assertion(test, gameEng.getLemming(gameEng.getNombreCrees()).getY() == 5);
+				assertion(test, gameEng.getLevel().isEntrance(8, 5));
+			}catch (ContractError e) {
+				assertion(test+": "+e.getMessage(), false);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
 	/**
 	 * /**
 	 * Objectif 3: step
@@ -334,29 +340,29 @@ public abstract class TestGameEngAbstract extends AssertionTests{
 	 *  
 	 */
 	@Test
-	 public void testStep3_1() {
-		 String test = "Test Step Objectif 3.1";
-		 try {
-			 //Condition initiale
-			 gameEng.init(1,5);
-			 gameEng.getLevel().goPlay();
-			 for(int i= 0; i<6; i++)
-				 gameEng.step();
-			 gameEng.tuerLemming(1);
-			 try {
-				 //operation
-				 gameEng.step();
-				 assertion(test+" : step doit echouer",false);
-			 }catch (ContractError e) {
-				 //oracle
-				 assertion(test, true);
-			 }
-		 } catch (ContractError e) {
-				assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
-		 }
-	 }
+	public void testStep3_1() {
+		String test = "Test Step Objectif 3.1";
+		try {
+			//Condition initiale
+			gameEng.init(1,5);
+			gameEng.getLevel().goPlay();
+			for(int i= 0; i<6; i++)
+				gameEng.step();
+			gameEng.tuerLemming(1);
+			try {
+				//operation
+				gameEng.step();
+				assertion(test+" : step doit echouer",false);
+			}catch (ContractError e) {
+				//oracle
+				assertion(test, true);
+			}
+		} catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
 
-	
+
 
 
 
