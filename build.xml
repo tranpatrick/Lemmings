@@ -35,7 +35,6 @@
     </java>
   </target>
   
-  <!-- ajouter cible pout tester -->
 	<target name="test" depends="compile"
 		          description="run all tests">
 		    <echo>================ Run all tests ================</echo>
@@ -44,6 +43,14 @@
 		    </java>
 		  </target>
 
+	<target name="testbug" depends="compile"
+		          description="run all bugged tests">
+		    <echo>================ Run all bugged tests ================</echo>
+		    <java classname="org.junit.runner.JUnitCore" classpath="${build}:${junit}:${hamcrest}">
+		        <arg value="tests.AllTestsBug"/>
+		    </java>
+		  </target>
+	
   <target name="dist" depends="init,clean"
         description="Generer la distribution" >
     <!-- tout mettre dans l'archive -->
