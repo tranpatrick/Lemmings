@@ -396,14 +396,15 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 	 * Cas 3_2: erreur joueur.getNbJetons("type") <= 0
 	 * 
 	 * Condition initiale:
-	 * init(0)
+	 * init(1)
 	 * getGameEng().init(10,5) 
 	 * getGameEng().getLevel().init(25,25)
 	 * getGameEng().step() (6 fois)
-	 * 
-	 * 
+	 * changeClasse(getGameEng().getLemming(1), "DIGGER");
+	 * getGameEng().step() (6 fois)
+
 	 * Operation:
-	 * changeClasse(getGameEng().getLemming(1), "NIMPORTEQUOI");
+	 * changeClasse(getGameEng().getLemming(2), "DIGGER");
 	 *  
 	 * Oracle:
 	 * ContractError pour changeClasse
@@ -414,14 +415,15 @@ public abstract class TestJoueurAbstract extends AssertionTests {
 
 		//Condition initiale
 		try{
-			joueur.init(0);
+			joueur.init(1);
 			//gameEng.init(10, 5);
 			//level.init(25, 25);
 			for(int i=0; i<6; i++)
 				gameEng.step();
+			joueur.changeClasse(gameEng.getLemming(1), "DIGGER");
 			try{
 				//Operation select
-				joueur.changeClasse(gameEng.getLemming(1), "NIMPORTEQUOI");
+				joueur.changeClasse(gameEng.getLemming(2), "DIGGER");
 
 				//Oracle
 				assertion(test+" : changeClasse doit echouer", false);
