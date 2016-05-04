@@ -31,7 +31,6 @@ public class MainController {
 		DIGGER, CLIMBER, BUILDER, FLOATER, STOPPER, BASHER, BOMBER, MINER, NONE;
 	}
 
-	//TODO ajouter champs de saisie pour regler vitesse d'animation
 	private static long REFRESH_TIME = 300;
 
 	private Pane exitPane;
@@ -132,7 +131,6 @@ public class MainController {
 			}
 		}
 		goPlayButton.setDisable(false);
-		//TODO attendtion platform runLaterœœ
 	}
 
 	@FXML

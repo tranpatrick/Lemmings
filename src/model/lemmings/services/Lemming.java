@@ -121,8 +121,6 @@ public interface Lemming extends RequireGameEngService {
 	// \post getType() = STOPPEUR;
 	public void devientStoppeur();
 
-	// TODO revoir les preconditon des devient
-	// TODO le stoppeur peut aussi �tre basher, creuseur, grimpeur etc.......
 	// \pre !getGameEng().gameOver()
 	// \pre getId() \in getGameEng().getLemmingActifs()
 

@@ -14,16 +14,6 @@ public class GameEngContract extends GameEngDecorator{
 	}
 	
 	public void checkInvariant() {
-		//TODO pas un invariant
-		// inv: !isAnnihilation() \implies gameOver() == (getNombreActifs() == 0 AND getNombreCrees() == getSizeColony())
-//		if(!super.isAnnihilation()){
-//			if (!(super.gameOver() == (super.getNombreActifs() == 0 && 
-//					super.getNombreCrees() == super.getSizeColony()))) {
-//				throw new InvariantError("gameOver() == ( getNombreActifs() == 0 AND"
-//						+ " getNombreCrees() == getSizeColony() not satisfied");
-//			}
-//		}
-
 		// \invMin getNombreActifs() == | getLemmingActifs() |
 		if (!(super.getNombreActifs() == super.getLemmingsActifs().size())) {
 			throw new InvariantError("getNombreActifs() == "
@@ -43,17 +33,6 @@ public class GameEngContract extends GameEngDecorator{
 			throw new InvariantError("getNombreCrees() == getNombreActifs() + "
 					+ "getNombreSauves() + getNombreMorts() not satisfied");
 		}
-
-		//TODO A enlever a cause de modif isObstacle
-		// \invMin isObstacle(x,y) == getLevel().getNature(x,y) != EMPTY
-		//		for (int x = 0; x < super.getLevel().getWidth() ; x++) {
-		//			for (int y = 0; y < super.getLevel().getHeight() ; y++) {
-		//				if (!(super.isObstacle(x, y) == (super.getLevel().getNature(x, y) != Nature.EMPTY))) {
-		//					throw new InvariantError("isObstacle(x,y) == "
-		//							+ "getLevel().getNature(x,y) != EMPTY not satisfied");
-		//				}
-		//			}
-		//		}
 
 		// \inv getNombreTours() >= 0
 		if (!(super.getNombreTours() >= 0)) {

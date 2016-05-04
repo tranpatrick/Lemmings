@@ -550,15 +550,16 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			 */
 			if(!super.getGameEng().isObstacle(xPre, yPre+1) && !isGrimpeurPre) {
 				if (!(super.getType() == Type.TOMBEUR)) {
-					throw new PostConditionError("Type probleme");
+					throw new PostConditionError("getType()@pre = MARCHEUR AND !getGameEng().isObstacle(getX()@pre, getY()@pre+1)"+
+			  							 " implies getType() = TOMBEUR not satisfied");
 				}
 				if(!(super.getX() == xPre))
-					throw new PostConditionError("x pas bon");
+					throw new PostConditionError("getType()@pre = MARCHEUR AND !getGameEng().isObstacle(getX()@pre, getY()@pre+1)"+
+ 							 " implies getX() = getX()@pre not satisfied");
 				if(!(y == yPre))
-					throw new PostConditionError("y pas bon");
+					throw new PostConditionError("getType()@pre = MARCHEUR AND !getGameEng().isObstacle(getX()@pre, getY()@pre+1)"+
+							 " implies getY() = getY()@pre not satisfied");
 			}
-			//TODO mettre bon message
-
 
 			/************* MARCHEUR DROITIER ***************/
 
@@ -914,7 +915,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 				 * 							  AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre-1)
 				 * 							  \implies getX() = getX()@pre+1 AND getY() = getY()@pre AND getType() = MARCHEUR
 				 */
-				//TODO pose problème avec annihilation
 				else if(!super.getGameEng().isObstacle(xPre+1, yPre) && !super.getGameEng().isObstacle(xPre+1, yPre-1)
 						&& !(super.getX() == xPre+1 && y == yPre && super.getType() == Type.MARCHEUR))
 					throw new PostConditionError("step : getType()@pre = MARCHEUR AND getDirection()@pre = DROITIER AND !getGameEng().isObstacle(getX()@pre+1, getY()@pre)"
@@ -1333,7 +1333,6 @@ public class LemmingContract extends LemmingDecorator implements Lemming {
 			 * 							 \implies getType() = TOMBEUR AND getX() = getX()@pre AND getY() = getY()@pre + 1
 			 * 									AND tombeDepuis() = tombeDepuis()@pre+1
 			 */
-			//TODO problème avec Bomber qui tombe
 			else if(!super.getGameEng().isObstacle(xPre, yPre+1) && tombePre < 8)  
 				if (!(super.getType() == Type.TOMBEUR && x == xPre && y == yPre+1 && super.tombeDepuis() == tombePre+1)) {
 					System.out.println("getX()@pre = "+xPre+" - getX() = "+x);
