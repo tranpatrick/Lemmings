@@ -149,29 +149,22 @@ public class GameEngImplBug implements GameEng{
 
 	@Override
 	public boolean isLibre(int x, int y) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 
 	@Override
 	public void addObserver(IObserver obs) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
 	@Override
 	public void deleteObserver(IObserver obs) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
 	@Override
 	public void notifierObservateurs() {
-		// TODO Auto-generated method stub
-		
 	}
 
 
@@ -183,7 +176,6 @@ public class GameEngImplBug implements GameEng{
 
 	@Override
 	public boolean isObstacle2(int x, int y) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
