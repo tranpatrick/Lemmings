@@ -60,23 +60,12 @@
 		    </java>
 		  </target>
 	
-  <target name="dist" depends="init,clean"
+  <target name="dist" depends="init"
         description="Generer la distribution" >
     <!-- tout mettre dans l'archive -->
     <jar basedir=".." jarfile="../ProjetCPS-Lemmings-${nom1}-${nom2}-${DSTAMP}.jar"
     includes="Lemmings/**/*" excludes="**/CVS"/>
   </target>
 
-  <target name="clean"
-        description="clean up" >	
-	<echo>================ Removing temporary files... ================</echo>
-        <delete verbose="true"> <!-- Remove all *~ files -->
-	   <fileset dir="${basedir}" defaultexcludes="no">
-             <include name="**/*~"/>
-           </fileset>
-        </delete>
-        <echo>================ Removing build directory ================</echo>    
-	<delete dir="${build}"/>
-  	<delete dir="build"/>
-  </target>
+
 </project>
