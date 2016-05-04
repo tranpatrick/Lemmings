@@ -13,9 +13,6 @@ public class GameEngContract extends GameEngDecorator{
 		super(gameEng);
 	}
 	
-
-
-
 	public void checkInvariant() {
 		//TODO pas un invariant
 		// inv: !isAnnihilation() \implies gameOver() == (getNombreActifs() == 0 AND getNombreCrees() == getSizeColony())
