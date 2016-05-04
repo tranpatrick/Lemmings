@@ -10,52 +10,53 @@ import model.lemmings.services.Lemming;
 import model.lemmings.services.Lemming.Direction;
 import model.lemmings.services.Lemming.Type;
 import model.lemmings.services.Level;
+import model.lemmings.services.Level.Nature;
 
 public abstract class TestLemmingAbstract extends AssertionTests{
 
 	private Lemming lemming;
 	private Level level;
 	private GameEng gameEng;
-	
+
 	protected TestLemmingAbstract(){
 		lemming = null;
 		level = null;
 		gameEng = null;
 	}
-	
+
 	protected final Lemming getLemming(){
 		return lemming;
 	}
 	protected final Level getLevel(){
 		return level;
 	}
-	
+
 	protected final GameEng getGameEng(){
 		return gameEng;
 	}
-	
+
 	protected final void setLemming(Lemming lemming){
 		this.lemming = lemming; 
 	}
-	
+
 	protected final void setLevel(Level level){
 		this.level = level; 
 	}
-	
+
 	protected final void setGameEng(GameEng gameEng){
 		this.gameEng = gameEng; 
 	}
-	
+
 	@Before
 	public abstract void beforeTests();
-	
+
 	@After
 	public final void afterTests(){
 		lemming = null;
 		level = null;
 		gameEng = null;
 	}
-	
+
 	/**
 	 * Objectif 1: init
 	 * 
@@ -105,8 +106,8 @@ public abstract class TestLemmingAbstract extends AssertionTests{
 			assertion(test+": "+e.getMessage(), false);
 		}
 	}
-	
-	
+
+
 	/* Le test qui suit sera le même pour devientMarcheur, 
 	 * devientTombeur (là il faudra attendre que le lemming soit marcheur donc sur terre), 
 	 * devientBasher, devientMiner, devientStopper */
@@ -143,7 +144,7 @@ public abstract class TestLemmingAbstract extends AssertionTests{
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
-	
+
 	/* Le test qui suit sera le même pour devientGrimpeur, devientFlotteur, devientBuilder */
 	/**
 	 * Objectif 3: devientExploseur
@@ -178,7 +179,53 @@ public abstract class TestLemmingAbstract extends AssertionTests{
 			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
 		}
 	}
-	
-	
-	
+
+	/**
+	 * Objectif 4: step
+	 * 
+	 * Cas 4_0: step valide
+	 * 
+	 * Condition initial:
+	 * gameEng.init(10,1);
+	 * gameEng.getLevel().init(25,25)
+	 * gameEng.getLevel().setEntrance(5,5)
+	 * gameEng.getLevel().setNature(5,9,METAL)
+	 * gameEng.getLevel().setExit(5,8)
+	 * gameEng.step()
+	 * lemming = gameEng.getLemming(1);
+	 * 
+	 * Operation:
+	 * step()
+	 *  
+	 * Oracle:
+	 * Pas de ContractError &&
+	 * getX() == getX()@pre &&
+	 * getY() == getY()@pre+1
+	 */
+	@Test
+	public void testStep4_0(){
+		String test = "Level Test Objectif 4.0";
+		//Condition initiale
+		try{
+			gameEng.init(10,1);
+			gameEng.getLevel().init(25,25);
+			gameEng.getLevel().setEntrance(5,5);
+			gameEng.getLevel().setNature(5,9,Nature.METAL);
+			gameEng.getLevel().setExit(5,8);
+			gameEng.step();
+			lemming = gameEng.getLemming(1);
+			try{
+				//operation
+				lemming.step();
+				assertion(test+": \\post getType() = TOMBEUR AND getX() = getX()@pre AND getY() = getY()@pre + 1 "+
+						"AND tombeDepuis() = tombeDepuis()@pre+1", lemming.getType() == Type.TOMBEUR && lemming.getX() == 5 && lemming.getY() == 6);
+			}catch (ContractError e) {
+				//oracle
+				assertion(test+": "+e.getMessage(), false);
+			}
+		}catch (ContractError e) {
+			assertion(test+": erreur a l'initialisation du test: "+e.getMessage(), false);
+		}
+	}
+
 }
