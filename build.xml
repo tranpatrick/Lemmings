@@ -1,4 +1,5 @@
-<project name="Lemmings" default="compile" basedir=".">
+<project name="Lemmings" default="compile" basedir="."
+	xmlns:fx="javafx:com.sun.javafx.tools.ant">
     <description>
        Fichier de construction pour l'exemple Lemmings
     </description>
@@ -12,6 +13,7 @@
   <!-- METTRE ICI LE NOM DU BINOME -->
   <property name="nom1" value="TRAN"/>
   <property name="nom2" value="HALIFA"/>
+
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -27,12 +29,19 @@
     	classpath="${junit}:${javaFX}"/>
   </target>
 	
-  <target name="run" depends="compile"
+	<target name="jar" depends="compile">
+	        <mkdir dir="build/jar"/>
+	        <jar destfile="build/jar/Lemmings.jar" basedir="${build}">
+	            <manifest>
+	                <attribute name="Main-Class" value="view.Main"/>
+	            </manifest>
+	        </jar>
+	    </target>
+	
+  <target name="run" depends="jar"
           description="run application in test mode">
     <echo>================ Run Object Main ================</echo>
-    <java classname="view.Main"
-          classpath="${build}:${javaFX}">
-    </java>
+    <java jar="build/jar/Lemmings.jar" fork="true"/>
   </target>
   
 	<target name="test" depends="compile"
@@ -68,5 +77,6 @@
         </delete>
         <echo>================ Removing build directory ================</echo>    
 	<delete dir="${build}"/>
+  	<delete dir="build"/>
   </target>
 </project>

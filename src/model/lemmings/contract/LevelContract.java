@@ -237,7 +237,7 @@ public class LevelContract extends LevelDecorator {
 	}
 
 	public void remove(int x, int y){
-		/** Pas besoin de vérifier cette pre car déjà vérifiée dans getNature **/
+		/** Pas besoin de verifier cette pre car deja verifiee dans getNature **/
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
 //		if(!(0 <= x && x < super.getWidth() && 0 <= y && 0 < super.getHeight()))
 //			throw new PreConditionError("remove : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
@@ -269,7 +269,7 @@ public class LevelContract extends LevelDecorator {
 	}
 
 	public void build(int x, int y){
-		/** Pas besoin de vérifier cette pre car déjà vérifiée dans getNature **/
+		/** Pas besoin de verifier cette pre car deja verifiee dans getNature **/
 		// \pre 0 <= x < getWidth() AND 0 <= y < getHeight()
 //		if(!(0 <= x && x <= super.getWidth() && 0 <= y && 0 <= super.getHeight()))
 //			throw new PreConditionError("build : 0 <= x < getWidth() AND 0 <= y < getHeight() not satisfied");
